@@ -1,0 +1,9 @@
+{
+  "name": "Oraoke",
+  "version": "1.0.0",
+  "description": "My pet project on React-Redux-TypeScript",
+  "main": "index.js",
+  "repository": "https://github.com/Fundorin174/Oraoke.git",
+  "author": "Fundorin174 <fundorin174@gmail.com>",
+  "license": "MIT"
+}
