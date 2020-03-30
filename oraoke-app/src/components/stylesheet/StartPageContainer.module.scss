@@ -1,0 +1,54 @@
+@import "variables";
+
+
+
+.startPageContainer {
+  background-color: $bgColorDark;
+  min-height: 100vh;
+  min-width: 100vw;
+  color: $TextLigthColor;
+  position: absolute;
+}
+
+.startPageWrp{
+  position: absolute;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(6, 24, 68, 0.7);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .title{
+    margin-top: 60px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 65px;
+    letter-spacing: 0.185em;
+
+  }
+
+  .btnsWrp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-grow: 1;
+  }
+
+  .langToggle{
+    margin-bottom: 10px;
+    margin-right: 20px;
+    text-align: right;
+
+    span{
+      margin-left: 10px;
+    }
+
+    :nth-child(odd){
+      cursor: pointer;
+    }
+  }
+}
