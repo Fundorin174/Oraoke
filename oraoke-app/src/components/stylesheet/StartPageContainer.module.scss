@@ -30,6 +30,7 @@
 
   }
 
+
   .btnsWrp{
     display: flex;
     flex-direction: column;
@@ -38,6 +39,9 @@
     flex-grow: 1;
   }
 
+
+
+  //language toogle
   .langToggle{
     margin-bottom: 10px;
     margin-right: 20px;
@@ -51,4 +55,22 @@
       cursor: pointer;
     }
   }
+}
+
+
+@media all and (max-width: 750px) , (max-height: 850px) {
+
+  .startPageWrp .title {
+    margin-top: 60px;
+    font-size: 30px;
+    line-height: 40px;
+
+    img{
+      height: 90px;
+    }
+  }
+
+
+
+
 }
