@@ -21,8 +21,13 @@ const Button = (props) => {
                     ? i += 1
                     : i = 0;
               setPartOfSong(newArr);
-                songNameMove = setTimeout(move, 500);
-            }, 500);
+                songNameMove = setTimeout(move, 300);
+            }, 300);
+          return (//Отключение счетчика при уходе со страницы
+            () => {
+              clearTimeout(songNameMove);
+            }
+          )
         }
       
     }, [props.defaultSong]);

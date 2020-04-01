@@ -6,7 +6,7 @@ export const changeDefaultSong = (songTitle) => ({
   });
 
 let initialState = {
-  defaultsong: 'Рюмка водки на столе - Григорий Лепс'
+  defaultsong: '"Рюмка водки на столе" - Григорий Лепс'
 }
 
 const startPageReducer = (state = initialState, action) => {

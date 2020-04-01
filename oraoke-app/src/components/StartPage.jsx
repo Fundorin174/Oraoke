@@ -3,6 +3,7 @@ import classes from './stylesheet/StartPageContainer.module.scss';
 import oraokeLogo from './../img/ОраокеLogo.png';
 import bgImgUrl from './../img/backgroundImg.webp'
 import Button from "./common/Button";
+import { NavLink } from 'react-router-dom';
 
 const StartPage = (props) => {
   const bgShape = {
@@ -26,7 +27,9 @@ const StartPage = (props) => {
           </div>
         </div>
         <div className={classes.btnsWrp}>
-          <Button btnText = 'Настроить микрофон' btnNumber = '1'/>
+          <NavLink to={'/settings-page'}>
+            <Button btnText = 'Настроить микрофон' btnNumber = '1'/>
+          </NavLink>
           <Button btnText = 'Выбрать песню' btnNumber = '2'/>
           <Button btnText = 'НАЧАТЬ' btnNumber = '3' defaultSong = {props.defaultSong}/>
         </div>
