@@ -7,3 +7,9 @@ export const getFirstAdvLink = (state) => {
 export const getSecondAdvLink = (state) => {
   return state.settingsPage.secondAdvLink;
 }
+export const getMaxUserVoiceLevel = (state) => {
+  return state.settingsPage.maxUserVoiceLevel;
+}
+export const getIsSetMaxUserVoiceLevel = (state) => {
+  return state.settingsPage.isSetMaxUserVoiceLevel;
+}
