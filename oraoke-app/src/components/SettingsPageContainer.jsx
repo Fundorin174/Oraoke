@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SettingsPage from './SettingsPage';
 import { getIsChekingMicrophoneStart, getFirstAdvLink, getSecondAdvLink, getMaxUserVoiceLevel, getIsSetMaxUserVoiceLevel } from '../redux/settingsPageSelectors';
-import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevel} from './../redux/settingsPageReduser';
+import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess} from './../redux/settingsPageReduser';
 
 
 
@@ -15,4 +15,4 @@ let mapStateToProps = (state) => ({
   isSetMaxUserVoiceLevel: getIsSetMaxUserVoiceLevel(state)
 })
 
-export default compose(connect(mapStateToProps, { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevel }))(SettingsPage)
+export default compose(connect(mapStateToProps, { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess }))(SettingsPage)

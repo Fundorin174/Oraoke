@@ -10,7 +10,7 @@ export const setMaxUserVoiceLevel = (userVoiceLevel) => ({
     type: MAX_USER_VOICE_LEVEL,
     userVoiceLevel: userVoiceLevel
     });
-export const isSetMaxUserVoiceLevel = (isMaxUserVoiseLevelSet) => ({
+export const isSetMaxUserVoiceLevelSuccsess = (isMaxUserVoiseLevelSet) => ({
     type: IS_MAX_USER_VOICE_LEVEL_SET,
     isMaxUserVoiseLevelSet: isMaxUserVoiseLevelSet
     });
@@ -19,7 +19,7 @@ let initialState = {
   isCheckingMicrophoneStart: false,
   firstAdvLink: 'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
   secondAdvLink: 'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
-  maxUserVoiceLevel: null,
+  maxUserVoiceLevel: 0,
   isSetMaxUserVoiceLevel: false
 }
 

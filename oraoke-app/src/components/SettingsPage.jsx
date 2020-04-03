@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import oraokeLogo from './../img/ОраокеLogo.png';
 import classes from './stylesheet/SettingsPageContainer.module.scss';
 import Button from './common/Button';
@@ -10,16 +10,16 @@ import birdLeft from './../img/BirdTransparentLeft.gif';
 import {useEffect} from 'react';
 
 const SettingsPage = React.memo((props) => {
-	let [maxLevel, setMaxLevel] = useState('0');
+
     //Stiles for background picture
-				const bgShape = {
-								width: `100%`,
-								height: `100%`,
-								background: `center center no-repeat url(${bgImgUrl})`,
-								backgroundSize: `cover`,
-								position: `absolute`,
-								zIndex: 1
-						}
+    const bgShape = {
+            width: `100%`,
+            height: `100%`,
+            background: `center center no-repeat url(${bgImgUrl})`,
+            backgroundSize: `cover`,
+            position: `absolute`,
+            zIndex: 1
+        }
 
         let num = 32, //количество элементов в массиве в который будет записан звук с микрофона
             array,
@@ -29,9 +29,8 @@ const SettingsPage = React.memo((props) => {
             analyser,
             src,
             maxHeightForWile = 255,
-            stopBtn;
-
-				
+            stopBtn,
+          toSongsBtn;
 
         //Statement of Button Start
 
@@ -57,19 +56,17 @@ const SettingsPage = React.memo((props) => {
                 .then(stream => {
 
                     src = context.createMediaStreamSource(stream);
-										src.connect(analyser);
-										
+                    src.connect(analyser);
+
                     analyser.connect(context.destination); //вывод звука на колонки
-										
-										
-										// loop(); рекурсия с микрофона
+
+                    // loop(); рекурсия с микрофона
                     let loop = setTimeout(function moveBird() {
+
                         let lineHeight = document
                             .getElementById('linesTable')
                             .clientHeight;
-                        birdHeigth = document
-                            .getElementById('bird')
-                            .clientHeight;
+                      birdHeigth = bird.clientHeight;
 
                         analyser.getByteFrequencyData(array); //получение данных частот
                         let averageHeight = array.reduce((summ, current) => summ + current) / array.length;
@@ -88,8 +85,8 @@ const SettingsPage = React.memo((props) => {
 
                         bird.style.marginBottom = birdFlyingHidh; //changing marging - and fly))
 
-												let birdFlyingHidhLikeNum = birdFlyingHidh.slice(0, -2) //remove 'px' from end												
-												
+                        let birdFlyingHidhLikeNum = birdFlyingHidh.slice(0, -2) //remove 'px' from end
+
                         // Динамическое закрашивание секций на шкале
                         for (let i = 0; i < scaleItems.length; i++) {
                             if (i < +birdFlyingHidhLikeNum / 20) {
@@ -97,29 +94,24 @@ const SettingsPage = React.memo((props) => {
                             } else {
                                 scaleItems[scaleItems.length - 1 - i].style.backgroundColor = '';
                             }
-												}
-												
-												//Запись максимального значения голоса в state
-												
-											if (+birdFlyingHidhLikeNum > +maxLevel) {
-												setMaxLevel(+birdFlyingHidhLikeNum);
-												console.log(maxLevel);
-											} else {
-												console.log('[e]');
-											}
-											//Выдает только при втором запуске????!!!!!!!!!
+                        }
 
+                        //Запись максимального значения голоса в state
 
-
-
-
-
-
+                        if (averageHeight > 100) {
+                          props.isSetMaxUserVoiceLevelSuccsess(true); //успешная калибровка
+                            if (averageHeight > props.maxUserVoiceLevel) {
+                                props.setMaxUserVoiceLevel(averageHeight)
+                            }
+                        }
 
                         loop = setTimeout(moveBird, 30); // рекурсия
                     }, 30);
-                    // eventListener on Stop button + bird go down + disconect dinamics + clear Bgnd of scaleItems
+                    // eventListener on Stop button + bird go down + disconect dinamics + clear Bgnd
+                    // of scaleItems
                     stopBtn = document.getElementById('StopBtn');
+                    toSongsBtn = document.getElementById('toSongsBtn');
+                  console.log(toSongsBtn);
                     stopBtn.addEventListener('click', () => {
                         clearTimeout(loop);
                         bird.style.marginBottom = 0 + 'px';
@@ -128,6 +120,18 @@ const SettingsPage = React.memo((props) => {
                             scaleItems[i].style.backgroundColor = '';
                         }
                     });
+
+                  props.isSetMaxUserVoiceLevel && toSongsBtn.addEventListener('click', () => {
+                    console.log('нажал');
+                    clearTimeout(loop);
+                    console.log('Отключил луп');
+                    bird.style.marginBottom = 0 + 'px';
+                    analyser.disconnect();
+                    for (let i = 0; i < scaleItems.length; i++) {
+                      scaleItems[i].style.backgroundColor = '';
+                    }
+
+                  });
 
                 })
                 .catch(error => {
@@ -140,6 +144,8 @@ const SettingsPage = React.memo((props) => {
         let onFinishCheckingMicrophone = () => {
             props.toggleIsCheckingMicrophoneStart(!props.isCheckingMicrophoneStart);
         }
+
+  let pushStartNotScreamed = props.isCheckingMicrophoneStart && !props.isSetMaxUserVoiceLevel;
 
         useEffect(() => {
             //generating scale on lineTables (many div for 20px)
@@ -175,10 +181,11 @@ const SettingsPage = React.memo((props) => {
                                 <img src={oraokeLogo} alt={'Logo'}/>
                             </div>
                             <div>
-                                {!props.isCheckingMicrophoneStart && <p>Нажмите на кнопку “Старт” и разрешите браузеру доступ к микрофону</p>}
-                                {props.isCheckingMicrophoneStart && <p>Крикните в микрофон так, чтобы птичка поднялась в зеленую зону</p>}
+                    {!props.isCheckingMicrophoneStart && <p>Нажмите на кнопку “Старт” и разрешите браузеру доступ к микрофону</p>}
+                    {pushStartNotScreamed &&  <p>Крикните в микрофон так, чтобы птичка поднялась в зеленую зону</p>}
                             </div>
                         </div>
+                        {/* START or STOP Buttons */}
                         {
                             !props.isCheckingMicrophoneStart
                                 ? <div
@@ -197,7 +204,21 @@ const SettingsPage = React.memo((props) => {
                                         <Button btnText='СТОП' btnNumber='1'/>
                                     </div>
                         }
-
+                        
+                <div className={classes.title}>
+                  {props.isSetMaxUserVoiceLevel && <p>Отлично! <br></br> Вернитесь к выбору песни</p>}
+                  {
+                    props.isSetMaxUserVoiceLevel && <div
+                    id='toSongsBtn'
+                      className={classes.btnsWrp} onClick={() => {
+                        onFinishCheckingMicrophone()
+                      }}>
+                    {/* <NavLink to={'/song-choose-page'}> */}
+                    <Button btnText='К песням' btnNumber='2'  />
+                    {/* </NavLink> */}
+                  </div>}
+                </div>
+                       
                     </div>
                     {/* Table and bird */}
                     <div className={classes.column}>
