@@ -155,6 +155,9 @@ a {
 
     }
 
+
+
+
     //language toogle
     .langToggle {
         position: absolute;
@@ -169,6 +172,31 @@ a {
             cursor: pointer;
         }
     }
+
+  .unvisible{
+    visibility: hidden;
+  }
+
+  .visible{
+    visibility: visible;
+  }
+}
+
+.toMainMenu{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 3;
+
+  a { color: $TextLigthColor;}
+
+  span {
+    margin-left: 10px;
+  }
+
+  :nth-child(odd) {
+    cursor: pointer;
+  }
 }
 
 @media all and (max-width: 900px) {

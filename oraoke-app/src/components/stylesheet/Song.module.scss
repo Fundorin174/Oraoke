@@ -1,0 +1,28 @@
+@import "variables";
+
+.songWrp {
+  width: 100%;
+  margin: 10px 15px;
+  height: 100px;
+  background-color: $bgColorLigth;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  .imgWrp{
+    max-width: 30%;
+    height: auto;
+    margin: 5px;
+
+    img{
+      width: 100%;
+      height: auto;
+      //border-radius: 50%;
+    }
+  }
+}
+
+
+
