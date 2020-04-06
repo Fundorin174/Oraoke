@@ -9,7 +9,8 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import SongChoosePage from "./SongChoosePage";
 import settingsPageReducer from "../redux/settingsPageReduser";
-import {getDefaultSongSelector, getSongsSelector} from "../redux/startPageSelectors";
+import {getcurrentSongSelector, getSongsSelector} from "../redux/startPageSelectors";
+import {changecurrentSong} from "../redux/startPageReduser";
 
 
 let mapStateToProps = (state) => ({
@@ -25,7 +26,7 @@ let mapStateToProps = (state) => ({
   maxUserVoiceLevel: getMaxUserVoiceLevel(state),
   isSetMaxUserVoiceLevel: getIsSetMaxUserVoiceLevel(state),
   songs: getSongsSelector(state),
-  defaultSong: getDefaultSongSelector(state)
+  currentSong: getcurrentSongSelector(state)
 })
 
-export default compose(connect(mapStateToProps, {  }))(SongChoosePage)
+export default compose(connect(mapStateToProps, {changecurrentSong}))(SongChoosePage)

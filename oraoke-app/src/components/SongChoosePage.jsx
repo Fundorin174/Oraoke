@@ -1,18 +1,20 @@
 import React from 'react';
 import classes from "./stylesheet/SongChoosePageContainer.module.scss";
-import adv1 from "../img/advertisment/adv1SettingPage.png";
-import adv2 from "../img/advertisment/adv2SettingPage.png";
 import oraokeLogo from "../img/ОраокеLogo.png";
 import Button from "./common/Button";
 import {NavLink} from "react-router-dom";
-import birdLeft from "../img/BirdTransparentLeft.gif";
 import {bgShape} from "./common/commonFunctions";
 import Song from "./common/Song";
 
 const SongChoosePage = (props) => {
   
-  let setCurrentSong = () => {
-  
+ 
+  // create Songs components from state
+  const createSongs = () => {
+    return(
+      props.songs.map((item, i) => {
+        return <Song song = {item} key = {i} changecurrentSong = {props.changecurrentSong} currentSong = {props.currentSong} />
+      })    )
   }
   
   
@@ -48,22 +50,16 @@ const SongChoosePage = (props) => {
           <div className={classes.songsWrp}>
             <div className={classes.songsRow}>
               {/*  Тут будут песни */}
-              <Song song = {props.songs[0]}/>
-              <Song song = {props.songs[1]}/>
-            </div>
-            <div className={classes.songsRow}>
-              {/*  Тут будут песни */}
-              <Song song = {props.songs[0]}/>
-              <Song song = {props.songs[1]}/>
+              {createSongs()}
             </div>
           </div>
           {/*  Button */}
-          <div className={classes.btnsWrp}
-               onClick={() => {
-                 setCurrentSong()
-               }}>
-            <Button btnText='Поехали' btnNumber='1'/>
-          </div>
+          <NavLink to = {'/song-play-page'}>
+            <div className={classes.btnsWrp}>
+              <Button btnText='Поехали!' btnNumber='1' currentSong = {props.currentSong}/>
+            </div>
+          </NavLink>
+
         </div>
 
 

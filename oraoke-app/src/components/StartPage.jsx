@@ -33,7 +33,7 @@ const StartPage = (props) => {
           <NavLink to={'/song-choose-page'}>
           <Button btnText = 'Выбрать песню' btnNumber = '2'/>
             </NavLink>
-          <Button btnText = 'НАЧАТЬ' btnNumber = '3' defaultSong = {props.defaultSong}/>
+          <Button btnText = 'НАЧАТЬ' btnNumber = '3' currentSong = {props.currentSong}/>
         </div>
         <div className={classes.langToggle}>
           <span>рус</span>

@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import classes from './../stylesheet/Song.module.scss'
-
+import React from 'react';
+import classes from './../stylesheet/Song.module.scss';
 
 const Song = (props) => {
   
-
-
-  return(
-    <div className={classes.songWrp}>
+  let classNamesBtn = `${classes.songWrp} ${props.song.artistName == props.currentSong.artistName ? classes.active : null}`;
+  
+  let onBtnClick = () => {
+    props.changecurrentSong(props.song);
+  }
+  
+  
+  return (
+    <div onClick={() => {
+      onBtnClick()
+    }} className={classNamesBtn}>
       <div className={classes.imgWrp}>
         <img src={props.song.img} alt="img"/>
       </div>

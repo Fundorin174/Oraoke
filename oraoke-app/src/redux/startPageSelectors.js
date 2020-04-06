@@ -1,5 +1,5 @@
-export const getDefaultSongSelector = (state) => {
-  return state.startPage.defaultSong.fullTitle;
+export const getcurrentSongSelector = (state) => {
+  return state.startPage.currentSong;
 }
 
 export const getSongsSelector = (state) => {

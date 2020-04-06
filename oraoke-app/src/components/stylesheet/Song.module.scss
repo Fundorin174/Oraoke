@@ -1,8 +1,8 @@
 @import "variables";
 
 .songWrp {
-  width: 100%;
-  margin: 10px 15px;
+  width: 45%;
+  margin: 10px 2%;
   height: 100px;
   background-color: $bgColorLigth;
   border-radius: 20px;
@@ -10,6 +10,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
 
   .imgWrp{
     max-width: 30%;
@@ -19,10 +20,23 @@
     img{
       width: 100%;
       height: auto;
-      //border-radius: 50%;
+      border-radius: 50%;
     }
   }
+
+  .textWrp{
+    text-align: left;
+
+    p{
+      margin: 15px 5px;
+    }
+  }
+
+
 }
 
-
+.active {
+  background-color: $bgColorBright;
+  border: 3px solid $bgColorLigth;
+}
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import StartPage from './StartPage';
-import { getDefaultSongSelector } from '../redux/startPageSelectors';
+import { getcurrentSongSelector } from '../redux/startPageSelectors';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 let mapStateToProps = (state) => ({
-  defaultSong: getDefaultSongSelector(state)
+  currentSong: getcurrentSongSelector(state)
 })
 
 

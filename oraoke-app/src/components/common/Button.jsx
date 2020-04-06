@@ -6,11 +6,12 @@ const Button = (props) => {
   let [partOfSong, setPartOfSong] = useState('');
     useEffect(() => {
       //Бегущая строка
-        let arr = props.defaultSong && props
-            .defaultSong
+        let arr = props.currentSong && props
+            .currentSong
+            .fullTitle
             .split('');
         if (arr && arr.length > 29) {
-            let j = props.defaultSong.length;
+            let j = props.currentSong.fullTitle.length;
             let i = 0;
             let stringLength = 28;
             let songNameMove = setTimeout(function move() {
@@ -28,9 +29,9 @@ const Button = (props) => {
               clearTimeout(songNameMove);
             }
           )
-        }
+        } else {setPartOfSong(arr)};
       
-    }, [props.defaultSong]);
+    }, [props.currentSong]);
 
 
   return(
@@ -42,9 +43,9 @@ const Button = (props) => {
       <div className={classes.text}>
         <span>{props.btnText}</span>
         {/* if in props put default song */}
-        {props.defaultSong 
+        {props.currentSong
         && 
-          <div className={classes.defaultSong}>
+          <div className={classes.currentSong}>
             {
             partOfSong[0] === ' ' ? <span>&nbsp;{partOfSong}</span> : <span>{partOfSong}</span>
             }
