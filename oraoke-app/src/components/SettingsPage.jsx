@@ -154,13 +154,9 @@ const SettingsPage = React.memo((props) => {
   
   return (
     <div className={classes.PageContainer}>
-      <div className={classes.toMainMenu}>
-        <NavLink to = {'/start-page'}>
-          <span>Главное меню</span>
-        </NavLink>
+     <div style={bgShape}></div>
+      <div className={classes.globalBacGround}>
       </div>
-      
-      <div style={bgShape}></div>
       <div className={classes.PageWrp}>
         
         {/* advertisment */}
@@ -231,6 +227,11 @@ const SettingsPage = React.memo((props) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className={classes.toMainMenu}>
+          <NavLink to={'/start-page'}>
+            <span>Главное меню</span>
+          </NavLink>
         </div>
         <div className={classes.langToggle}>
           <span>рус</span>

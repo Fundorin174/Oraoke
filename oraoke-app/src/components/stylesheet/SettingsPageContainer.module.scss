@@ -8,16 +8,27 @@ a {
     min-height: 100vh;
     min-width: 100vw;
     color: $TextLigthColor;
-    position: absolute;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.PageWrp {
+.globalBacGround {
     position: absolute;
     min-height: 100vh;
     min-width: 100vw;
     background-color: rgba(6, 24, 68, 0.7);
-    z-index: 2;
-    display: flex;
+    z-index: 3;
+}
+
+.PageWrp {
+    position: relative;
+    min-height: 100vh;
+    width: 100vw;
+      max-width: 1600px;
+   display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
@@ -163,7 +174,7 @@ a {
         position: absolute;
         bottom: 10px;
         right: 20px;
-
+        z-index: 3;
         span {
             margin-left: 10px;
         }

@@ -12,35 +12,32 @@ const SongChoosePage = (props) => {
   // create Songs components from state
   const createSongs = () => {
     return(
-      props.songs.map((item, i) => {
-        return <Song song = {item} key = {i} changecurrentSong = {props.changecurrentSong} currentSong = {props.currentSong} />
+      props.songs.map((item) => {
+        return <Song song={item} key={item.songID} changecurrentSong = {props.changecurrentSong} currentSong = {props.currentSong} playSongWhileShoosing = {props.playSongWhileShoosing} isCurrentSongSet = {props.isCurrentSongSet} />
       })    )
   }
   
   
   return (
     <div className={classes.PageContainer}>
-      <div className={classes.toMainMenu}>
-        <NavLink to={'/start-page'}>
-          <span>Главное меню</span>
-        </NavLink>
-      </div>
       <div style={bgShape}></div>
+      <div className={classes.globalBacGround}>
+      </div>      
       <div className={classes.PageWrp}>
         {/* left advertisment */}
         <div className={classes.column}>
           <div className={classes.advertBlock}>
-            <a href={props.thirdAdvLink} target='blank'><img src={props.thirdAdvImg} alt="adv3"/></a>
+            <a href={props.thirdAdvLink} target='blank'><img src={props.thirdAdvImg} alt="adv3" /></a>
           </div>
           <div className={classes.advertBlock}>
-            <a href={props.fourthAdvLink} target='blank'><img src={props.fourthAdvImg} alt="adv4"/></a>
+            <a href={props.fourthAdvLink} target='blank'><img src={props.fourthAdvImg} alt="adv4" /></a>
           </div>
         </div>
         {/* Title and button */}
         <div className={classes.column}>
           <div className={classes.title}>
             <div>
-              <img src={oraokeLogo} alt={'Logo'}/>
+              <img src={oraokeLogo} alt={'Logo'} />
             </div>
             <div>
               <p>Что будем орать?</p>
@@ -54,9 +51,9 @@ const SongChoosePage = (props) => {
             </div>
           </div>
           {/*  Button */}
-          <NavLink to = {'/song-play-page'}>
+          <NavLink to={'/song-play-page'}>
             <div className={classes.btnsWrp}>
-              <Button btnText='Поехали!' btnNumber='1' currentSong = {props.currentSong}/>
+              <Button btnText='Поехали!' btnNumber='1' currentSong={props.currentSong} />
             </div>
           </NavLink>
 
@@ -66,11 +63,16 @@ const SongChoosePage = (props) => {
         {/* advertisment */}
         <div className={classes.column}>
           <div className={classes.advertBlock}>
-            <a href={props.fifthAdvLink} target='blank'><img src={props.fifthAdvImg} alt="adv5"/></a>
+            <a href={props.fifthAdvLink} target='blank'><img src={props.fifthAdvImg} alt="adv5" /></a>
           </div>
           <div className={classes.advertBlock}>
-            <a href={props.sixAdvLink} target='blank'><img src={props.sixAdvImg} alt="adv6"/></a>
+            <a href={props.sixAdvLink} target='blank'><img src={props.sixAdvImg} alt="adv6" /></a>
           </div>
+        </div>
+        <div className={classes.toMainMenu}>
+          <NavLink to={'/start-page'}>
+            <span>Главное меню</span>
+          </NavLink>
         </div>
         <div className={classes.langToggle}>
           <span>рус</span>
@@ -78,7 +80,8 @@ const SongChoosePage = (props) => {
           <span>eng</span>
         </div>
       </div>
-    </div>
+      </div>
+
   )
 }
 
