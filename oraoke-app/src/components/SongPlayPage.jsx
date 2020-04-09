@@ -1,12 +1,15 @@
 import React from 'react';
 import classes from './stylesheet/SongPlayPageContainer.module.scss'
-import {bgShape} from './common/commonFunctions';
+import { bgShape, smallBtNStyles} from './common/commonFunctions';
 import {NavLink} from 'react-router-dom';
 import oraokeLogo from "../img/ОраокеLogo.png";
 import AdvertismentBlock from './common/AdvertismentBlock';
 import Button from './common/Button';
 
 const SongPlayPage = (props) => {
+
+
+
     return (
         <div className={classes.PageContainer}>
             <div style={bgShape}></div>
