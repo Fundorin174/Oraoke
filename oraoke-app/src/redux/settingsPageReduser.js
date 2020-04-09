@@ -25,29 +25,45 @@ export const isSetMaxUserVoiceLevelSuccsess = (isMaxUserVoiseLevelSet) => ({
 let initialState = {
   isCheckingMicrophoneStart: false,
   advertisment: {
-    first: {
+    adv1: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
-      img: Img1
+      img: Img1,
+      text: 'Канал ВНИКНИ'
     },
-    second: {
+    adv2: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
-      img: Img2
+      img: Img2,
+      text: 'Канал ВНИКНИ'
     },
-    third: {
+    adv3: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
-      img: Img3
+      img: Img3,
+      text: 'Канал ВНИКНИ'
     },
-    fourth: {
+    adv4: {
       url:'https://www.youtube.com/playlist?list=PLcvhF2Wqh7DNVy1OCUpG3i5lyxyBWhGZ8',
-      img: Img4
+      img: Img4,
+      text: 'Канал Путь Самурая'
     },
-    fifth: {
+    adv5: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
-      img: Img5
+      img: Img5,
+      text: 'Канал ВНИКНИ'
     },
-    six: {
+    adv6: {
       url:'https://it-incubator.by/',
-      img: Img6
+      img: Img6,
+      text: 'IT ИНКУБАТОР'
+    },
+    adv7: {
+      url: 'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
+      img: Img3,
+      text: 'Канал ВНИКНИ - самый крутой канал'
+    },
+    adv8: {
+      url:'https://it-incubator.by/',
+      img: Img6,
+      text: 'IT ИНКУБАТОР'
     }
     
   },

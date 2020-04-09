@@ -1,0 +1,88 @@
+@import "variables"; //variables and common classes
+
+.PageWrp {
+    position: relative;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 1600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .column {
+        width: 100%;
+        min-width: 195px;
+        height: 100vh;
+        max-height: 100vh;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 20px;
+    }
+
+    .column:nth-child(odd) {
+        flex: 1;
+    }
+
+    .column:nth-child(even) {
+        flex: 4;
+    }
+
+    .title {
+        margin-top: 60px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 48px;
+        line-height: 65px;
+        letter-spacing: 0.185em;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            font-size: 36px;
+            line-height: 49px;
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+    }
+
+    .btnWrp{
+      margin-bottom: 40px;
+    }
+
+
+
+}
+
+@media all and (max-width: 900px) {
+
+    .column:nth-child(1) {
+        display: none;
+    }
+}
+
+@media all and (max-width: 750px) , (max-height: 850px) {
+
+    .PageWrp .title {
+        margin-top: 60px;
+        font-size: 30px;
+        line-height: 40px;
+
+        img {
+            max-height: 90px;
+        }
+
+        p {
+            font-size: 30px;
+            margin-top: 40px;
+            line-height: 40px;
+            letter-spacing: 0.1em;
+        }
+    }
+
+}

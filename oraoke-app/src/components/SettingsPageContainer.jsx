@@ -6,7 +6,7 @@ import {
   getIsChekingMicrophoneStart,
   getMaxUserVoiceLevel,
   getIsSetMaxUserVoiceLevel,
-  getAdvLink
+  getAdv
 } from '../redux/settingsPageSelectors';
 import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess} from './../redux/settingsPageReduser';
 
@@ -14,8 +14,8 @@ import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoic
 
 let mapStateToProps = (state) => ({
   isCheckingMicrophoneStart: getIsChekingMicrophoneStart(state),
-  firstAdvLink: getAdvLink(state, 1),
-  secondAdvLink: getAdvLink(state, 2),
+  adv1: getAdv(state, 1),
+  adv2: getAdv(state, 2),
   maxUserVoiceLevel: getMaxUserVoiceLevel(state),
   isSetMaxUserVoiceLevel: getIsSetMaxUserVoiceLevel(state)
 })

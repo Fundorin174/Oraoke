@@ -3,6 +3,73 @@ $bgColorLigth: rgba(135, 0, 250, 0.8);
 $bgColorBright: rgba(255, 29, 190, 0.8);
 $TextLigthColor: #FFFFFF;
 
+a {
+  text-decoration: none;
+}
+
+.PageContainer {
+  background-color: $bgColorDark;
+  height: 100%;
+  min-width: 100vw;
+  color: $TextLigthColor;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.globalBacGround {
+  position: absolute;
+  height: 100%;
+  min-width: 100vw;
+  background-color: rgba(6, 24, 68, 0.7);
+  z-index: 3;
+}
+
+.toMainMenu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 3;
+
+  a {
+    color: $TextLigthColor;
+  }
+
+  span {
+    margin-left: 10px;
+  }
+
+  :nth-child(odd) {
+    cursor: pointer;
+  }
+}
+
+//language toogle
+.langToggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3;
+
+  span {
+    margin-left: 10px;
+  }
+
+  :nth-child(odd) {
+    cursor: pointer;
+  }
+}
+
+
+  .unvisible {
+    visibility: hidden;
+  }
+
+  .visible {
+    visibility: visible;
+  }
 
 @mixin buttonBig {
     background-color: $bgColorBright;

@@ -9,6 +9,7 @@ import adv2 from './../img/advertisment/adv2SettingPage.png';
 import birdLeft from './../img/BirdTransparentLeft.gif';
 import {useEffect} from 'react';
 import {bgShape} from "./common/commonFunctions";
+import AdvertismentBlock from './common/AdvertismentBlock';
 
 const SettingsPage = React.memo((props) => {
   
@@ -161,12 +162,8 @@ const SettingsPage = React.memo((props) => {
         
         {/* advertisment */}
         <div className={classes.column}>
-          <div className={classes.advertBlock}>
-            <a href={props.firstAdvLink} target='blank'><img src={adv1} alt="adv1"/></a>
-          </div>
-          <div className={classes.advertBlock}>
-            <a href={props.secondAdvLink} target='blank'><img src={adv2} alt="adv2"/></a>
-          </div>
+        <AdvertismentBlock adv = {props.adv1}/>
+        <AdvertismentBlock adv={props.adv2}/>
         </div>
         {/* Title and button */}
         <div className={classes.column}>

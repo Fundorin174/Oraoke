@@ -5,6 +5,7 @@ import Button from "./common/Button";
 import {NavLink} from "react-router-dom";
 import {bgShape} from "./common/commonFunctions";
 import Song from "./common/Song";
+import AdvertismentBlock from './common/AdvertismentBlock';
 
 const SongChoosePage = (props) => {
   
@@ -26,12 +27,8 @@ const SongChoosePage = (props) => {
       <div className={classes.PageWrp}>
         {/* left advertisment */}
         <div className={classes.column}>
-          <div className={classes.advertBlock}>
-            <a href={props.thirdAdvLink} target='blank'><img src={props.thirdAdvImg} alt="adv3" /></a>
-          </div>
-          <div className={classes.advertBlock}>
-            <a href={props.fourthAdvLink} target='blank'><img src={props.fourthAdvImg} alt="adv4" /></a>
-          </div>
+          <AdvertismentBlock adv = {props.adv3}/>
+          <AdvertismentBlock adv={props.adv4}/>
         </div>
         {/* Title and button */}
         <div className={classes.column}>
@@ -62,12 +59,8 @@ const SongChoosePage = (props) => {
 
         {/* advertisment */}
         <div className={classes.column}>
-          <div className={classes.advertBlock}>
-            <a href={props.fifthAdvLink} target='blank'><img src={props.fifthAdvImg} alt="adv5" /></a>
-          </div>
-          <div className={classes.advertBlock}>
-            <a href={props.sixAdvLink} target='blank'><img src={props.sixAdvImg} alt="adv6" /></a>
-          </div>
+          <AdvertismentBlock adv={props.adv5} />
+          <AdvertismentBlock adv={props.adv6} />
         </div>
         <div className={classes.toMainMenu}>
           <NavLink to={'/start-page'}>

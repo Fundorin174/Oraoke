@@ -1,28 +1,8 @@
 @import "variables";
 
-a {
-  text-decoration: none;
-}
 
-.PageContainer {
-  background-color: $bgColorDark;
-  min-height: 100vh;
-  min-width: 100vw;
-  color: $TextLigthColor;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
 
-.globalBacGround {
-  position: absolute;
-  min-height: 100vh;
-  min-width: 100vw;
-  background-color: rgba(6, 24, 68, 0.7);
-  z-index: 3;
-}
+
 
 .PageWrp {
   position: relative;
@@ -135,50 +115,9 @@ a {
     justify-content: space-evenly;
   }
 
-
-  //language toogle
-  .langToggle {
-    position: absolute;
-    bottom: 10px;
-    right: 20px;
-    z-index: 3;
-
-    span {
-      margin-left: 10px;
-    }
-
-    :nth-child(odd) {
-      cursor: pointer;
-    }
-  }
-
-  .unvisible {
-    visibility: hidden;
-  }
-
-  .visible {
-    visibility: visible;
-  }
 }
 
-.toMainMenu {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 3;
 
-  a {
-    color: $TextLigthColor;
-  }
-
-  span {
-    margin-left: 10px;
-  }
-
-  :nth-child(odd) {
-    cursor: pointer;
-  }
-}
 
 
 
