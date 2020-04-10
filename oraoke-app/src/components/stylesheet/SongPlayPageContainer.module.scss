@@ -32,15 +32,16 @@
     }
 
     .title {
-        margin-top: 60px;
+        margin-top: 20px;
         font-style: normal;
         font-weight: normal;
         font-size: 48px;
-        line-height: 65px;
+        line-height: 55px;
         letter-spacing: 0.185em;
         img {
             max-width: 100%;
             height: auto;
+            max-height: 100px;
         }
 
         p {
@@ -60,6 +61,29 @@
       -moz-border-radius: 20px;
       -ms-border-radius: 20px;
       -o-border-radius: 20px;
+      overflow: hidden;
+
+      .canvas{
+          position: relative;
+          top: 10px;
+          left: 20px;
+        //   width: 195%;
+        //   height: 700px;
+          background-color: $TextLigthColor;
+          opacity: 0.7;
+          border: 5px solid $bgColorBright;
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+}
+
+.textWrp{
+    margin-top: 10px;
+    font-size: 50px;
+    letter-spacing: 2px;
+}
 }
     .btnWrp{
       margin-bottom: 40px;
@@ -72,27 +96,49 @@
 
 }
 
-@media all and (max-width: 900px) {
 
-    .column:nth-child(1) {
-        display: none;
-    }
+@media all and (max-width: 1065px) , (max-height: 850px) {
+        .column:nth-child(1) {
+            display: none;
+        }
+
+    .PageWrp{
+        .title {
+            margin-top: 30px;
+            font-size: 30px;
+            line-height: 40px;
+
+            img {
+                max-height: 50px;
+                // display: none;
+            }
+
+            p {
+                font-size: 30px;
+                margin-top: 10px;
+                line-height: 40px;
+                letter-spacing: 0.1em;
+            }
+        }
+
+    } 
+
 }
 
-@media all and (max-width: 750px) , (max-height: 850px) {
-
+@media all and (max-width: 700px) {
     .PageWrp .title {
-        margin-top: 60px;
+        margin-top: 30px;
         font-size: 30px;
         line-height: 40px;
 
         img {
-            max-height: 90px;
+            max-height: 50px;
+            // display: none;
         }
 
         p {
-            font-size: 30px;
-            margin-top: 40px;
+            font-size: 20px;
+            margin-top: 10px;
             line-height: 40px;
             letter-spacing: 0.1em;
         }

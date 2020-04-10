@@ -38,7 +38,7 @@ const SettingsPage = React.memo((props) => {
       return;
     
     bird = document.getElementById('bird')
-    context = new AudioContext();
+    context = new (window.AudioContext || window.webkitAudioContext)();
     analyser = context.createAnalyser();
     
     navigator

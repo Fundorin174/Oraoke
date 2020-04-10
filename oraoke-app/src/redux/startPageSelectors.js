@@ -9,3 +9,7 @@ export const getIscurrentSongSetSelector = (state) => {
 export const getSongsSelector = (state) => {
   return state.startPage.songs;
 }
+
+export const getCurrentSoundFromBuffer = (state) => {
+  return state.startPage.currentSoundFromBuffer;
+}

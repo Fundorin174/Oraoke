@@ -1,0 +1,12 @@
+@import "variables";
+
+.btnwrp {
+@include buttonSmall
+}
+
+.btnwrp:hover{
+  background-color: $bgColorDark;
+  border: 3px solid $bgColorBright
+}
+
+

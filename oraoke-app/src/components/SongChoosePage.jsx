@@ -8,8 +8,8 @@ import Song from "./common/Song";
 import AdvertismentBlock from './common/AdvertismentBlock';
 
 const SongChoosePage = (props) => {
-  
- 
+
+
   // create Songs components from state
   const createSongs = () => {
     return(
@@ -17,20 +17,19 @@ const SongChoosePage = (props) => {
         return <Song song={item} key={item.songID} changecurrentSong = {props.changecurrentSong} currentSong = {props.currentSong} playSongWhileShoosing = {props.playSongWhileShoosing} isCurrentSongSet = {props.isCurrentSongSet} />
       })    )
   }
-  
-  
+
+
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape}></div>
       <div className={classes.globalBacGround}>
-      </div>      
+      </div>
       <div className={classes.PageWrp}>
         {/* left advertisment */}
         <div className={classes.column}>
           <AdvertismentBlock adv = {props.adv3}/>
           <AdvertismentBlock adv={props.adv4}/>
         </div>
-        {/* Title and button */}
         <div className={classes.column}>
           <div className={classes.title}>
             <div>

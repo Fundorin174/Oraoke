@@ -23,7 +23,7 @@ const Song = React.memo((props) => {
         <div><p>{props.song.songName}</p></div>
       </div>
       <div className={classes.song}>
-        <audio className='audioMP3' src={props.song.srcToSong}></audio>
+        <audio className='audioMP3' src={props.song.srcToSongIntro}></audio>
       </div>
     </div>
   )

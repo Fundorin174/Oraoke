@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './stylesheet/SongPlayPageContainer.module.scss'
-import { bgShape, smallBtNStyles} from './common/commonFunctions';
+import {bgShape} from './common/commonFunctions';
 import {NavLink} from 'react-router-dom';
 import oraokeLogo from "../img/ОраокеLogo.png";
 import AdvertismentBlock from './common/AdvertismentBlock';
-import Button from './common/Button';
+import ButtonSmall from './common/ButtonSmall';
+import Canvas1Leps from './Canvas1Leps';
 
 const SongPlayPage = (props) => {
-
-
 
     return (
         <div className={classes.PageContainer}>
@@ -29,12 +28,10 @@ const SongPlayPage = (props) => {
                             <p>{props.currentSong.fullTitle}</p>
                         </div>
                     </div>
-                    <div className={classes.canvasWrp}>
-                      <canvas className = {classes.canvas}></canvas>
-                      <div className = {classes.textWrp}><p>Текст песни</p></div>
-                    </div>
-                    <div className = {classes.btnWrp}>
-                    <Button btnNumber='1' btnText='СТОП' />
+						<Canvas1Leps song={props.currentSong} transferSoundFromBufferToState={props.transferSoundFromBufferToState}
+							currentSoundFromBuffer={props.currentSoundFromBuffer}/>{/* Потом автоматизировать выбор песни */}
+						<div onClick={() => { props.stopSigning() }} className={classes.btnWrp}>
+                        <ButtonSmall btnNumber='1' btnText='СТОП'/>
                     </div>
 
                 </div>
