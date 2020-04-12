@@ -28,15 +28,24 @@ const SongPlayPage = (props) => {
                             <p>{props.currentSong.fullTitle}</p>
                         </div>
                     </div>
-						<Canvas1Leps song={props.currentSong} transferSoundFromBufferToState={props.transferSoundFromBufferToState}
-							currentSoundFromBuffer={props.currentSoundFromBuffer}/>{/* Потом автоматизировать выбор песни */}
-						<div onClick={() => { props.stopSigning() }} className={classes.btnWrp}>
+                    <Canvas1Leps
+                        song={props.currentSong}
+                        transferSoundFromBufferToState={props.transferSoundFromBufferToState}
+                        currentSoundFromBuffer={props.currentSoundFromBuffer}/>{/* Потом автоматизировать выбор песни */}
+                    <div
+                        onClick={() => {
+                            props.stopSigning()
+                        }}
+                        className={classes.btnWrp}
+                        id='btnWrp'>
                         <ButtonSmall btnNumber='1' btnText='СТОП'/>
                     </div>
 
                 </div>
 
-                <div className={classes.toMainMenu}>
+                <div  onClick={() => {
+                  props.stopSigning()
+                }} className={classes.toMainMenu}>
                     <NavLink to={'/start-page'}>
                         <span>Главное меню</span>
                     </NavLink>

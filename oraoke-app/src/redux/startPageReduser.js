@@ -16,9 +16,20 @@ import srcToSong5SukochevBabuchka from './../songs/5_Sukachev_Moya_Babushka/Suka
 import srcToSong5SukochevBabuchkaIntro from './../songs/5_Sukachev_Moya_Babushka/Sukachev_Moya_Babushka_Introduce.mp3';
 import srcToSong6NatalyOBozhe from './../songs/6_Natali_O_Bozhe/Natali_O_Bozhe_Kakoy_Men.mp3';
 import srcToSong6NatalyOBozheIntro from './../songs/6_Natali_O_Bozhe/Natali_O_Bozhe_Kakoy_Men_Introduce.mp3';
+import {
+  Buffer
+} from './bufer'
+
+// let newSound;
+// export const print = (sound) => {
+//   console.log(sound);
+//   newSound = sound;
+//   transferSoundFromBufferToState(sound);
+// }
 
 const CHANGE_CURRENT_SONG = 'ORAOKE/START_PAGE/CHANGE_CURRENT_SONG';
 const TRANSFER_SOUND_FROM_BUFFER = 'ORAOKE/START_PAGE/TRANSFER_SOUND_FROM_BUFFER';
+
 
 export const changecurrentSong = (song) => ({
   type: CHANGE_CURRENT_SONG,
@@ -29,6 +40,20 @@ export const transferSoundFromBufferToState = (sound) => ({
   type: TRANSFER_SOUND_FROM_BUFFER,
   sound: sound
 });
+
+// export let getSound = (srcToSong) => async (dispatch) => {
+//   let context = new AudioContext(); //создание аудиоконтекста WEB Audio API
+//    let buffer = new Buffer(context, [srcToSong]); //создпние нового буфера из конструктора
+//   let data = await buffer.loadAll()
+//     console.log(data);
+//     //dispatch(transferSoundFromBufferToState(sound))
+//    //загрузить песню в буфер
+  
+//       // console.log(sound);
+//       // dispatch(transferSoundFromBufferToState(sound));
+//     } 
+
+
 
 let initialState = {
   songs: [
@@ -103,7 +128,7 @@ let initialState = {
     songText: 'Ночь по улицам пошла звездной поступью цариц. Слов и чисел простота у небесного моста раскидала перья птиц. Не забудутся никем праздник губ обид и глаз. Забери меня в свой плен, эту линию колен целовать в последний раз. Только рюмка водки на столе. Ветер плачет за окном тихо болью отзываются во мне этой молодой луны крики. Не легко тебя отдать парусам ветров и птиц. Может даже не понять, может даже не узнать среди тысяч женских лиц. Пусть глаза мои молчат. Молча смотрят на луну. Если кто поймает взгляд - поторопится назад. Сам не знаю почему. Только рюмка водки на столе. Ветер плачет за окном. Тихо болью отзываются во мне этой молодой луны крики. Болью отзываются во мне этой молодой луны крики.'
   },
   isCurrentSongSet: false,
-  currentSoundFromBuffer: null
+  currentSoundFromBuffer: null,
 }
 
 const startPageReducer = (state = initialState, action) => {
