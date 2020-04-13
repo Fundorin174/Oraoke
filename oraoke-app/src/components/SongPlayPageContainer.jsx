@@ -3,7 +3,7 @@ import SongPlayPage from './SongPlayPage';
 import { compose } from 'redux';
 import { connect } from "react-redux";
 import { getMaxUserVoiceLevel, getIsSetMaxUserVoiceLevel, getAdv} from '../redux/settingsPageSelectors';
-import { getcurrentSongSelector, getSongsSelector, getCurrentSoundFromBuffer } from '../redux/startPageSelectors';
+import { getcurrentSongSelector, getSongsSelector, getCurrentSoundFromBuffer} from '../redux/startPageSelectors';
 import { transferSoundFromBufferToState} from './../redux/startPageReduser';
 
 
@@ -11,13 +11,12 @@ import { transferSoundFromBufferToState} from './../redux/startPageReduser';
 const SongPlayPageContainer = (props) => {
 
 
-
   const stopSigning = () => {
     props.currentSoundFromBuffer && props.currentSoundFromBuffer.stop();//сработает только после запуска песни
   }
   return(
     <div >
-      <SongPlayPage stopSigning={stopSigning} {...props}/>
+      <SongPlayPage stopSigning={stopSigning} stopMovingTextAndCanvas={props.stopMovingTextAndCanvas} {...props}/>
     </div>
   )
 }

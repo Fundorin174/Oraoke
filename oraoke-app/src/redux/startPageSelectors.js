@@ -13,3 +13,4 @@ export const getSongsSelector = (state) => {
 export const getCurrentSoundFromBuffer = (state) => {
   return state.startPage.currentSoundFromBuffer;
 }
+

@@ -34,7 +34,7 @@ const SongPlayPage = (props) => {
                         currentSoundFromBuffer={props.currentSoundFromBuffer}/>{/* Потом автоматизировать выбор песни */}
                     <div
                         onClick={() => {
-                            props.stopSigning()
+                            props.stopSigning();
                         }}
                         className={classes.btnWrp}
                         id='btnWrp'>
@@ -43,9 +43,11 @@ const SongPlayPage = (props) => {
 
                 </div>
 
-                <div  onClick={() => {
-                  props.stopSigning()
-                }} className={classes.toMainMenu}>
+                <div id = 'mainMenu'
+                    onClick={() => {
+                        props.stopSigning()
+                    }}
+                    className={classes.toMainMenu}>
                     <NavLink to={'/start-page'}>
                         <span>Главное меню</span>
                     </NavLink>

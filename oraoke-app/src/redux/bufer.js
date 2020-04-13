@@ -20,6 +20,8 @@ export class Buffer {
                     thisBuffer.buffer[index] = buffer;
                     if (index == thisBuffer.urls.length - 1) {
                         thisBuffer.loaded();
+                        //getSound() - ТУТ НЕОБХОДИМО РЕАЛИЗОВАТЬ ЗАПИСЬ В СТЕЙТ ПЕРЕМЕННОЙ ЧЕРЕЗ PROMISE ИЗ РЕДЬЮСЕРА 
+                        //И ПО ЭТОЙ ПЕРЕМЕННОЙ ЗАПУСКАТЬ sound.play()
                     }
                 });
         };
@@ -30,24 +32,9 @@ export class Buffer {
         this
             .urls
             .forEach((url, index) => {
-                let request = new XMLHttpRequest();
-                request.open('get', url, true);
-                request.responseType = 'arraybuffer';
-                let thisBuffer = this;
-                request.onload = function () {
-                    thisBuffer
-                        .context
-                        .decodeAudioData(request.response, function (buffer) {
-                            thisBuffer.buffer[index] = buffer;
-                            if (index == thisBuffer.urls.length - 1) {
-                                thisBuffer.loaded();                                            
-                                // print(sound);
-                            }
-                        });
-                }
-                request.send();
+                this.loadSound(url, index)
             })
-            
+
     }
 
     loaded() {
@@ -56,15 +43,7 @@ export class Buffer {
             .getElementById('btnWrp')
             .style
             .opacity = 1; //появление кнопки "СТОП"
-        //задать отсюда изменение стейта
-   //this.autoPlay()
-            
     }
-
-    // autoPlay() {
-    //     let sound = new Sound(this.context, this.getSoundByIndex('0')); //создать новую песню
-    //     sound.play(); //начать проигрывание
-    // }
 
     getSoundByIndex(index) {
         return this.buffer[index];
