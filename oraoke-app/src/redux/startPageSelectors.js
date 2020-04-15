@@ -10,7 +10,6 @@ export const getSongsSelector = (state) => {
   return state.startPage.songs;
 }
 
-export const getCurrentSoundFromBuffer = (state) => {
-  return state.startPage.currentSoundFromBuffer;
+export const getIsStopBtnPushed = (state) => {
+  return state.startPage.isStopBtnPushed;
 }
-

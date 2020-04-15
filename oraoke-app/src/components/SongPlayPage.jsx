@@ -8,6 +8,7 @@ import ButtonSmall from "./common/ButtonSmall";
 import Canvas1Leps from "./Canvas1Leps";
 
 const SongPlayPage = (props) => {
+  let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape}></div>
@@ -27,30 +28,36 @@ const SongPlayPage = (props) => {
               <p>{props.currentSong.fullTitle}</p>
             </div>
           </div>
-          <Canvas1Leps
-            song={props.currentSong}
-            transferSoundFromBufferToState={
-              props.transferSoundFromBufferToState
-            }
-            currentSoundFromBuffer={props.currentSoundFromBuffer}
-            stopSigning={props.stopSigning}
-          />
+          <Canvas1Leps song={props.currentSong} />
           {/* Потом автоматизировать выбор песни */}
-          <div
-            onClick={() => {
-              props.stopSigning();
-            }}
-            className={classes.btnWrp}
-            id="btnWrp"
-          >
-            <ButtonSmall btnNumber="1" btnText="СТОП" />
-          </div>
+          {isSongPlaying ? (
+            <div
+              className={classes.btnWrp}
+              id="btnWrpStop"
+              onClick={() => {
+                // props.stopSigningAndMoving(props.timerId);
+                props.stopBtnIsPushSet(true);
+              }}
+            >
+              <ButtonSmall btnNumber="1" btnText="СТОП" />
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                props.startSigningAndMoving();
+              }}
+              className={classes.btnWrp}
+              id="btnWrpPlay"
+            >
+              <ButtonSmall btnNumber="1" btnText="СТАРТ" />
+            </div>
+          )}
         </div>
 
         <div
           id="mainMenu"
           onClick={() => {
-            props.stopSigning();
+            props.stopSigningAndMoving();
           }}
           className={classes.toMainMenu}
         >
