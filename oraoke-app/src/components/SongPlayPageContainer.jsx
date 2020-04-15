@@ -153,28 +153,29 @@ const SongPlayPageContainer = React.memo((props) => {
   };
 
   // /////////////////////////////////////////////////////////////////////////
-  // движение поля влево
+  // движение поля влево (через санку получить стейт и в мидлваре обработать асинхронную функцию.)
   let timerId;
   let shiftTextToLeft = 100;
 
   function moveCanvasAndTextToLeft(speed) {
     let canvas = document.getElementById("canvas");
     let canvasWidth = canvas.width; //ширина
-
-    timerId = setTimeout(moveCanvasAndTextToLeft, 1000 / speed);
-    shiftTextToLeft -= 1;
-    console.log(shiftTextToLeft);
-    const textWrp = document.getElementById("textWrp");
-    if (Math.abs(shiftTextToLeft) < canvasWidth) {
-      textWrp.style.marginLeft = `${shiftTextToLeft}px`; //Это сдвиг текста
-      if (shiftTextToLeft <= 20) {
-        canvas.style.left = `${shiftTextToLeft}px`; //Это сдвиг поля
+    let promise = new Promise((resolved, rejected) => {
+      timerId = setTimeout(moveCanvasAndTextToLeft, 1000 / speed);
+      shiftTextToLeft -= 1;
+      console.log(shiftTextToLeft);
+      const textWrp = document.getElementById("textWrp");
+      if (Math.abs(shiftTextToLeft) < canvasWidth) {
+        textWrp.style.marginLeft = `${shiftTextToLeft}px`; //Это сдвиг текста
+        if (shiftTextToLeft <= 20) {
+          canvas.style.left = `${shiftTextToLeft}px`; //Это сдвиг поля
+        }
       }
-    }
-    if (props.isStopBtnPushed || Math.abs(shiftTextToLeft) > canvasWidth) {
-      stopSigningAndMoving();
-    }
-    return timerId;
+      if (props.isStopBtnPushed || Math.abs(shiftTextToLeft) > canvasWidth) {
+        stopSigningAndMoving();
+      }
+      return resolved(timerId);
+    });
   }
   function clearTimer() {
     clearTimeout(timerId);
