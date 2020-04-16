@@ -30,6 +30,25 @@ class SongPlayPageContainer extends React.PureComponent {
     this.canvasWrpRef = null;
     this.songMP3Ref = null;
     this.textWrpRef = null;
+    //////////////////////////
+    //Забиндить this для всех методов где это надо
+    this.getElementFromDOMorState = this.getElementFromDOMorState.bind(this);
+    this.isCurrentSongPlayingSet = this.isCurrentSongPlayingSet.bind(this);
+    this.setCanvasHeigth = this.setCanvasHeigth.bind(this);
+    this.playSongStart = this.playSongStart.bind(this);
+    this.playSongStop = this.playSongStop.bind(this);
+    this.playSongPause = this.playSongPause.bind(this);
+    this.playPauseOnSpaseBtn = this.playPauseOnSpaseBtn.bind(this);
+    this.paintRect = this.paintRect.bind(this);
+    this.paintTriangle = this.paintTriangle.bind(this);
+    this.paintingCanvasField = this.paintingCanvasField.bind(this);
+    this.moveCanvasAndTextToLeft = this.moveCanvasAndTextToLeft.bind(this);
+    this.clearTimer = this.clearTimer.bind(this);
+    this.stopSigningAndMoving = this.stopSigningAndMoving.bind(this);
+    this.pauseSigningAndMoving = this.pauseSigningAndMoving.bind(this);
+    this.startSigningAndMoving = this.startSigningAndMoving.bind(this);
+    ////////////////////////////////////////
+    //ref calback to DOM elements
     this.canvasRefGetter = (el) => {
       this.canvasRef = el;
     };
@@ -42,8 +61,9 @@ class SongPlayPageContainer extends React.PureComponent {
     this.textWrpRefGetter = (el) => {
       this.textWrpRef = el;
     };
-    this.timerId = 0;
-    this.shiftTextToLeft = 700;
+
+    this.timerId = 0; //таймер для движения поля
+    this.shiftTextToLeft = 700; //начальная точка сдвига текста
   }
 
   componentDidMount() {
@@ -73,13 +93,13 @@ class SongPlayPageContainer extends React.PureComponent {
   // ////////////////////////////////////////////////////////////////////////
   // получение элемента из стейта, а если его там нет, то из DOM (при прокиданном
   // коллбеке ...RefGetter)
-  getElementFromDOMorState = (elementRef, elementName) => {
+  getElementFromDOMorState(elementRef, elementName) {
     if (elementRef && !this.props[elementName]) {
       return elementRef;
     } else {
       return this.props[elementName];
     }
-  };
+  }
 
   //сохранение всех нужных DOM элементов в стейте
   saveDOMElementsToState() {
@@ -97,12 +117,12 @@ class SongPlayPageContainer extends React.PureComponent {
   }
 
   //toggle isCurrentSongPlaing
-  isCurrentSongPlayingSet = (isCurrentSongPlaying) => {
+  isCurrentSongPlayingSet(isCurrentSongPlaying) {
     this.props.isCurrentSongPlayingSetter(isCurrentSongPlaying);
-  };
+  }
 
   // изменение высоты canvas
-  setCanvasHeigth = () => {
+  setCanvasHeigth() {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
     const canvasWrp = this.getElementFromDOMorState(
       this.canvasWrpRef,
@@ -111,45 +131,46 @@ class SongPlayPageContainer extends React.PureComponent {
     //устанавливаем высоту планшета на 80 px меньше родителя (80 для текста)
     let canvasHeigth = canvasWrp.clientHeight - 80;
     canvas.style.height = `${canvasHeigth}px`;
-  };
+  }
   // ////////////////////////////////////////////////////////////////////////
   // Запуск фоновой песни
-  playSongStart = () => {
+  playSongStart() {
     const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     audio.play();
     this.isCurrentSongPlayingSet(true);
-  };
+  }
   // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни и отправка к началу
-  playSongStop = () => {
+  playSongStop() {
     const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     audio.pause();
     audio.currentTime = 0;
     this.isCurrentSongPlayingSet(false);
-  };
+  }
 
   // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни на текущем месте
-  playSongPause = () => {
+  playSongPause() {
     const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     audio.pause();
     this.isCurrentSongPlayingSet(false);
-  };
+  }
   // ///////////////////////////////////////////////////////////////////////// //
   // Пауза на текущем месте при нажатии клавиш "Space" (служебная функция без
   // remoove)
 
-  playPauseOnSpaseBtn = (event) => {
+  playPauseOnSpaseBtn(event) {
+    event.preventDefault();
     if (event.code === "Space" && this.props.isCurrentSongPlaying) {
       this.pauseSigningAndMoving();
     } else if (event.code === "Space" && !this.props.isCurrentSongPlaying) {
       this.startSigningAndMoving();
     }
-  };
+  }
 
   // ///////////////////////////////////////////////////////////////////////////
   // рисование прямоугольника
-  paintRect = (
+  paintRect(
     ctx, //контекст
     x1, //начальная x (слева)
     y1, //начальная y (вверху)
@@ -157,7 +178,7 @@ class SongPlayPageContainer extends React.PureComponent {
     y2, //конечная y (внизу)
     fillColor = "rgba(135, 0, 250, 0.8)", //заливка фигуры
     strokeColor = "rgba(255, 29, 190, 0.8)"
-  ) => {
+  ) {
     ctx.fillStyle = fillColor;
     ctx.beginPath();
     ctx.moveTo(x1, y1);
@@ -169,9 +190,9 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.strokeStyle = strokeColor;
     ctx.lineWidth = 3;
     ctx.stroke();
-  };
+  }
 
-  paintTriangle = (
+  paintTriangle(
     ctx, //контекст
     x1, //начальная x (слева)
     y1, //начальная y (вверху)
@@ -180,7 +201,7 @@ class SongPlayPageContainer extends React.PureComponent {
     x3, //конечная x (справа)
     fillColor = "rgba(135, 0, 250, 0.8)", //заливка фигуры
     strokeColor = "rgba(255, 29, 190, 0.8)"
-  ) => {
+  ) {
     ctx.fillStyle = fillColor;
     ctx.beginPath();
     ctx.moveTo(x1, y1);
@@ -191,10 +212,10 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.strokeStyle = strokeColor;
     ctx.lineWidth = 3;
     ctx.stroke();
-  };
+  }
 
   //////////////////////////////////////////////////////////////////////////////
-  paintingCanvasField = () => {
+  paintingCanvasField() {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
     let canvasWidth = canvas.width; //ширина
     let canvasHeigth = canvas.offsetHeight; //высота
@@ -213,13 +234,13 @@ class SongPlayPageContainer extends React.PureComponent {
         50 + x + 50
       );
     }
-  };
+  }
 
   // ///////////////////////////////////////////////////////////////////////
   // движение поля влево (через санку получить стейт и в мидлваре обработать
   // асинхронную функцию.)
 
-  moveCanvasAndTextToLeft = (speed) => {
+  moveCanvasAndTextToLeft(speed) {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
     const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     console.log(audio.currentTime);
@@ -240,29 +261,33 @@ class SongPlayPageContainer extends React.PureComponent {
       this.stopSigningAndMoving();
     }
     return this.timerId;
-  };
+  }
+
+  ////////////////////////////////////
+  //сброс таймера settimeout-на движение поля
   clearTimer() {
     clearTimeout(this.timerId);
     console.log("Таймер остановлен");
-    this.timerId = 0;
+    // this.timerId = 0;//Эти сбросы не работают!!!!!! НАдо сделать сброс сдвига поля
+    // this.shiftTextToLeft = 0;
   }
   // ////////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения, возврат в исходное состояние
-  stopSigningAndMoving = () => {
+  stopSigningAndMoving() {
     this.playSongStop();
     this.clearTimer();
-  };
+  }
 
   // ////////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения на текущем моменте
-  pauseSigningAndMoving = () => {
+  pauseSigningAndMoving() {
     this.playSongPause();
     this.clearTimer();
-  };
+  }
 
   // ////////////////////////////////////////////////////////////////////////
   // Запуск проигрывания и движения поля
-  startSigningAndMoving = () => {
+  startSigningAndMoving() {
     const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
@@ -274,7 +299,7 @@ class SongPlayPageContainer extends React.PureComponent {
           this.props.currentSong.playbackSpeed
         )
       : this.moveCanvasAndTextToLeft(this.props.currentSong.playbackSpeed);
-  };
+  }
 
   // //////////////////////////////////////////////////////////////////////////
   // //////////////////////////////////////////////////////////////////////////
