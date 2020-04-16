@@ -43,7 +43,7 @@ class SongPlayPageContainer extends React.PureComponent {
       this.textWrpRef = el;
     };
     this.timerId = 0;
-    this.shiftTextToLeft = 100;
+    this.shiftTextToLeft = 700;
   }
 
   componentDidMount() {
@@ -221,6 +221,8 @@ class SongPlayPageContainer extends React.PureComponent {
 
   moveCanvasAndTextToLeft = (speed) => {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
+    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+    console.log(audio.currentTime);
     let canvasWidth = canvas.width; //          ширина
     this.timerId = setTimeout(this.moveCanvasAndTextToLeft, 1000 / speed);
     this.shiftTextToLeft -= 1;
@@ -231,7 +233,6 @@ class SongPlayPageContainer extends React.PureComponent {
         canvas.style.left = `${this.shiftTextToLeft}px`; // Это сдвиг поля
       }
     }
-    console.log(this.props.isStopBtnPushed);
     if (
       this.props.isStopBtnPushed ||
       Math.abs(this.shiftTextToLeft) > canvasWidth
@@ -262,9 +263,17 @@ class SongPlayPageContainer extends React.PureComponent {
   // ////////////////////////////////////////////////////////////////////////
   // Запуск проигрывания и движения поля
   startSigningAndMoving = () => {
+    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
-    this.moveCanvasAndTextToLeft(this.props.currentSong.playbackSpeed);
+    //если с начала, то текст с задержкой запускается
+    audio.currentTime === 0
+      ? setTimeout(
+          this.moveCanvasAndTextToLeft,
+          this.props.currentSong.startMovingDelay * 1000,
+          this.props.currentSong.playbackSpeed
+        )
+      : this.moveCanvasAndTextToLeft(this.props.currentSong.playbackSpeed);
   };
 
   // //////////////////////////////////////////////////////////////////////////
