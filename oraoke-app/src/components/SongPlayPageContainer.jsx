@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SongPlayPage from "./SongPlayPage";
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -11,82 +11,145 @@ import {
   getcurrentSongSelector,
   getSongsSelector,
   getIsStopBtnPushed,
+  getCanvas,
+  getCanvasWrp,
+  getSongMP3,
+  getIsCurrentSongPlayingSetter,
 } from "../redux/startPageSelectors";
-import { isPlayingSet, stopBtnIsPushSet } from "./../redux/startPageReduser";
+import {
+  isPlayingSet,
+  stopBtnIsPushSet,
+  saveDOMElementToState,
+  isCurrentSongPlayingSetter,
+} from "./../redux/startPageReduser";
 
-const SongPlayPageContainer = React.memo((props) => {
-  let [isCurrentSongPlaying, isCurrentSongPlayingSet] = useState(false);
-  useEffect(() => {
-    setCanvasHeigth(); //изменение высоты canvas по родителю
+class SongPlayPageContainer extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.canvasRef = null;
+    this.canvasWrpRef = null;
+    this.songMP3Ref = null;
+    this.textWrpRef = null;
+    this.canvasRefGetter = (el) => {
+      this.canvasRef = el;
+    };
+    this.canvasWrpRefGetter = (el) => {
+      this.canvasWrpRef = el;
+    };
+    this.songMP3RefGetter = (el) => {
+      this.songMP3Ref = el;
+    };
+    this.textWrpRefGetter = (el) => {
+      this.textWrpRef = el;
+    };
+    this.timerId = 0;
+    this.shiftTextToLeft = 100;
+  }
 
+  componentDidMount() {
+    this.saveDOMElementsToState();
+    this.setCanvasHeigth(); //изменение высоты canvas по родителю
     //пересчет размеров поля canvas при изменении размеров окна браузера
-    window.addEventListener("resize", setCanvasHeigth);
+    window.addEventListener("resize", this.setCanvasHeigth);
 
     //Отрисовка всего поля canvas
-    paintingCanvasField();
+    this.paintingCanvasField();
 
     //Запуск проигрывания файла через 4 секунды
     const autoPlaySong =
-      !isCurrentSongPlaying && setTimeout(startSigningAndMoving, 4000);
+      !this.props.isCurrentSongPlaying &&
+      setTimeout(this.startSigningAndMoving, 4000);
 
-    //component DidUnmount()
-    return () => {
-      window.removeEventListener("resize", setCanvasHeigth);
-      clearTimeout(autoPlaySong);
-    };
-  }, [props.isStopBtnPushed, isCurrentSongPlaying]);
+    document.addEventListener("keyup", this.playPauseOnSpaseBtn);
+  }
 
-  // /////////////////////////////////////////////////////////////////////////
-  // //////////////////////////////////////////////////////////////////////////
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.setCanvasHeigth);
+    document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
+    clearTimeout(this.autoPlaySong);
+  }
+
+  // ///////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
+  // получение элемента из стейта, а если его там нет, то из DOM (при прокиданном
+  // коллбеке ...RefGetter)
+  getElementFromDOMorState = (elementRef, elementName) => {
+    if (elementRef && !this.props[elementName]) {
+      return elementRef;
+    } else {
+      return this.props[elementName];
+    }
+  };
+
+  //сохранение всех нужных DOM элементов в стейте
+  saveDOMElementsToState() {
+    const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
+    const canvasWrp = this.getElementFromDOMorState(
+      this.canvasWrpRef,
+      "canvasWrp"
+    );
+    const songMP3 = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+    const textWrp = this.getElementFromDOMorState(this.textWrpRef, "textWrp");
+    this.props.saveDOMElementToState(canvas, "canvas");
+    this.props.saveDOMElementToState(canvasWrp, "canvasWrp");
+    this.props.saveDOMElementToState(songMP3, "songMP3");
+    this.props.saveDOMElementToState(textWrp, "textWrp");
+  }
+
+  //toggle isCurrentSongPlaing
+  isCurrentSongPlayingSet = (isCurrentSongPlaying) => {
+    this.props.isCurrentSongPlayingSetter(isCurrentSongPlaying);
+  };
+
   // изменение высоты canvas
-  const setCanvasHeigth = () => {
-    const canvas = document.getElementById("canvas");
-    const canvasWrp = document.getElementById("canvasWrp");
-
+  setCanvasHeigth = () => {
+    const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
+    const canvasWrp = this.getElementFromDOMorState(
+      this.canvasWrpRef,
+      "canvasWrp"
+    );
     //устанавливаем высоту планшета на 80 px меньше родителя (80 для текста)
     let canvasHeigth = canvasWrp.clientHeight - 80;
     canvas.style.height = `${canvasHeigth}px`;
   };
-  // //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   // Запуск фоновой песни
-  const playSongStart = () => {
-    const audio = document.getElementById("audioMP3");
-    !audio.playing && audio.play();
-    isCurrentSongPlayingSet(true);
+  playSongStart = () => {
+    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+    audio.play();
+    this.isCurrentSongPlayingSet(true);
   };
-  // //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни и отправка к началу
-  const playSongStop = () => {
-    const audio = document.getElementById("audioMP3");
+  playSongStop = () => {
+    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     audio.pause();
     audio.currentTime = 0;
-    isCurrentSongPlayingSet(false);
+    this.isCurrentSongPlayingSet(false);
   };
 
-  // //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни на текущем месте
-  const playSongPause = () => {
-    const audio = document.getElementById("audioMP3");
+  playSongPause = () => {
+    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     audio.pause();
-    isCurrentSongPlayingSet(false);
+    this.isCurrentSongPlayingSet(false);
   };
-  // ///////////////////////////////////////////////////////////////////////////
-  // //// Пауза на текущем месте при нажатии клавиш "Space" (служебная функция без
+  // ///////////////////////////////////////////////////////////////////////// //
+  // Пауза на текущем месте при нажатии клавиш "Space" (служебная функция без
   // remoove)
 
-  let playPauseOnSpaseBtn = (event) => {
-    console.log(isCurrentSongPlaying);
-    if (event.code === "Space" && isCurrentSongPlaying) {
-      pauseSigningAndMoving();
-    } else if (event.code === "Space" && !isCurrentSongPlaying) {
-      startSigningAndMoving();
+  playPauseOnSpaseBtn = (event) => {
+    if (event.code === "Space" && this.props.isCurrentSongPlaying) {
+      this.pauseSigningAndMoving();
+    } else if (event.code === "Space" && !this.props.isCurrentSongPlaying) {
+      this.startSigningAndMoving();
     }
   };
 
-  document.addEventListener("keyup", playPauseOnSpaseBtn);
-  // /////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////////
   // рисование прямоугольника
-  const paintRect = (
+  paintRect = (
     ctx, //контекст
     x1, //начальная x (слева)
     y1, //начальная y (вверху)
@@ -108,7 +171,7 @@ const SongPlayPageContainer = React.memo((props) => {
     ctx.stroke();
   };
 
-  const paintTriangle = (
+  paintTriangle = (
     ctx, //контекст
     x1, //начальная x (слева)
     y1, //начальная y (вверху)
@@ -131,8 +194,8 @@ const SongPlayPageContainer = React.memo((props) => {
   };
 
   //////////////////////////////////////////////////////////////////////////////
-  const paintingCanvasField = () => {
-    let canvas = document.getElementById("canvas");
+  paintingCanvasField = () => {
+    const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
     let canvasWidth = canvas.width; //ширина
     let canvasHeigth = canvas.offsetHeight; //высота
     canvas.height = canvas.offsetHeight; //Чтобы изображение не растягивалось
@@ -140,8 +203,8 @@ const SongPlayPageContainer = React.memo((props) => {
 
     //рисование
     for (let x = 0; x < canvasWidth; x += 100) {
-      paintRect(ctx, x, 0, x + 50, canvasHeigth / 3);
-      paintTriangle(
+      this.paintRect(ctx, x, 0, x + 50, canvasHeigth / 3);
+      this.paintTriangle(
         ctx,
         50 + x,
         canvasHeigth + 9,
@@ -152,70 +215,78 @@ const SongPlayPageContainer = React.memo((props) => {
     }
   };
 
-  // /////////////////////////////////////////////////////////////////////////
-  // движение поля влево (через санку получить стейт и в мидлваре обработать асинхронную функцию.)
-  let timerId;
-  let shiftTextToLeft = 100;
+  // ///////////////////////////////////////////////////////////////////////
+  // движение поля влево (через санку получить стейт и в мидлваре обработать
+  // асинхронную функцию.)
 
-  function moveCanvasAndTextToLeft(speed) {
-    let canvas = document.getElementById("canvas");
-    let canvasWidth = canvas.width; //ширина
-    let promise = new Promise((resolved, rejected) => {
-      timerId = setTimeout(moveCanvasAndTextToLeft, 1000 / speed);
-      shiftTextToLeft -= 1;
-      console.log(shiftTextToLeft);
-      const textWrp = document.getElementById("textWrp");
-      if (Math.abs(shiftTextToLeft) < canvasWidth) {
-        textWrp.style.marginLeft = `${shiftTextToLeft}px`; //Это сдвиг текста
-        if (shiftTextToLeft <= 20) {
-          canvas.style.left = `${shiftTextToLeft}px`; //Это сдвиг поля
-        }
+  moveCanvasAndTextToLeft = (speed) => {
+    const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
+    let canvasWidth = canvas.width; //          ширина
+    this.timerId = setTimeout(this.moveCanvasAndTextToLeft, 1000 / speed);
+    this.shiftTextToLeft -= 1;
+    const textWrp = document.getElementById("textWrp");
+    if (Math.abs(this.shiftTextToLeft) < canvasWidth) {
+      textWrp.style.marginLeft = `${this.shiftTextToLeft}px`; // Этосдвиг текста
+      if (this.shiftTextToLeft <= 20) {
+        canvas.style.left = `${this.shiftTextToLeft}px`; // Это сдвиг поля
       }
-      if (props.isStopBtnPushed || Math.abs(shiftTextToLeft) > canvasWidth) {
-        stopSigningAndMoving();
-      }
-      return resolved(timerId);
-    });
-  }
-  function clearTimer() {
-    clearTimeout(timerId);
+    }
+    console.log(this.props.isStopBtnPushed);
+    if (
+      this.props.isStopBtnPushed ||
+      Math.abs(this.shiftTextToLeft) > canvasWidth
+    ) {
+      this.stopSigningAndMoving();
+    }
+    return this.timerId;
+  };
+  clearTimer() {
+    clearTimeout(this.timerId);
     console.log("Таймер остановлен");
+    this.timerId = 0;
   }
-
-  // //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения, возврат в исходное состояние
-  const stopSigningAndMoving = () => {
-    playSongStop();
-    clearTimer();
+  stopSigningAndMoving = () => {
+    this.playSongStop();
+    this.clearTimer();
   };
 
-  // //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения на текущем моменте
-  const pauseSigningAndMoving = () => {
-    playSongPause();
+  pauseSigningAndMoving = () => {
+    this.playSongPause();
+    this.clearTimer();
+  };
+
+  // ////////////////////////////////////////////////////////////////////////
+  // Запуск проигрывания и движения поля
+  startSigningAndMoving = () => {
+    this.props.stopBtnIsPushSet(false);
+    this.playSongStart();
+    this.moveCanvasAndTextToLeft(this.props.currentSong.playbackSpeed);
   };
 
   // //////////////////////////////////////////////////////////////////////////
-  // Запуск проигрывания и движения поля
-  const startSigningAndMoving = () => {
-    playSongStart();
-    moveCanvasAndTextToLeft(props.currentSong.playbackSpeed);
-  };
-
-  // ////////////////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////////////////
-  return (
-    <div>
-      <SongPlayPage
-        stopSigningAndMoving={stopSigningAndMoving}
-        startSigningAndMoving={startSigningAndMoving}
-        isCurrentSongPlaying={isCurrentSongPlaying}
-        {...props}
-      />
-    </div>
-  );
-});
+  // //////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////
+  render() {
+    return (
+      <div>
+        <SongPlayPage
+          canvasRefGetter={this.canvasRefGetter}
+          canvasWrpRefGetter={this.canvasWrpRefGetter}
+          songMP3RefGetter={this.songMP3RefGetter}
+          textWrpRefGetter={this.textWrpRefGetter}
+          stopSigningAndMoving={this.stopSigningAndMoving}
+          startSigningAndMoving={this.startSigningAndMoving}
+          isCurrentSongPlaying={this.props.isCurrentSongPlaying}
+          {...this.props}
+        />
+      </div>
+    );
+  }
+}
 
 let mapStateToProps = (state) => ({
   maxUserVoiceLevel: getMaxUserVoiceLevel(state),
@@ -225,8 +296,17 @@ let mapStateToProps = (state) => ({
   adv7: getAdv(state, 7),
   adv8: getAdv(state, 8),
   isStopBtnPushed: getIsStopBtnPushed(state),
+  canvas: getCanvas(state),
+  canvasWrp: getCanvasWrp(state),
+  songMP3: getSongMP3(state),
+  isCurrentSongPlaying: getIsCurrentSongPlayingSetter(state),
 });
 
 export default compose(
-  connect(mapStateToProps, { stopBtnIsPushSet, isPlayingSet })
+  connect(mapStateToProps, {
+    saveDOMElementToState,
+    stopBtnIsPushSet,
+    isPlayingSet,
+    isCurrentSongPlayingSetter,
+  })
 )(SongPlayPageContainer);

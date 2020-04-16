@@ -7,8 +7,9 @@ import AdvertismentBlock from "./common/AdvertismentBlock";
 import ButtonSmall from "./common/ButtonSmall";
 import Canvas1Leps from "./Canvas1Leps";
 
-const SongPlayPage = (props) => {
+const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
+  // console.log(isSongPlaying);
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape}></div>
@@ -28,7 +29,13 @@ const SongPlayPage = (props) => {
               <p>{props.currentSong.fullTitle}</p>
             </div>
           </div>
-          <Canvas1Leps song={props.currentSong} />
+          <Canvas1Leps
+            canvasRefGetter={props.canvasRefGetter}
+            canvasWrpRefGetter={props.canvasWrpRefGetter}
+            songMP3RefGetter={props.songMP3RefGetter}
+            textWrpRefGetter={props.textWrpRefGetter}
+            song={props.currentSong}
+          />
           {/* Потом автоматизировать выбор песни */}
           {isSongPlaying ? (
             <div
@@ -44,6 +51,8 @@ const SongPlayPage = (props) => {
           ) : (
             <div
               onClick={() => {
+                // debugger;
+                props.stopBtnIsPushSet(false);
                 props.startSigningAndMoving();
               }}
               className={classes.btnWrp}
@@ -73,6 +82,6 @@ const SongPlayPage = (props) => {
       </div>
     </div>
   );
-};
+});
 
 export default SongPlayPage;

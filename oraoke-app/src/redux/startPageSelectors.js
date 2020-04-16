@@ -13,3 +13,15 @@ export const getSongsSelector = (state) => {
 export const getIsStopBtnPushed = (state) => {
   return state.startPage.isStopBtnPushed;
 }
+export const getCanvas = (state) => {
+  return state.startPage.canvas;
+}
+export const getCanvasWrp = (state) => {
+  return state.startPage.canvasWrp;
+}
+export const getSongMP3 = (state) => {
+  return state.startPage.songMP3;
+}
+export const getIsCurrentSongPlayingSetter = (state) => {
+  return state.startPage.isCurrentSongPlaying;
+}

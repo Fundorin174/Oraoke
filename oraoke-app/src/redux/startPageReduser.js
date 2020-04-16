@@ -19,7 +19,9 @@ import srcToSong6NatalyOBozheIntro from "./../songs/6_Natali_O_Bozhe/Natali_O_Bo
 
 const CHANGE_CURRENT_SONG = "ORAOKE/START_PAGE/CHANGE_CURRENT_SONG";
 const IS_PLAYING_SET = "ORAOKE/START_PAGE/IS_PLAYING_SET";
-const STOP_BTN_IS_PUSHED_SET = "ORAOKE/START_PAGE/STOP_BTN_IS_PUSHED_SET";
+const STOP_BTN_IS_PUSHED_SET = "ORAOKE/PLAY_SONG_PAGE/STOP_BTN_IS_PUSHED_SET";
+const SAVE_ELEMENT_TO_STATE = "ORAOKE/PLAY_SONG_PAGE/SAVE_ELEMENT_TO_STATE";
+const IS_CURRENT_SONG_PLAYING = "ORAOKE/PLAY_SONG_PAGE/IS_CURRENT_SONG_PLAYING";
 
 export const changecurrentSong = (song) => ({
   type: CHANGE_CURRENT_SONG,
@@ -37,6 +39,17 @@ export const isPlayingSet = (isPlayng) => ({
 export const stopBtnIsPushSet = (isBtnPushed) => ({
   type: STOP_BTN_IS_PUSHED_SET,
   isBtnPushed,
+});
+
+export const isCurrentSongPlayingSetter = (isCurrentSongPlaying) => ({
+  type: IS_CURRENT_SONG_PLAYING,
+  isCurrentSongPlaying,
+});
+
+export const saveDOMElementToState = (DOMelement, elementName) => ({
+  type: SAVE_ELEMENT_TO_STATE,
+  DOMelement,
+  elementName
 });
 
 let initialState = {
@@ -140,7 +153,11 @@ let initialState = {
     songText: "Ночь по улицам пошла звездной поступью цариц. Слов и чисел простота у небесного моста раскидала перья птиц. Не забудутся никем праздник губ обид и глаз. Забери меня в свой плен, эту линию колен целовать в последний раз. Только рюмка водки на столе. Ветер плачет за окном тихо болью отзываются во мне этой молодой луны крики.",
   },
   isCurrentSongSet: false,
-  isStopBtnPushed: false
+  isStopBtnPushed: false,
+  canvas: null,
+  canvasWrp: null,
+  songMP3: null,
+  isCurrentSongPlaying: false
 };
 
 const startPageReducer = (state = initialState, action) => {
@@ -160,6 +177,16 @@ const startPageReducer = (state = initialState, action) => {
       return {
         ...state,
         isStopBtnPushed: action.isBtnPushed,
+      };
+    case SAVE_ELEMENT_TO_STATE:
+      return {
+        ...state,
+        [action.elementName]: action.DOMelement
+      };
+    case IS_CURRENT_SONG_PLAYING:
+      return {
+        ...state,
+        isCurrentSongPlaying: action.isCurrentSongPlaying
       };
 
     default:
