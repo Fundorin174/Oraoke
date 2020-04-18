@@ -25,3 +25,12 @@ export const getSongMP3 = (state) => {
 export const getIsCurrentSongPlayingSetter = (state) => {
   return state.startPage.isCurrentSongPlaying;
 }
+export const getTimerSongPlaying = (state) => {
+  return state.startPage.timerSongPlaying;
+}
+export const getXCoordOfBird = (state) => {
+  return state.startPage.xCoordOfBird;
+}
+export const getYCoordOfBird = (state) => {
+  return state.startPage.yCoordOfBird;
+}

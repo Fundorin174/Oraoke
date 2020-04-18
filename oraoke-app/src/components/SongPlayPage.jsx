@@ -9,7 +9,12 @@ import Canvas1Leps from "./Canvas1Leps";
 
 const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
-  // console.log(isSongPlaying);
+  let timer = props.songMP3 ? props.songMP3.currentTime : 0;
+  let xCoordinata =
+    props.xCoordOfBird && props.xCoordOfBird < 20
+      ? 200 - props.xCoordOfBird
+      : 200; // соордината птицы в 200px от левого края
+
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape}></div>
@@ -40,24 +45,25 @@ const SongPlayPage = React.memo((props) => {
           {isSongPlaying ? (
             <div
               className={classes.btnWrp}
-              id="btnWrpStop"
+              id={classes.btnWrpStop}
               onClick={() => {
                 // props.stopSigningAndMoving(props.timerId);
                 props.stopBtnIsPushSet(true);
               }}
             >
+              <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
               <ButtonSmall btnNumber="1" btnText="СТОП" />
             </div>
           ) : (
             <div
               onClick={() => {
-                // debugger;
                 props.stopBtnIsPushSet(false);
-                props.startSigningAndMoving();
+                props.startSigningAndMoving(props.currentSong.startMovingDelay);
               }}
               className={classes.btnWrp}
-              id="btnWrpPlay"
+              id={classes.btnWrpPlay}
             >
+              <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
               <ButtonSmall btnNumber="1" btnText="СТАРТ" />
             </div>
           )}

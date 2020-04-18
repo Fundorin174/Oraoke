@@ -86,6 +86,8 @@
         }
     }
 
+
+
     .btnWrp {
         margin-bottom: 40px;
     }
@@ -94,8 +96,16 @@
 
 
 
+
+
 }
 
+#btnWrpStop,
+#btnWrpPlay {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 @media all and (max-width: 1065px),
 (max-height: 850px) {

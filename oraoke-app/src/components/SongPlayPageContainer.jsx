@@ -15,12 +15,16 @@ import {
   getCanvasWrp,
   getSongMP3,
   getIsCurrentSongPlayingSetter,
+  getTimerSongPlaying,
+  getXCoordOfBird,
+  getYCoordOfBird,
 } from "../redux/startPageSelectors";
 import {
   isPlayingSet,
   stopBtnIsPushSet,
   saveDOMElementToState,
   isCurrentSongPlayingSetter,
+  sendChangingMoveDataToState,
 } from "./../redux/startPageReduser";
 
 class SongPlayPageContainer extends React.PureComponent {
@@ -47,6 +51,8 @@ class SongPlayPageContainer extends React.PureComponent {
     this.stopSigningAndMoving = this.stopSigningAndMoving.bind(this);
     this.pauseSigningAndMoving = this.pauseSigningAndMoving.bind(this);
     this.startSigningAndMoving = this.startSigningAndMoving.bind(this);
+    this.runMoving = this.runMoving.bind(this);
+    this.sendChangingDataToState = this.sendChangingDataToState.bind(this);
     ////////////////////////////////////////
     //ref calback to DOM elements
     this.canvasRefGetter = (el) => {
@@ -64,10 +70,12 @@ class SongPlayPageContainer extends React.PureComponent {
 
     this.timerId = 0; //таймер для движения поля
     this.shiftTextToLeft = 700; //начальная точка сдвига текста
+    this.xCoordOfBird = 200; //начальное положение птицы по оси х
+    this.yCoordOfBird = 50; //начальное положение птицы по оси y
   }
 
   componentDidMount() {
-    this.saveDOMElementsToState();
+    this.saveDOMElementsToState(); //сохранение всех нужных DOM элементов в стейте
     this.setCanvasHeigth(); //изменение высоты canvas по родителю
     //пересчет размеров поля canvas при изменении размеров окна браузера
     window.addEventListener("resize", this.setCanvasHeigth);
@@ -78,7 +86,11 @@ class SongPlayPageContainer extends React.PureComponent {
     //Запуск проигрывания файла через 4 секунды
     const autoPlaySong =
       !this.props.isCurrentSongPlaying &&
-      setTimeout(this.startSigningAndMoving, 4000);
+      setTimeout(
+        this.startSigningAndMoving,
+        4000,
+        this.props.currentSong.startMovingDelay
+      );
 
     document.addEventListener("keyup", this.playPauseOnSpaseBtn);
   }
@@ -164,7 +176,7 @@ class SongPlayPageContainer extends React.PureComponent {
     if (event.code === "Space" && this.props.isCurrentSongPlaying) {
       this.pauseSigningAndMoving();
     } else if (event.code === "Space" && !this.props.isCurrentSongPlaying) {
-      this.startSigningAndMoving();
+      this.startSigningAndMoving(0);
     }
   }
 
@@ -237,17 +249,13 @@ class SongPlayPageContainer extends React.PureComponent {
   }
 
   // ///////////////////////////////////////////////////////////////////////
-  // движение поля влево (через санку получить стейт и в мидлваре обработать
-  // асинхронную функцию.)
+  // движение поля влево
 
   moveCanvasAndTextToLeft(speed) {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
-    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
-    console.log(audio.currentTime);
+    const textWrp = this.getElementFromDOMorState(this.textWrpRef, "textWrp");
     let canvasWidth = canvas.width; //          ширина
-    this.timerId = setTimeout(this.moveCanvasAndTextToLeft, 1000 / speed);
     this.shiftTextToLeft -= 1;
-    const textWrp = document.getElementById("textWrp");
     if (Math.abs(this.shiftTextToLeft) < canvasWidth) {
       textWrp.style.marginLeft = `${this.shiftTextToLeft}px`; // Этосдвиг текста
       if (this.shiftTextToLeft <= 20) {
@@ -258,15 +266,18 @@ class SongPlayPageContainer extends React.PureComponent {
       this.props.isStopBtnPushed ||
       Math.abs(this.shiftTextToLeft) > canvasWidth
     ) {
-      this.stopSigningAndMoving();
+      this.stopSigningAndMoving(); //остановка
+      canvas.style.left = 0; //возврат поля в начало
+      textWrp.style.marginLeft = `${speed * 3}px`; // возврат текста в исх позицию
+      this.shiftTextToLeft = speed * 3.5; //сброс счетчика сдвига текстового поля
     }
-    return this.timerId;
+    this.sendChangingDataToState(this.shiftTextToLeft);
   }
 
   ////////////////////////////////////
   //сброс таймера settimeout-на движение поля
   clearTimer() {
-    clearTimeout(this.timerId);
+    clearInterval(this.timerId);
     console.log("Таймер остановлен");
     // this.timerId = 0;//Эти сбросы не работают!!!!!! НАдо сделать сброс сдвига поля
     // this.shiftTextToLeft = 0;
@@ -287,20 +298,32 @@ class SongPlayPageContainer extends React.PureComponent {
 
   // ////////////////////////////////////////////////////////////////////////
   // Запуск проигрывания и движения поля
-  startSigningAndMoving() {
-    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+  startSigningAndMoving(delay) {
+    const delayMs = delay * 1000; //задержка движения текста и поля относительно музыки
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
     //если с начала, то текст с задержкой запускается
-    audio.currentTime === 0
-      ? setTimeout(
-          this.moveCanvasAndTextToLeft,
-          this.props.currentSong.startMovingDelay * 1000,
-          this.props.currentSong.playbackSpeed
-        )
-      : this.moveCanvasAndTextToLeft(this.props.currentSong.playbackSpeed);
+    setTimeout(this.runMoving, delayMs, this.props.currentSong.playbackSpeed);
   }
 
+  ////////////////////////////////////////////////////
+  //запуск движения поля и текста со скростью speed px/с
+  runMoving(speed) {
+    this.timerId = setInterval(
+      this.moveCanvasAndTextToLeft,
+      1000 / speed,
+      speed
+    );
+    return this.timerId;
+  }
+
+  //////////////////////////////////////////////////////////
+  //передача координаты птицы и текущего времени в переменную и потом в пропсы
+  sendChangingDataToState(xCoordOfBird, yCoordOfBird) {
+    this.xCoordOfBird = xCoordOfBird;
+    this.yCoordOfBird = yCoordOfBird;
+    this.props.sendChangingMoveDataToState(xCoordOfBird, yCoordOfBird);
+  }
   // //////////////////////////////////////////////////////////////////////////
   // //////////////////////////////////////////////////////////////////////////
   // //////////////////////////////////////////////////////////////////////////
@@ -315,6 +338,7 @@ class SongPlayPageContainer extends React.PureComponent {
           stopSigningAndMoving={this.stopSigningAndMoving}
           startSigningAndMoving={this.startSigningAndMoving}
           isCurrentSongPlaying={this.props.isCurrentSongPlaying}
+          xCoordOfBird={this.xCoordOfBird}
           {...this.props}
         />
       </div>
@@ -334,6 +358,9 @@ let mapStateToProps = (state) => ({
   canvasWrp: getCanvasWrp(state),
   songMP3: getSongMP3(state),
   isCurrentSongPlaying: getIsCurrentSongPlayingSetter(state),
+  timerSongPlaying: getTimerSongPlaying(state),
+  xCoordOfBird: getXCoordOfBird(state),
+  yCoordOfBird: getYCoordOfBird(state),
 });
 
 export default compose(
@@ -342,5 +369,6 @@ export default compose(
     stopBtnIsPushSet,
     isPlayingSet,
     isCurrentSongPlayingSetter,
+    sendChangingMoveDataToState,
   })
 )(SongPlayPageContainer);
