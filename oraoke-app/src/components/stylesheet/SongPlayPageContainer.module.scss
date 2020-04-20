@@ -92,7 +92,27 @@
         margin-bottom: 40px;
     }
 
+  .birdMainWrp {
+    position: absolute;
+    left: 500px;
+    top: 700px;
+    z-index: 3;
 
+    .birdWrp {
+      width: 70px;
+      background-color: rgba(6, 24, 68, 0.1);
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+      margin-bottom: 20px; //Этим параметром управлять для подъема птицы
+
+      img {
+        max-width: 100%;
+      }
+    }
+}
 
 
 

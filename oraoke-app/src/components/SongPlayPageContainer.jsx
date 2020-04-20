@@ -1,7 +1,7 @@
 import React from "react";
 import SongPlayPage from "./SongPlayPage";
-import { compose } from "redux";
-import { connect } from "react-redux";
+import {compose} from "redux";
+import {connect} from "react-redux";
 import {
   getMaxUserVoiceLevel,
   getIsSetMaxUserVoiceLevel,
@@ -67,22 +67,22 @@ class SongPlayPageContainer extends React.PureComponent {
     this.textWrpRefGetter = (el) => {
       this.textWrpRef = el;
     };
-
+    
     this.timerId = 0; //таймер для движения поля
     this.shiftTextToLeft = 700; //начальная точка сдвига текста
     this.xCoordOfBird = 200; //начальное положение птицы по оси х
     this.yCoordOfBird = 50; //начальное положение птицы по оси y
   }
-
+  
   componentDidMount() {
     this.saveDOMElementsToState(); //сохранение всех нужных DOM элементов в стейте
     this.setCanvasHeigth(); //изменение высоты canvas по родителю
     //пересчет размеров поля canvas при изменении размеров окна браузера
     window.addEventListener("resize", this.setCanvasHeigth);
-
+    
     //Отрисовка всего поля canvas
     this.paintingCanvasField();
-
+    
     //Запуск проигрывания файла через 4 секунды
     const autoPlaySong =
       !this.props.isCurrentSongPlaying &&
@@ -91,16 +91,16 @@ class SongPlayPageContainer extends React.PureComponent {
         4000,
         this.props.currentSong.startMovingDelay
       );
-
+    
     document.addEventListener("keyup", this.playPauseOnSpaseBtn);
   }
-
+  
   componentWillUnmount() {
     window.removeEventListener("resize", this.setCanvasHeigth);
     document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
     clearTimeout(this.autoPlaySong);
   }
-
+  
   // ///////////////////////////////////////////////////////////////////////
   // ////////////////////////////////////////////////////////////////////////
   // получение элемента из стейта, а если его там нет, то из DOM (при прокиданном
@@ -112,7 +112,7 @@ class SongPlayPageContainer extends React.PureComponent {
       return this.props[elementName];
     }
   }
-
+  
   //сохранение всех нужных DOM элементов в стейте
   saveDOMElementsToState() {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
@@ -127,12 +127,12 @@ class SongPlayPageContainer extends React.PureComponent {
     this.props.saveDOMElementToState(songMP3, "songMP3");
     this.props.saveDOMElementToState(textWrp, "textWrp");
   }
-
+  
   //toggle isCurrentSongPlaing
   isCurrentSongPlayingSet(isCurrentSongPlaying) {
     this.props.isCurrentSongPlayingSetter(isCurrentSongPlaying);
   }
-
+  
   // изменение высоты canvas
   setCanvasHeigth() {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
@@ -144,6 +144,7 @@ class SongPlayPageContainer extends React.PureComponent {
     let canvasHeigth = canvasWrp.clientHeight - 80;
     canvas.style.height = `${canvasHeigth}px`;
   }
+  
   // ////////////////////////////////////////////////////////////////////////
   // Запуск фоновой песни
   playSongStart() {
@@ -151,6 +152,7 @@ class SongPlayPageContainer extends React.PureComponent {
     audio.play();
     this.isCurrentSongPlayingSet(true);
   }
+  
   // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни и отправка к началу
   playSongStop() {
@@ -159,7 +161,7 @@ class SongPlayPageContainer extends React.PureComponent {
     audio.currentTime = 0;
     this.isCurrentSongPlayingSet(false);
   }
-
+  
   // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни на текущем месте
   playSongPause() {
@@ -167,10 +169,11 @@ class SongPlayPageContainer extends React.PureComponent {
     audio.pause();
     this.isCurrentSongPlayingSet(false);
   }
+  
   // ///////////////////////////////////////////////////////////////////////// //
   // Пауза на текущем месте при нажатии клавиш "Space" (служебная функция без
   // remoove)
-
+  
   playPauseOnSpaseBtn(event) {
     event.preventDefault();
     if (event.code === "Space" && this.props.isCurrentSongPlaying) {
@@ -179,7 +182,7 @@ class SongPlayPageContainer extends React.PureComponent {
       this.startSigningAndMoving(0);
     }
   }
-
+  
   // ///////////////////////////////////////////////////////////////////////////
   // рисование прямоугольника
   paintRect(
@@ -203,7 +206,9 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.lineWidth = 3;
     ctx.stroke();
   }
-
+  
+  
+  // рисование треугольника
   paintTriangle(
     ctx, //контекст
     x1, //начальная x (слева)
@@ -225,7 +230,32 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.lineWidth = 3;
     ctx.stroke();
   }
-
+  
+  //рисование трапеции
+  paintTrapeze(
+    ctx, //контекст
+    x1, //начальная x (слева)
+    y1, //начальная y (внизу)
+    x2, // сдвиг от начала до первой верхней грани по X
+    x3, // сдвиг от конца до второй верхней грани по X
+    x4, //конечная x (справа)
+    y2, //конечная y (вверху)
+    fillColor = "rgba(135, 0, 250, 0.8)", //заливка фигуры
+    strokeColor = "rgba(255, 29, 190, 0.8)"
+  ) {
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x1+x2, y2);
+    ctx.lineTo(x4-x3, y2);
+    ctx.lineTo(x4, y1);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+  
   //////////////////////////////////////////////////////////////////////////////
   paintingCanvasField() {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
@@ -233,24 +263,82 @@ class SongPlayPageContainer extends React.PureComponent {
     let canvasHeigth = canvas.offsetHeight; //высота
     canvas.height = canvas.offsetHeight; //Чтобы изображение не растягивалось
     const ctx = canvas.getContext("2d");
-
+    let h0 = canvasHeigth + 9,
+        h1 = canvasHeigth - canvasHeigth * 0.1,
+        h2 = canvasHeigth - canvasHeigth * 0.3,
+        h3 = canvasHeigth - canvasHeigth * 0.5,
+        h4 = canvasHeigth - canvasHeigth * 0.7,
+        h5 = canvasHeigth - canvasHeigth * 0.9,
+        h6 = 0;
+    
     //рисование
-    for (let x = 0; x < canvasWidth; x += 100) {
-      this.paintRect(ctx, x, 0, x + 50, canvasHeigth / 3);
-      this.paintTriangle(
-        ctx,
-        50 + x,
-        canvasHeigth + 9,
-        50 + x + 25,
-        canvasHeigth - canvasHeigth / 3,
-        50 + x + 50
-      );
-    }
+    
+    this.paintTrapeze(ctx, 400, h0, 100, 0,1000, h1);//Ночь по улицам пошла
+  
+    this.paintTrapeze(ctx, 1300, h6, 100, 100,1650, h3);
+    
+    this.paintTrapeze(ctx, 1680, h0, 100, 100,2000, h2);//Звездной постутью
+    this.paintTriangle(ctx, 2150, h0, 2225, h3, 2300);// цариц
+  
+    this.paintTrapeze(ctx, 2550, h6, 100, 100,3100, h4);
+    
+    this.paintTrapeze(ctx, 3100, h0  , 100, 100,3670, h2);//Слов и чисел простота
+    this.paintTrapeze(ctx, 3830, h0  , 100, 100,4300, h2);//у небесного моста
+  
+    this.paintTrapeze(ctx, 3830, h6  , 100, 100,4300, h5);
+    
+    this.paintTrapeze(ctx, 4570, h0  , 50, 50,4980, h2);//раскидала перья
+    this.paintTriangle(ctx, 5000, h0, 5175, h4, 5350);//пти и и и и и ц
+  
+    this.paintTrapeze(ctx, 5500, h6  , 100, 100,6360, h5);
+    
+    this.paintTrapeze(ctx, 5870, h0  , 100, 100,6360, h1);//Не забудутся никем
+  
+    this.paintTrapeze(ctx, 6560, h6  , 100, 100,6800, h3);
+    
+    this.paintTrapeze(ctx, 7150, h0  , 100, 100,7800, h2);//праздник губ обид и глаз
+  
+    this.paintTrapeze(ctx, 7950, h6  , 100, 100,8200, h4);
+    
+    this.paintTrapeze(ctx, 8580, h0  , 100, 100,9200, h4);//Забери меня в свой плен
+    this.paintTrapeze(ctx, 9400, h0  , 100, 100,9800, h2);//эту линию колен
+    this.paintTrapeze(ctx, 10050, h0  , 50, 50,10550, h3);//целовать в последний
+    this.paintTriangle(ctx, 10650, h0, 10775, h4, 10900);//раааааааз
+    this.paintTrapeze(ctx, 11200, h0  , 100, 100,11670, h4);//Тоооолькооооооо
+    this.paintTrapeze(ctx, 11930, h0  , 100, 100,12566, h4);//рюмка водкииии на столе
+    this.paintTrapeze(ctx, 12770, h0  , 100, 100,13390, h3);//Ветер плачет за окнооом
+    this.paintTrapeze(ctx, 13550, h0  , 100, 100,13780, h4);//тиииииихооо
+    this.paintTrapeze(ctx, 13900, h0  , 100, 100,14200, h3);//больююююю
+  
+    this.paintTrapeze(ctx, 14400, h6  , 100, 100,14700, h4);
+    
+    this.paintTrapeze(ctx, 14736, h0  , 100, 100,15400, h2);//о т з ы в а ю т с я в о м н е
+    this.paintTrapeze(ctx, 15550, h0  , 100, 100,16050, h2);// т о й молодой   л у н ы
+  
+    this.paintTrapeze(ctx, 15700, h6  , 100, 100,15900, h5);
+    
+    this.paintTrapeze(ctx, 16280, h0  , 100, 100,16490, h4);//к р и к и
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   }
-
+  
   // ///////////////////////////////////////////////////////////////////////
   // движение поля влево
-
+  
   moveCanvasAndTextToLeft(speed) {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
     const textWrp = this.getElementFromDOMorState(this.textWrpRef, "textWrp");
@@ -258,8 +346,8 @@ class SongPlayPageContainer extends React.PureComponent {
     this.shiftTextToLeft -= 1;
     if (Math.abs(this.shiftTextToLeft) < canvasWidth) {
       textWrp.style.marginLeft = `${this.shiftTextToLeft}px`; // Этосдвиг текста
-      if (this.shiftTextToLeft <= 20) {
-        canvas.style.left = `${this.shiftTextToLeft}px`; // Это сдвиг поля
+      if (this.shiftTextToLeft <= 400) {
+        canvas.style.left = `${this.shiftTextToLeft-400}px`; // Это сдвиг поля
       }
     }
     if (
@@ -267,13 +355,13 @@ class SongPlayPageContainer extends React.PureComponent {
       Math.abs(this.shiftTextToLeft) > canvasWidth
     ) {
       this.stopSigningAndMoving(); //остановка
-      canvas.style.left = 0; //возврат поля в начало
+      canvas.style.left = 20; //возврат поля в начало
       textWrp.style.marginLeft = `${speed * 3}px`; // возврат текста в исх позицию
       this.shiftTextToLeft = speed * 3.5; //сброс счетчика сдвига текстового поля
     }
     this.sendChangingDataToState(this.shiftTextToLeft);
   }
-
+  
   ////////////////////////////////////
   //сброс таймера settimeout-на движение поля
   clearTimer() {
@@ -282,20 +370,21 @@ class SongPlayPageContainer extends React.PureComponent {
     // this.timerId = 0;//Эти сбросы не работают!!!!!! НАдо сделать сброс сдвига поля
     // this.shiftTextToLeft = 0;
   }
+  
   // ////////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения, возврат в исходное состояние
   stopSigningAndMoving() {
     this.playSongStop();
     this.clearTimer();
   }
-
+  
   // ////////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения на текущем моменте
   pauseSigningAndMoving() {
     this.playSongPause();
     this.clearTimer();
   }
-
+  
   // ////////////////////////////////////////////////////////////////////////
   // Запуск проигрывания и движения поля
   startSigningAndMoving(delay) {
@@ -305,7 +394,7 @@ class SongPlayPageContainer extends React.PureComponent {
     //если с начала, то текст с задержкой запускается
     setTimeout(this.runMoving, delayMs, this.props.currentSong.playbackSpeed);
   }
-
+  
   ////////////////////////////////////////////////////
   //запуск движения поля и текста со скростью speed px/с
   runMoving(speed) {
@@ -316,7 +405,7 @@ class SongPlayPageContainer extends React.PureComponent {
     );
     return this.timerId;
   }
-
+  
   //////////////////////////////////////////////////////////
   //передача координаты птицы и текущего времени в переменную и потом в пропсы
   sendChangingDataToState(xCoordOfBird, yCoordOfBird) {
@@ -324,6 +413,7 @@ class SongPlayPageContainer extends React.PureComponent {
     this.yCoordOfBird = yCoordOfBird;
     this.props.sendChangingMoveDataToState(xCoordOfBird, yCoordOfBird);
   }
+  
   // //////////////////////////////////////////////////////////////////////////
   // //////////////////////////////////////////////////////////////////////////
   // //////////////////////////////////////////////////////////////////////////

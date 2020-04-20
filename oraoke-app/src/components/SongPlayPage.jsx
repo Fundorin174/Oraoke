@@ -6,13 +6,14 @@ import oraokeLogo from "../img/ОраокеLogo.png";
 import AdvertismentBlock from "./common/AdvertismentBlock";
 import ButtonSmall from "./common/ButtonSmall";
 import Canvas1Leps from "./Canvas1Leps";
+import birdRight from "../img/BirdTransparent.gif";
 
 const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
   let timer = props.songMP3 ? props.songMP3.currentTime : 0;
   let xCoordinata =
     props.xCoordOfBird && props.xCoordOfBird < 20
-      ? 200 - props.xCoordOfBird
+      ? 640 - props.xCoordOfBird
       : 200; // соордината птицы в 200px от левого края
 
   return (
@@ -68,7 +69,6 @@ const SongPlayPage = React.memo((props) => {
             </div>
           )}
         </div>
-
         <div
           id="mainMenu"
           onClick={() => {
@@ -84,6 +84,12 @@ const SongPlayPage = React.memo((props) => {
           <span>рус</span>
           <span>|</span>
           <span>eng</span>
+        </div>
+        {/*птица*/}
+        <div className={classes.birdMainWrp}>
+          <div id='bird' className={classes.birdWrp}>
+            <img src={birdRight} alt="bird"/>
+          </div>
         </div>
       </div>
     </div>
