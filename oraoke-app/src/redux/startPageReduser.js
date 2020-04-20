@@ -173,6 +173,7 @@ let initialState = {
   canvasWrp: null,
   songMP3: null,
   textWrp: null,
+  birdOnCanvas: null,
   isCurrentSongPlaying: false,
   xCoordOfBird: null,
   yCoordOfBird: null,

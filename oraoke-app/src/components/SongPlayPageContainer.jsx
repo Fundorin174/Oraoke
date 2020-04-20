@@ -34,6 +34,9 @@ class SongPlayPageContainer extends React.PureComponent {
     this.canvasWrpRef = null;
     this.songMP3Ref = null;
     this.textWrpRef = null;
+    this.birdRef = null;
+    this.allLinesCoordinatesArray = [];//массив с координатами внешних границ всех препятствий
+    this.birdCoordinatesArray = [];//массив координат прицы на данный момент
     //////////////////////////
     //Забиндить this для всех методов где это надо
     this.getElementFromDOMorState = this.getElementFromDOMorState.bind(this);
@@ -67,10 +70,13 @@ class SongPlayPageContainer extends React.PureComponent {
     this.textWrpRefGetter = (el) => {
       this.textWrpRef = el;
     };
+    this.birdRefGetter = (el) => {
+      this.birdRef = el;
+    };
     
     this.timerId = 0; //таймер для движения поля
     this.shiftTextToLeft = 700; //начальная точка сдвига текста
-    this.xCoordOfBird = 200; //начальное положение птицы по оси х
+    this.xCoordOfBird = 150; //начальное положение птицы по оси х
     this.yCoordOfBird = 50; //начальное положение птицы по оси y
   }
   
@@ -122,10 +128,12 @@ class SongPlayPageContainer extends React.PureComponent {
     );
     const songMP3 = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
     const textWrp = this.getElementFromDOMorState(this.textWrpRef, "textWrp");
+    const birdOnCanvas = this.getElementFromDOMorState(this.birdRef, "birdOnCanvas");
     this.props.saveDOMElementToState(canvas, "canvas");
     this.props.saveDOMElementToState(canvasWrp, "canvasWrp");
     this.props.saveDOMElementToState(songMP3, "songMP3");
     this.props.saveDOMElementToState(textWrp, "textWrp");
+    this.props.saveDOMElementToState(birdOnCanvas, "birdOnCanvas");
   }
   
   //toggle isCurrentSongPlaing
@@ -198,8 +206,11 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x1, y2);
+    this.saveLineCoordinates(x1, y1, x1, y2);//сохранить координаты линии в массив
     ctx.lineTo(x2, y2);
+    this.saveLineCoordinates(x1, y2, x2, y2);//сохранить координаты линии в массив
     ctx.lineTo(x2, y1);
+    this.saveLineCoordinates(x2, y2, x2, y1);//сохранить координаты линии в массив
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = strokeColor;
@@ -223,7 +234,9 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
+    this.saveLineCoordinates(x1, y1, x2, y2);//сохранить координаты линии в массив
     ctx.lineTo(x3, y1);
+    this.saveLineCoordinates(x2, y2, x3, y1);//сохранить координаты линии в массив
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = strokeColor;
@@ -247,8 +260,11 @@ class SongPlayPageContainer extends React.PureComponent {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x1+x2, y2);
+    this.saveLineCoordinates(x1, y1, x1+x2, y2);//сохранить координаты линии в массив
     ctx.lineTo(x4-x3, y2);
+    this.saveLineCoordinates(x1+x2, y2, x4-x3, y2);//сохранить координаты линии в массив
     ctx.lineTo(x4, y1);
+    this.saveLineCoordinates(x4-x3, y2, x4, y1);//сохранить координаты линии в массив
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = strokeColor;
@@ -257,6 +273,7 @@ class SongPlayPageContainer extends React.PureComponent {
   }
   
   //////////////////////////////////////////////////////////////////////////////
+  //отрисовка всего canvas
   paintingCanvasField() {
     const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
     let canvasWidth = canvas.width; //ширина
@@ -319,22 +336,113 @@ class SongPlayPageContainer extends React.PureComponent {
     
     this.paintTrapeze(ctx, 16280, h0  , 100, 100,16490, h4);//к р и к и
     
+    this.saveBirdCoordinatesArray(2000, 592, 4)// функция передачи координат птицы
+
+    // console.log(this.allLinesCoordinatesArray);
+    // console.log(this.birdCoordinatesArray);
+    this.compareObstacleAndBirdCoordinates(this.birdCoordinatesArray, this.allLinesCoordinatesArray);// сравнивает координаты птицы и препятствий и выдает сообщение о столкновении
     
+  }
+  
+  /////////////////////////////////////////////////////////////////////
+  //Создание массива координат из точек, которые составляют линию, формирующую препятствие.
+  saveLineCoordinates (x1, y1, x2, y2) {
+    let A = [x1, y1];
+    let B = [x2, y2];
+  
+    function slope(a, b) {
+      if (a[0] == b[0]) {
+        return null;
+      }
+      return (b[1] - a[1]) / (b[0] - a[0]);
+    }
+  
+    function intercept(point, slope) {
+      if (slope === null) {
+        // vertical line
+        return point[0];
+      }
     
+      return point[1] - slope * point[0];
+    }
+  
+    var m = slope(A, B);
+    var b = intercept(A, m);
+  
     
+    for (let x = A[0]; x <= B[0]; x++) {
+      let y = +(m * x + b).toFixed(0);
+      this.allLinesCoordinatesArray.push({x:x, y:y});
+    }
+
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////
+  // создание массива координат круга, который занимает птица в данный момент
+  saveBirdCoordinatesArray (newx, newy, radius) {
+    this.birdCoordinatesArray = [];//обнулить массив
+    let centerX=newx;
+    let centerY=newy;
+
+// an array to save your points
+    let prevX = 0;
+    let prevY = 0;
+    for(let degree=0;degree<360;degree++){
+      let radians = degree * Math.PI/180;
+      let x = +(centerX + radius * Math.cos(radians)).toFixed(0);
+      let y = +(centerY + radius * Math.sin(radians)).toFixed(0);
+      if (x!== prevX && y !==prevY ) {
+        this.birdCoordinatesArray.push({x:x,y:y});
+        prevX = x;
+        prevY = y;
+      }
+    }
+  
+
+  }
+  
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //сравнение перекрытия координат препятствий и координат птицы
+  compareObstacleAndBirdCoordinates(birdCoordinatesArray, allLinesCoordinatesArray) {
+    let xObstacleMin = allLinesCoordinatesArray[0].x;
+    let xObstacleMax = allLinesCoordinatesArray[allLinesCoordinatesArray.length-1].x;
+    let xBirdMin = birdCoordinatesArray[((birdCoordinatesArray.length-1)/2).toFixed(0)].x;
+    let xBirdMax = birdCoordinatesArray[0].x;
     
+    // console.log(`препятствия начинаются с X: ${xObstacleMin}`);
+    // console.log(`препятствия заканчиваются на  X: ${xObstacleMax}`);
+    // console.log(`птица начинается с X: ${xBirdMin}`);
+    // console.log(`птица заканчивается на  X: ${xBirdMax}`);
     
-    
-    
-    
-    
-    
-    
-    
-    
+    if (xBirdMax > xObstacleMin) {
+      let acrossingCoordinatesArray = [];
+      allLinesCoordinatesArray.forEach((currentCoordinate, index) => {
+        if (currentCoordinate.x > xBirdMin &&  currentCoordinate.x < xBirdMax)
+        {
+          //X двух массивов пересекаются
+          acrossingCoordinatesArray.push(currentCoordinate);
+        }
+      });
+      // console.log(acrossingCoordinatesArray);
+      birdCoordinatesArray.forEach((currentCoordinate) => {
+        for (let i = 0; i<acrossingCoordinatesArray.length-1; i++ )
+        {
+          if (currentCoordinate.y == acrossingCoordinatesArray[i].y) {
+            //событие столкновения птицы и препятствия
+            console.log('СТОЛКНОВЕНИЕ');
+          }
+        }
+      })
+      
+    }
+
     
     
   }
+  
+  
   
   // ///////////////////////////////////////////////////////////////////////
   // движение поля влево
@@ -355,7 +463,7 @@ class SongPlayPageContainer extends React.PureComponent {
       Math.abs(this.shiftTextToLeft) > canvasWidth
     ) {
       this.stopSigningAndMoving(); //остановка
-      canvas.style.left = 20; //возврат поля в начало
+      canvas.style.left = `20px`; //возврат поля в начало
       textWrp.style.marginLeft = `${speed * 3}px`; // возврат текста в исх позицию
       this.shiftTextToLeft = speed * 3.5; //сброс счетчика сдвига текстового поля
     }
@@ -367,8 +475,6 @@ class SongPlayPageContainer extends React.PureComponent {
   clearTimer() {
     clearInterval(this.timerId);
     console.log("Таймер остановлен");
-    // this.timerId = 0;//Эти сбросы не работают!!!!!! НАдо сделать сброс сдвига поля
-    // this.shiftTextToLeft = 0;
   }
   
   // ////////////////////////////////////////////////////////////////////////
@@ -425,6 +531,7 @@ class SongPlayPageContainer extends React.PureComponent {
           canvasWrpRefGetter={this.canvasWrpRefGetter}
           songMP3RefGetter={this.songMP3RefGetter}
           textWrpRefGetter={this.textWrpRefGetter}
+          birdRefGetter = {this.birdRefGetter}
           stopSigningAndMoving={this.stopSigningAndMoving}
           startSigningAndMoving={this.startSigningAndMoving}
           isCurrentSongPlaying={this.props.isCurrentSongPlaying}

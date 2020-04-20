@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./stylesheet/SongPlayPageContainer.module.scss";
+import birdRight from "../img/BirdTransparent.gif";
 
 const Canvas1Leps = React.memo((props) => {
   return (
@@ -14,6 +15,12 @@ const Canvas1Leps = React.memo((props) => {
         className={classes.canvas}
         width={props.song.canvasWigth}
       ></canvas>
+      {/*птица*/}
+      <div className={classes.birdMainWrp} ref={props.birdRefGetter}>
+        <div id='bird' className={classes.birdWrp}>
+          <img src={birdRight} alt="bird"/>
+        </div>
+      </div>
       <div
         ref={props.textWrpRefGetter}
         id="textWrp"
