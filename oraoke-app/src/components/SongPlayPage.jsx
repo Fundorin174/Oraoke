@@ -12,7 +12,7 @@ const SongPlayPage = React.memo((props) => {
   let timer = props.songMP3 ? props.songMP3.currentTime : 0;
   let xCoordinata =
     props.xCoordOfBird
-      ? 630 - props.xCoordOfBird
+      ? props.xCoordOfBird
       : 150; // соордината птицы в 200px от левого края
 
   return (

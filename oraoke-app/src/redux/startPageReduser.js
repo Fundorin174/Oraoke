@@ -69,9 +69,9 @@ let initialState = {
       img: imgSong1LepsRumkaVodki,
       srcToSong: srcToSong1LepsRumkaVodki,
       srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
-      playbackSpeed: 50,
-      startMovingDelay: 5,
-      canvasWigth: 8000,
+      playbackSpeed: 200,
+      startMovingDelay: 27,
+      canvasWigth: 20000,
       isPlaying: false,
       songText:
         "Ночь по улицам пошла                                          звездной поступью цариц.                                               Слов и чисел простота          у небесного моста           раскидала перья пти и и и и и ц.                              Не забудутся никем                                                  праздник губ обид и глаз.                                                Забери меня в свой плен,          эту линию колен               целовать в последний раааааааз.                 Тоооолькооооооо                рюмка водкииии на столе.           Ветер плачет за окнооом       тиииииихооо больююююю                                 о т з ы в а ю т с я в о м н е        э т о й молодой   л у н ы       к р и к и.                                                                                                  ",

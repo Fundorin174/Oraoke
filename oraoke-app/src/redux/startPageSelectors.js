@@ -34,3 +34,6 @@ export const getXCoordOfBird = (state) => {
 export const getYCoordOfBird = (state) => {
   return state.startPage.yCoordOfBird;
 }
+export const getBirdOnCanvas = (state) => {
+  return state.startPage.birdOnCanvas;
+}
