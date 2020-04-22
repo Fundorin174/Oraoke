@@ -161,7 +161,7 @@ let initialState = {
     srcToSong: srcToSong1LepsRumkaVodki,
     srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
     playbackSpeed: 200,
-    startMovingDelay: 27,
+    startMovingDelay: 26,
     canvasWigth: 20000,
     isPlaying: false,
     songText:
