@@ -16,6 +16,7 @@ import srcToSong5SukochevBabuchka from "./../songs/5_Sukachev_Moya_Babushka/Suka
 import srcToSong5SukochevBabuchkaIntro from "./../songs/5_Sukachev_Moya_Babushka/Sukachev_Moya_Babushka_Introduce.mp3";
 import srcToSong6NatalyOBozhe from "./../songs/6_Natali_O_Bozhe/Natali_O_Bozhe_Kakoy_Men.mp3";
 import srcToSong6NatalyOBozheIntro from "./../songs/6_Natali_O_Bozhe/Natali_O_Bozhe_Kakoy_Men_Introduce.mp3";
+import srcToSoundExploision from "./../songs/soundExploision.mp3";
 
 const CHANGE_CURRENT_SONG = "ORAOKE/START_PAGE/CHANGE_CURRENT_SONG";
 const IS_PLAYING_SET = "ORAOKE/START_PAGE/IS_PLAYING_SET";
@@ -177,6 +178,8 @@ let initialState = {
   isCurrentSongPlaying: false,
   xCoordOfBird: null,
   yCoordOfBird: null,
+  soundExploision: null,
+  srcToSoundExploision: srcToSoundExploision,
 };
 
 const startPageReducer = (state = initialState, action) => {

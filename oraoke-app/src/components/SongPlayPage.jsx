@@ -84,7 +84,15 @@ const SongPlayPage = React.memo((props) => {
           <span>рус</span>
           <span>|</span>
           <span>eng</span>
+          <span>
+          <audio
+            ref={props.soundExploisionRefGetter}
+            id="soundExploision"
+            src={props.srcToSoundExploision}
+          ></audio>
+        </span>
         </div>
+        
 
       </div>
     </div>

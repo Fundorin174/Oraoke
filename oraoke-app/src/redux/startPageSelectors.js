@@ -37,3 +37,9 @@ export const getYCoordOfBird = (state) => {
 export const getBirdOnCanvas = (state) => {
   return state.startPage.birdOnCanvas;
 }
+export const getSoundExploision = (state) => {
+  return state.startPage.soundExploision;
+}
+export const getSrcToSoundExploision = (state) => {
+  return state.startPage.srcToSoundExploision;
+}
