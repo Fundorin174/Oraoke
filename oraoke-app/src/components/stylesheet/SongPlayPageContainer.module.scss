@@ -1,182 +1,185 @@
 @import "variables"; //variables and common classes
 
 .PageWrp {
-    position: relative;
-    min-height: 100vh;
-    width: 100vw;
-    max-width: 1600px;
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 1600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .column {
+    width: 100%;
+    min-width: 195px;
+    height: 100vh;
+    max-height: 100vh;
+    z-index: 3;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    margin: 0 20px;
+  }
 
-    .column {
-        width: 100%;
-        min-width: 195px;
-        height: 100vh;
-        max-height: 100vh;
-        z-index: 3;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 20px;
+  .column:nth-child(odd) {
+    flex: 1;
+  }
+
+  .column:nth-child(even) {
+    flex: 4;
+  }
+
+  .title {
+    margin-top: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 55px;
+    letter-spacing: 0.185em;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      max-height: 100px;
     }
 
-    .column:nth-child(odd) {
-        flex: 1;
+    p {
+      font-size: 36px;
+      line-height: 49px;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .canvasWrp {
+    width: 100%;
+    height: 95%;
+    background-color: $bgColorLigth;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    overflow: hidden;
+
+    .canvas {
+      position: relative;
+      top: 10px;
+      left: 20px; //это свойство управляет движением поля
+      height: 90%;
+      background-color: $TextLigthColor;
+      opacity: 0.7;
+      border: 5px solid $bgColorBright;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
     }
 
-    .column:nth-child(even) {
-        flex: 4;
+    .textWrp {
+      margin-top: -70px;
+      font-size: 50px;
+      letter-spacing: 2px;
+      margin-left: 50%;
     }
 
-    .title {
-        margin-top: 20px;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 48px;
-        line-height: 55px;
-        letter-spacing: 0.185em;
+    .birdMainWrp {
+      position: relative;
+      left: 150px;
+      bottom: 70px;
+      z-index: 3;
+      height: 70px;
+
+      .birdWrp {
+        width: 70px;
+        background-color: rgba(6, 24, 68, 0.1);
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        margin-bottom: 20px; //Этим параметром управлять для подъема птицы
 
         img {
-            max-width: 100%;
-            height: auto;
-            max-height: 100px;
+          max-width: 100%;
         }
-
-        p {
-            font-size: 36px;
-            line-height: 49px;
-            text-align: center;
-            letter-spacing: 0.1em;
-        }
+      }
     }
-
-    .canvasWrp {
-        width: 100%;
-        height: 95%;
-        background-color: $bgColorLigth;
-        border-radius: 20px;
-        -webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        -ms-border-radius: 20px;
-        -o-border-radius: 20px;
-        overflow: hidden;
-
-        .canvas {
-            position: relative;
-            top: 10px;
-            left: 20px; //это свойство управляет движением поля
-            height: 90%;
-            background-color: $TextLigthColor;
-            opacity: 0.7;
-            border: 5px solid $bgColorBright;
-            border-radius: 5px;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            -ms-border-radius: 5px;
-            -o-border-radius: 5px;
-        }
-
-        .textWrp {
-            margin-top: -70px;
-            font-size: 50px;
-            letter-spacing: 2px;
-            margin-left: 50%;
-        }
-
-      .birdMainWrp {
-        position: relative;
-        left: 150px;
-        bottom: 70px;
-        z-index: 3;
-        height: 70px;
-
-        .birdWrp {
-          width: 70px;
-          background-color: rgba(6, 24, 68, 0.1);
-          border-radius: 50%;
-          -webkit-border-radius: 50%;
-          -moz-border-radius: 50%;
-          -ms-border-radius: 50%;
-          -o-border-radius: 50%;
-          margin-bottom: 20px; //Этим параметром управлять для подъема птицы
-
-          img {
-            max-width: 100%;
-          }
-        }
-    }
-
-
-
     .btnWrp {
-        margin-bottom: 40px;
+      margin-bottom: 40px;
     }
 
 
-}
 
 
+  }
 
-
-
+  .warning{
+    position: fixed;
+    top: 50%;
+    left: 40%;
+    z-index: 4;
+    font-size: 3em;
+    opacity: 0.3;
+  }
 }
 
 #btnWrpStop,
 #btnWrpPlay {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 @media all and (max-width: 1065px),
 (max-height: 850px) {
-    .column:nth-child(1) {
-        display: none;
+  .column:nth-child(1) {
+    display: none;
+  }
+
+  .PageWrp {
+    .title {
+      margin-top: 30px;
+      font-size: 30px;
+      line-height: 40px;
+
+      img {
+        max-height: 50px;
+        // display: none;
+      }
+
+      p {
+        font-size: 30px;
+        margin-top: 10px;
+        line-height: 40px;
+        letter-spacing: 0.1em;
+      }
     }
 
-    .PageWrp {
-        .title {
-            margin-top: 30px;
-            font-size: 30px;
-            line-height: 40px;
-
-            img {
-                max-height: 50px;
-                // display: none;
-            }
-
-            p {
-                font-size: 30px;
-                margin-top: 10px;
-                line-height: 40px;
-                letter-spacing: 0.1em;
-            }
-        }
-
-    }
+  }
 
 }
 
 @media all and (max-width: 700px) {
-    .PageWrp .title {
-        margin-top: 30px;
-        font-size: 30px;
-        line-height: 40px;
+  .PageWrp .title {
+    margin-top: 30px;
+    font-size: 30px;
+    line-height: 40px;
 
-        img {
-            max-height: 50px;
-            // display: none;
-        }
-
-        p {
-            font-size: 20px;
-            margin-top: 10px;
-            line-height: 40px;
-            letter-spacing: 0.1em;
-        }
+    img {
+      max-height: 50px;
+      // display: none;
     }
+
+    p {
+      font-size: 20px;
+      margin-top: 10px;
+      line-height: 40px;
+      letter-spacing: 0.1em;
+    }
+  }
 
 }

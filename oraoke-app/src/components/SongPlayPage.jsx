@@ -52,7 +52,8 @@ const SongPlayPage = React.memo((props) => {
                 props.stopBtnIsPushSet(true);
               }}
             >
-              <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
+              <div>{`X: ${xCoordinata}_____`}</div>
+              {!props.isSetMaxUserVoiceLevel && <p className={classes.warning}>Вы не откалибровали микрофон!</p>}
               <ButtonSmall btnNumber="1" btnText="СТОП" />
             </div>
           ) : (
@@ -90,11 +91,13 @@ const SongPlayPage = React.memo((props) => {
             id="soundExploision"
             src={props.srcToSoundExploision}
           ></audio>
+          
         </span>
         </div>
-        
+
 
       </div>
+
     </div>
   );
 });

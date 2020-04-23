@@ -180,6 +180,8 @@ let initialState = {
   yCoordOfBird: null,
   soundExploision: null,
   srcToSoundExploision: srcToSoundExploision,
+  songVolume: 1,
+  voiceVolume: 1,
 };
 
 const startPageReducer = (state = initialState, action) => {
