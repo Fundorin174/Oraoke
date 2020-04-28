@@ -108,13 +108,52 @@
         }
       }
     }
+
+  }
+
+  .buttonAndVolumeWrp{
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+
+
     .btnWrp {
       margin-bottom: 40px;
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
     }
 
+    .volumeControlWrp{
+        position: relative;
+      left: 0px;
+        display: flex;
+        flex-direction: column;
+        vertical-align: top;
+        border-radius: 10px;
+        border:  1px solid $bgColorBright;
+        margin: 10px 5px;
+        background-color: $bgColorLigth;;
 
+      legend {
+        font-weight: 700;
+        color: $TextLigthColor;
+        background-color: $bgColorBright;
+        padding: 2px 3px;
+        border-radius: 5px 5px 0 0;
+      }
 
+      label {
+        display: block;
+        width: 205px;
+        margin: 10px 0;
+      }
 
+      input{
+        width: 200px;
+      }
+    }
   }
 
   .warning{

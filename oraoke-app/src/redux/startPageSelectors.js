@@ -43,3 +43,22 @@ export const getSoundExploision = (state) => {
 export const getSrcToSoundExploision = (state) => {
   return state.startPage.srcToSoundExploision;
 }
+export const getSoundOfFinish = (state) => {
+  return state.startPage.soundOfFinish;
+}
+export const getSrcToSoundOfFinish = (state) => {
+  return state.startPage.srcToSoundOfFinish;
+}
+export const getSrcTofinishLineImg = (state) => {
+  return state.startPage.srcTofinishLineImg;
+}
+export const getFinishLineXCoordinate = (state) => {
+  return state.startPage.currentSong.finishLineXCoordinate;
+}
+export const getCurrentSongVolume = (state) => {
+  return state.startPage.currentSongVolume;
+}
+export const getCurrentVoiceVolume = (state) => {
+  return state.startPage.currentVoiceVolume;
+}
+

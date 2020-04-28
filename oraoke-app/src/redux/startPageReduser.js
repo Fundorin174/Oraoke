@@ -17,14 +17,17 @@ import srcToSong5SukochevBabuchkaIntro from "./../songs/5_Sukachev_Moya_Babushka
 import srcToSong6NatalyOBozhe from "./../songs/6_Natali_O_Bozhe/Natali_O_Bozhe_Kakoy_Men.mp3";
 import srcToSong6NatalyOBozheIntro from "./../songs/6_Natali_O_Bozhe/Natali_O_Bozhe_Kakoy_Men_Introduce.mp3";
 import srcToSoundExploision from "./../songs/soundExploision.mp3";
+import srcToSoundOfFinish from "./../songs/soundOfFinish.mp3";
+import srcTofinishLineImg from "./../img/finishLine.jpg";
 
 const CHANGE_CURRENT_SONG = "ORAOKE/START_PAGE/CHANGE_CURRENT_SONG";
 const IS_PLAYING_SET = "ORAOKE/START_PAGE/IS_PLAYING_SET";
 const STOP_BTN_IS_PUSHED_SET = "ORAOKE/PLAY_SONG_PAGE/STOP_BTN_IS_PUSHED_SET";
 const SAVE_ELEMENT_TO_STATE = "ORAOKE/PLAY_SONG_PAGE/SAVE_ELEMENT_TO_STATE";
 const IS_CURRENT_SONG_PLAYING = "ORAOKE/PLAY_SONG_PAGE/IS_CURRENT_SONG_PLAYING";
-const SEND_CHANGING_MOVE_DATA_TO_STATE =
-  "ORAOKE/PLAY_SONG_PAGE/SEND_CHANGING_MOVE_DATA_TO_STATE";
+const SEND_CHANGING_MOVE_DATA_TO_STATE ='ORAOKE/PLAY_SONG_PAGE/SEND_CHANGING_MOVE_DATA_TO_STATE';
+const SET_NEW_VOLUME_OF_SONG ="ORAOKE/PLAY_SONG_PAGE/SET_NEW_VOLUME_OF_SONG";
+const SET_NEW_VOLUME_OF_VOICE ="ORAOKE/PLAY_SONG_PAGE/SET_NEW_VOLUME_OF_VOICE";
 
 export const changecurrentSong = (song) => ({
   type: CHANGE_CURRENT_SONG,
@@ -57,6 +60,14 @@ export const sendChangingMoveDataToState = (xCoordOfBird, yCoordOfBird) => ({
   type: SEND_CHANGING_MOVE_DATA_TO_STATE,
   xCoordOfBird,
   yCoordOfBird,
+});
+export const setNewVolumeOfSong = (newVolume) => ({
+  type: SET_NEW_VOLUME_OF_SONG,
+  newVolume
+});
+export const setNewVolumeOfVoice = (newVolume) => ({
+  type: SET_NEW_VOLUME_OF_VOICE,
+  newVolume
 });
 
 //перенести честь данных в новый редюсер song_play_page
@@ -162,13 +173,16 @@ let initialState = {
     srcToSong: srcToSong1LepsRumkaVodki,
     srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
     playbackSpeed: 200,
-    startMovingDelay: 26,
+    startMovingDelay: 0,//26,
     canvasWigth: 20000,
+    finishLineXCoordinate: 17000,
     isPlaying: false,
     songText:
       "Ночь по улицам пошла                                          звездной поступью цариц.                                               Слов и чисел простота          у небесного моста           раскидала перья пти и и и и и ц.                              Не забудутся никем                                                  праздник губ обид и глаз.                                                Забери меня в свой плен,          эту линию колен               целовать в последний раааааааз.                 Тоооолькооооооо                рюмка водкииии на столе.           Ветер плачет за окнооом       тиииииихооо больююююю                                 о т з ы в а ю т с я в о м н е        э т о й молодой   л у н ы       к р и к и.                                                                                                  ",
   },
   isCurrentSongSet: false,
+  currentSongVolume: 0.5,
+  currentVoiceVolume: 1,
   isStopBtnPushed: false,
   canvas: null,
   canvasWrp: null,
@@ -180,8 +194,9 @@ let initialState = {
   yCoordOfBird: null,
   soundExploision: null,
   srcToSoundExploision: srcToSoundExploision,
-  songVolume: 1,
-  voiceVolume: 1,
+  soundOfFinish: null,
+  srcToSoundOfFinish: srcToSoundOfFinish,
+  srcTofinishLineImg: srcTofinishLineImg,
 };
 
 const startPageReducer = (state = initialState, action) => {
@@ -216,6 +231,16 @@ const startPageReducer = (state = initialState, action) => {
       return {
         ...state,
         xCoordOfBird: action.xCoordOfBird,
+      };
+      case SET_NEW_VOLUME_OF_SONG:
+      return {
+        ...state,
+        currentSongVolume: action.newVolume,
+      };
+      case SET_NEW_VOLUME_OF_VOICE:
+      return {
+        ...state,
+        currentVoiceVolume: action.newVolume,
       };
 
     default:

@@ -6,6 +6,7 @@ import oraokeLogo from "../img/ОраокеLogo.png";
 import AdvertismentBlock from "./common/AdvertismentBlock";
 import ButtonSmall from "./common/ButtonSmall";
 import Canvas1Leps from "./Canvas1Leps";
+import InputRange from "react-input-range";
 
 const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
@@ -14,7 +15,6 @@ const SongPlayPage = React.memo((props) => {
     props.xCoordOfBird
       ? props.xCoordOfBird
       : 150; // соордината птицы в 200px от левого края
-
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape}></div>
@@ -43,32 +43,61 @@ const SongPlayPage = React.memo((props) => {
             song={props.currentSong}
           />
           {/* Потом автоматизировать выбор песни */}
-          {isSongPlaying ? (
-            <div
-              className={classes.btnWrp}
-              id={classes.btnWrpStop}
-              onClick={() => {
-                // props.stopSigningAndMoving(props.timerId);
-                props.stopBtnIsPushSet(true);
-              }}
-            >
-              <div>{`X: ${xCoordinata}_____`}</div>
-              {!props.isSetMaxUserVoiceLevel && <p className={classes.warning}>Вы не откалибровали микрофон!</p>}
-              <ButtonSmall btnNumber="1" btnText="СТОП" />
-            </div>
-          ) : (
-            <div
-              onClick={() => {
-                props.stopBtnIsPushSet(false);
-                props.startSigningAndMoving(props.currentSong.startMovingDelay);
-              }}
-              className={classes.btnWrp}
-              id={classes.btnWrpPlay}
-            >
-              <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
-              <ButtonSmall btnNumber="1" btnText="СТАРТ" />
-            </div>
-          )}
+          <div className={classes.buttonAndVolumeWrp}>
+            <fieldset className={classes.volumeControlWrp}>
+              <legend>Громкость</legend>
+              <label>
+                музыка:
+                <input
+                  ref = {props.songVolumeInputRefGetter}
+                  type="range"
+                  max='1'
+                  min='0'
+                  step = '0.1'
+                  value={props.currentSongVolume}
+                  onChange={value => props.changeVolumeOfSong(value)}
+                />
+                </label>
+              <label>
+                голос:
+                <input
+                  ref = {props.voiceVolumeInputRefGetter}
+                  type="range"
+                  max='4'
+                  min='0'
+                  step = '0.1'
+                  value={props.currentVoiceVolume}
+                  onChange={value => props.changeVolumeOfVoice(value)} />
+              </label>
+            </fieldset>
+            {isSongPlaying ? (
+              <div
+                className={classes.btnWrp}
+                id={classes.btnWrpStop}
+                onClick={() => {
+                  // props.stopSigningAndMoving(props.timerId);
+                  props.stopBtnIsPushSet(true);
+                }}
+              >
+                {!props.isSetMaxUserVoiceLevel && <p className={classes.warning}>Вы не откалибровали микрофон!</p>}
+                <ButtonSmall btnNumber="1" btnText="СТОП" />
+                <div>{`X: ${xCoordinata}_____`}</div>
+              </div>
+            ) : (
+              <div
+                onClick={() => {
+                  props.stopBtnIsPushSet(false);
+                  props.startSigningAndMoving(props.currentSong.startMovingDelay);
+                }}
+                className={classes.btnWrp}
+                id={classes.btnWrpPlay}
+              >
+                <ButtonSmall btnNumber="1" btnText="СТАРТ" />
+                <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
+              </div>
+            )}
+          </div>
+          
         </div>
         <div
           id="mainMenu"
@@ -87,11 +116,15 @@ const SongPlayPage = React.memo((props) => {
           <span>eng</span>
           <span>
           <audio
-            ref={props.soundExploisionRefGetter}
-            id="soundExploision"
-            src={props.srcToSoundExploision}
-          ></audio>
-          
+  ref={props.soundExploisionRefGetter}
+  id="soundExploision"
+  src={props.srcToSoundExploision}
+  />
+  <audio
+  ref={props.soundOfFinishRefGetter}
+  id="soundOfFinish"
+  src={props.srcToSoundOfFinish}
+  />
         </span>
         </div>
 
