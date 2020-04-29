@@ -63,7 +63,7 @@ let initialState = {
     adv8: {
       url:'https://it-incubator.by/',
       img: Img6,
-      text: 'IT ИНКУБАТОР'
+      text: 'IT ИНКУБАТОР-надежный путь в программисты'
     }
     
   },

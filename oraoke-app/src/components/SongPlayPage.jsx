@@ -17,13 +17,13 @@ const SongPlayPage = React.memo((props) => {
       : 150; // соордината птицы в 200px от левого края
   return (
     <div className={classes.PageContainer}>
-      <div style={bgShape}></div>
-      <div className={classes.globalBacGround}></div>
+      <div style={bgShape}/>
+      <div className={classes.globalBacGround}/>
       <div className={classes.PageWrp}>
         {/* left advertisment */}
         <div className={classes.column}>
-          <AdvertismentBlock adv={props.adv7} />
-          <AdvertismentBlock adv={props.adv8} />
+          <AdvertismentBlock adv={props.adv7}/>
+          <AdvertismentBlock adv={props.adv8}/>
         </div>
         <div className={classes.column}>
           <div className={classes.title}>
@@ -114,25 +114,22 @@ const SongPlayPage = React.memo((props) => {
           <span>рус</span>
           <span>|</span>
           <span>eng</span>
+          {/*аудиофайлы невидимые*/}
           <span>
-          <audio
-  ref={props.soundExploisionRefGetter}
-  id="soundExploision"
-  src={props.srcToSoundExploision}
-  />
-  <audio
-  ref={props.soundOfFinishRefGetter}
-  id="soundOfFinish"
-  src={props.srcToSoundOfFinish}
-  />
-        </span>
+              <audio
+                ref={props.soundExploisionRefGetter}
+                id="soundExploision"
+                src={props.srcToSoundExploision}
+              />
+              <audio
+                ref={props.soundOfFinishRefGetter}
+                id="soundOfFinish"
+                src={props.srcToSoundOfFinish}
+              />
+          </span>
         </div>
-
-
       </div>
-
-    </div>
-  );
+    </div>);
 });
 
 export default SongPlayPage;

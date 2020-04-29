@@ -15,33 +15,46 @@ const StartPage = (props) => {
     position:`absolute`,
     zIndex:1
   }
-
+  let welcome = props.currentLanguage ==='ru'? 'Добро пожаловать' : 'Welcome';
+  let to = props.currentLanguage ==='ru'? 'в' : 'to';
+  let button1Text = props.currentLanguage ==='ru'?
+    'Настроить микрофон':
+    'Microphone settings';
+  let button2Text = props.currentLanguage ==='ru'?
+    'Выбрать песню'
+    :'Сhoose a song';
+  let button3Text =props.currentLanguage ==='ru'?
+    'НАЧАТЬ'
+    : "START";
+  
   return(
     <div className={classes.startPageContainer}>
-      <div style={bgShape}></div>
+      <div style={bgShape}/>
       <div className={classes.startPageWrp}>
         <div className={classes.title}>
-          <p>Добро пожаловать</p>
-          <p>в</p>
+          <p>{welcome}</p>
+          <p>{to}</p>
           <div>
             <img src={oraokeLogo} alt={'Logo'}/>
           </div>
         </div>
         <div className={classes.btnsWrp}>
           <NavLink to={'/settings-page'}>
-            <Button btnText = 'Настроить микрофон' btnNumber = '1'/>
+            <Button btnText = {button1Text} btnNumber = '1'/>
           </NavLink>
           <NavLink to={'/song-choose-page'}>
-          <Button btnText = 'Выбрать песню' btnNumber = '2'/>
+          <Button btnText = {button2Text}
+                  btnNumber = '2'/>
             </NavLink>
           <NavLink to={'/song-play-page'}>
-            <Button btnText = 'НАЧАТЬ' btnNumber = '3' currentSong = {props.currentSong}/>
+            <Button btnText = {button3Text}
+                    btnNumber = '3' currentSong = {props.currentSong} currentLanguage = {props.currentLanguage}/>
           </NavLink>
         </div>
         <div className={classes.langToggle}>
-          <span>рус</span>
+          <span onClick={()=>props.currentLanguageToggle('ru')}>рус</span>
           <span>|</span>
-          <span>eng</span>
+          <span onClick={()=>props.currentLanguageToggle('en')}>eng</span>
         </div>
       </div>
     </div>

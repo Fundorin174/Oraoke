@@ -3,7 +3,7 @@ import oraokeLogo from './../img/ОраокеLogo.png';
 import classes from './stylesheet/SettingsPageContainer.module.scss';
 import Button from './common/Button';
 import {NavLink} from 'react-router-dom';
-import bgImgUrl from './../img/backgroundImg.webp'
+import bgImgUrl from './../img/backgroundImg.webp';
 import adv1 from './../img/advertisment/adv1SettingPage.png';
 import adv2 from './../img/advertisment/adv2SettingPage.png';
 import birdLeft from './../img/BirdTransparentLeft.gif';
@@ -22,9 +22,39 @@ const SettingsPage = React.memo((props) => {
     birdHeigth,
     analyser,
     src,
-    maxHeightForWile = 255;
-  //Statement of Button Start
-  
+    maxHeightForWile = 255,
+    texts;
+    //тексты на разных языках
+      switch (props.currentLanguage){
+        case 'ru':
+           texts = {
+              titleText: 'Нажмите на кнопку “Старт” и разрешите браузеру доступ к микрофону',
+              shoutText: 'Крикните в микрофон так, чтобы птичка поднялась в зеленую зону',
+              fineText: 'Отлично!',
+              backToSongChooseText: 'Вернитесь к выбору песни',
+              buttonStartText: 'СТАРТ',
+              buttonSTOPText: 'СТОП',
+              buttonToSong: 'К песням',
+              mainMenuText: 'Главное меню'
+            };
+          break;
+        case 'en':
+          texts = {
+              titleText: 'Click on the “Start” button and allow the browser access to the microphone',
+              shoutText: 'Shout into the microphone so that the bird up to the green zone',
+              fineText: 'OK!',
+              backToSongChooseText: 'Back to the song selection',
+              buttonStartText: 'START',
+              buttonSTOPText: 'STOP',
+              buttonToSong: 'To songs',
+              mainMenuText: 'Main menu'
+            };
+        break;
+        default:
+          return null;
+      }
+    
+    
   let onStartCheckingMicrophone = () => {
     let scaleItems = document.getElementsByClassName(
       'SettingsPageContainer_linesItem__X_rp1'
@@ -155,7 +185,7 @@ const SettingsPage = React.memo((props) => {
   
   return (
     <div className={classes.PageContainer}>
-     <div style={bgShape}></div>
+     <div style={bgShape}/>
       <div className={classes.globalBacGround}>
       </div>
       <div className={classes.PageWrp}>
@@ -173,8 +203,8 @@ const SettingsPage = React.memo((props) => {
             </div>
             <div>
               {!props.isCheckingMicrophoneStart &&
-              <p>Нажмите на кнопку “Старт” и разрешите браузеру доступ к микрофону</p>}
-              {pushStartNotScreamed && <p>Крикните в микрофон так, чтобы птичка поднялась в зеленую зону</p>}
+              <p>{texts.titleText}</p>}
+              {pushStartNotScreamed && <p>{texts.shoutText}</p>}
             </div>
           </div>
           {/* START or STOP Buttons */}
@@ -185,7 +215,7 @@ const SettingsPage = React.memo((props) => {
                 onClick={() => {
                   onStartCheckingMicrophone()
                 }}>
-                <Button btnText='СТАРТ' btnNumber='1'/>
+                <Button btnText={texts.buttonStartText} btnNumber='1'/>
               </div>
               : <div
                 id='StopBtn'
@@ -193,12 +223,12 @@ const SettingsPage = React.memo((props) => {
                 onClick={() => {
                   onFinishCheckingMicrophone()
                 }}>
-                <Button btnText='СТОП' btnNumber='1'/>
+                <Button btnText={texts.buttonSTOPText} btnNumber='1'/>
               </div>
           }
           {/*after success test*/}
           <div className={classes.title}>
-            {props.isSetMaxUserVoiceLevel && <p>Отлично! <br></br> Вернитесь к выбору песни</p>}
+            {props.isSetMaxUserVoiceLevel && <p>{texts.fineText} <br></br> {texts.backToSongChooseText}</p>}
             {
               <div
                 id='toSongsBtn'
@@ -206,7 +236,7 @@ const SettingsPage = React.memo((props) => {
                 onFinishCheckingMicrophone()
               }}>
                 <NavLink to={'/song-choose-page'}>
-                  <Button btnText='К песням' btnNumber='2'/>
+                  <Button btnText={texts.buttonToSong} btnNumber='2'/>
                 </NavLink>
               </div>}
           </div>
@@ -227,13 +257,13 @@ const SettingsPage = React.memo((props) => {
         </div>
         <div className={classes.toMainMenu}>
           <NavLink to={'/start-page'}>
-            <span>Главное меню</span>
+            <span>{texts.mainMenuText}</span>
           </NavLink>
         </div>
         <div className={classes.langToggle}>
-          <span>рус</span>
+          <span onClick={()=>props.currentLanguageToggle('ru')}>рус</span>
           <span>|</span>
-          <span>eng</span>
+          <span onClick={()=>props.currentLanguageToggle('en')}>eng</span>
         </div>
       </div>
     </div>

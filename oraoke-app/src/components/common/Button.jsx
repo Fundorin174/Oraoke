@@ -8,10 +8,10 @@ const Button = (props) => {
       //Бегущая строка
         let arr = props.currentSong && props
             .currentSong
-            .fullTitle
+            .fullTitle[props.currentLanguage]
             .split('');
         if (arr && arr.length > 29) {
-            let j = props.currentSong.fullTitle.length;
+            let j = props.currentSong.fullTitle[props.currentLanguage].length;
             let i = 0;
             let stringLength = 28;
             let songNameMove = setTimeout(function move() {
@@ -31,7 +31,7 @@ const Button = (props) => {
           )
         } else {setPartOfSong(arr)};
       
-    }, [props.currentSong]);
+    }, [props.currentSong, props.currentLanguage]);
 
 
   return(
