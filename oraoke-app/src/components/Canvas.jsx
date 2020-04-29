@@ -2,25 +2,30 @@ import React from "react";
 import classes from "./stylesheet/SongPlayPageContainer.module.scss";
 import birdRight from "../img/BirdTransparent.gif";
 
-const Canvas1Leps = React.memo((props) => {
+const Canvas = React.memo((props) => {
   return (
     <div
       ref={props.canvasWrpRefGetter}
       id="canvasWrp"
       className={classes.canvasWrp}
     >
+      
+      {/*Поле*/}
       <canvas
         ref={props.canvasRefGetter}
         id="canvas"
         className={classes.canvas}
         width={props.song.canvasWigth}
-      ></canvas>
+      />
+      
       {/*птица*/}
       <div className={classes.birdMainWrp} ref={props.birdRefGetter}>
         <div id='bird' className={classes.birdWrp}>
           <img src={birdRight} alt="bird"/>
         </div>
       </div>
+      
+      {/*текст*/}
       <div
         ref={props.textWrpRefGetter}
         id="textWrp"
@@ -28,17 +33,19 @@ const Canvas1Leps = React.memo((props) => {
       >
         <pre>{props.song.songText}</pre>
       </div>
+      
+      {/*невидимая песня*/}
       <div className={classes.song}>
         <span>
           <audio
             ref={props.songMP3RefGetter}
             id="audioMP3"
             src={props.song.srcToSong}
-          ></audio>
+          />
         </span>
       </div>
     </div>
   );
 });
 
-export default Canvas1Leps;
+export default Canvas;

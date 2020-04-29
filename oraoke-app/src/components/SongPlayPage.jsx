@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import oraokeLogo from "../img/ОраокеLogo.png";
 import AdvertismentBlock from "./common/AdvertismentBlock";
 import ButtonSmall from "./common/ButtonSmall";
-import Canvas1Leps from "./Canvas1Leps";
+import Canvas from "./Canvas";
 import InputRange from "react-input-range";
 
 const SongPlayPage = React.memo((props) => {
@@ -34,7 +34,7 @@ const SongPlayPage = React.memo((props) => {
               <p>{props.currentSong.fullTitle}</p>
             </div>
           </div>
-          <Canvas1Leps
+          <Canvas
             canvasRefGetter={props.canvasRefGetter}
             canvasWrpRefGetter={props.canvasWrpRefGetter}
             songMP3RefGetter={props.songMP3RefGetter}
