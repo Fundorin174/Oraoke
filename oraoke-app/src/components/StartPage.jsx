@@ -6,6 +6,7 @@ import Button from "./common/Button";
 import { NavLink } from 'react-router-dom';
 
 const StartPage = (props) => {
+  /////////////////////////////////////////////////////////
   //стили фона
   const bgShape = {
     width: `100%`,
@@ -16,6 +17,7 @@ const StartPage = (props) => {
     zIndex:1
   }
   let texts;
+  /////////////////////////////////////////////////////////
   //тексты на разных языках
   switch (props.currentLanguage){
     case 'ru':
@@ -39,12 +41,18 @@ const StartPage = (props) => {
     default:
       return null;
   }
-  
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
   
   return(
     <div className={classes.startPageContainer}>
+      {/*фотовая картинка*/}
       <div style={bgShape}/>
+      
+      {/*главная обертка*/}
       <div className={classes.startPageWrp}>
+        
+        {/*заголовок*/}
         <div className={classes.title}>
           <p>{texts.welcome}</p>
           <p>{texts.to}</p>
@@ -52,6 +60,8 @@ const StartPage = (props) => {
             <img src={oraokeLogo} alt={'Logo'}/>
           </div>
         </div>
+        
+        {/*кнопки*/}
         <div className={classes.btnsWrp}>
           <NavLink to={'/settings-page'}>
             <Button btnText = {texts.button1Text} btnNumber = '1'/>
@@ -67,6 +77,8 @@ const StartPage = (props) => {
                     currentLanguage = {props.currentLanguage}/>
           </NavLink>
         </div>
+        
+        {/*меню смены языка*/}
         <div className={classes.langToggle}>
           <span onClick={()=>props.currentLanguageToggle('ru')}>рус</span>
           <span>|</span>

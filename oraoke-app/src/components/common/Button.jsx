@@ -4,35 +4,46 @@ import starBtn from './../../img/StarOnBtn.svg'
 
 const Button = (props) => {
   let [partOfSong, setPartOfSong] = useState('');
+  let songNameMove;
     useEffect(() => {
-      //Бегущая строка
-        let arr = props.currentSong && props
-            .currentSong
-            .fullTitle[props.currentLanguage]
-            .split('');
-        if (arr && arr.length > 29) {
-            let j = props.currentSong.fullTitle[props.currentLanguage].length;
-            let i = 0;
-            let stringLength = 28;
-            let songNameMove = setTimeout(function move() {
-              let arr1 = (i < (j - stringLength)) ? arr.slice(i, i + stringLength) : arr.slice(i, j);
-              let arr2 = (i < (j - stringLength)) ? [] : arr.slice(0, (stringLength+i)-j);
-              let newArr = arr1.concat(['  '], arr2);
-              (i < j || i === j)
-                    ? i += 1
-                    : i = 0;
-              setPartOfSong(newArr);
-                songNameMove = setTimeout(move, 300);
-            }, 300);
-          return (//Отключение счетчика при уходе со страницы
-            () => {
-              clearTimeout(songNameMove);
-            }
-          )
-        } else {setPartOfSong(arr)};
-      
-    }, [props.currentSong, props.currentLanguage]);
+      //Бегущая строка в кнопке с название песни
+      ticker();
 
+    return (//Отключение счетчика при уходе со страницы
+      () => {clearTimeout(songNameMove);}
+    );
+    }, [props.currentSong, props.currentLanguage]);
+    /////////////////////////////////////////////////////////
+   //функция вывода бегущей строки в кнопку если она есть в пропсах
+    let ticker = () => {
+      //создание массива букв, помещающегося в поле
+      let arr = props.currentSong && props
+        .currentSong
+        .fullTitle[props.currentLanguage]
+        .split('');
+      //если название в поле не помещается - включаем бегущую строку
+      if (arr && arr.length > 29) {
+        //длина названия песни
+        let j = props.currentSong.fullTitle[props.currentLanguage].length;
+        // счетчик вставляемых букв
+        let i = 0;
+        //длина строки
+        let stringLength = 28;
+        // рекурсия названия песни если она не помещается в топе полностью.
+        // плюс вставка символов пробелов, там где они автоматически удаляются
+        songNameMove = setTimeout(function move() {
+          // массив в буквами из первого круга
+          let arr1 = (i < (j - stringLength)) ? arr.slice(i, i + stringLength) : arr.slice(i, j);
+          // массив с буквами из второго круга
+          let arr2 = (i < (j - stringLength)) ? [] : arr.slice(0, (stringLength+i)-j);
+          let newArr = arr1.concat(['  '], arr2);
+          (i < j || i === j) ? (i += 1) : (i = 0);
+          setPartOfSong(newArr);
+          songNameMove = setTimeout(move, 300);
+        }, 300);
+    
+      } else {setPartOfSong(arr);};
+    };
 
   return(
     <div className={classes.btnwrp}>

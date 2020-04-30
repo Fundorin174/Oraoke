@@ -34,13 +34,13 @@ const SongChoosePage = (props) => {
     return (
       props.songs.map((item) => {
         return <Song
-          song={item}
-          key={item.songID}
-          changecurrentSong={props.changecurrentSong}
-          currentSong={props.currentSong}
-          playSongWhileShoosing={props.playSongWhileShoosing}
-          isCurrentSongSet={props.isCurrentSongSet}
-          currentLanguage={props.currentLanguage}/>
+                song={item}
+                key={item.songID}
+                changecurrentSong={props.changecurrentSong}
+                currentSong={props.currentSong}
+                playSongWhileShoosing={props.playSongWhileShoosing}
+                isCurrentSongSet={props.isCurrentSongSet}
+                currentLanguage={props.currentLanguage}/>
       })
   )
     ;
