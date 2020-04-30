@@ -1,4 +1,4 @@
-import React, { useEffect }from 'react';
+import React from 'react';
 import {
   getIsChekingMicrophoneStart, getIsSetMaxUserVoiceLevel,
   getMaxUserVoiceLevel,
@@ -7,37 +7,30 @@ import {
 import {compose} from "redux";
 import {connect} from "react-redux";
 import SongChoosePage from "./SongChoosePage";
-import {getcurrentSongSelector, getSongsSelector, getIscurrentSongSetSelector} from "../redux/startPageSelectors";
-import {changecurrentSong} from "../redux/startPageReduser";
-import { Buffer, Sound } from '../redux/bufer';
+import {
+  getcurrentSongSelector,
+  getSongsSelector,
+  getIscurrentSongSetSelector,
+  getCurrentLanguage
+} from "../redux/startPageSelectors";
+import {changecurrentSong, currentLanguageToggle} from "../redux/startPageReduser";
 
 
 const SongChoosePageContainer = (props) => {
-// let context = new AudioContext();
-  //   let songsSrcArray = props.songs.map(song => song.srcToSongIntro)
-//   let buffer = new Buffer(context, songsSrcArray);
-//   buffer.loadAll();
-// let playSongWhileShoosing = (selectedSong) => {  
-//   let sounds = props.songs.map(song => new Sound(context, buffer.getSoundByIndex(selectedSong.songID)))  
-//   console.log(sounds)
-//   sounds.forEach((song, i) => {
-//     i == selectedSong.songID && song.paused && song.play();
-//   });
-
-  // sound.play();
 
   let playSongWhileShoosing = (selectedSong) => {
   let allSongMP3 = Array.from(document.getElementsByClassName('audioMP3'));
   allSongMP3.forEach((song, i)=>{
         song.pause();
-        // song.currentTime = 0.0; 
-          if (song && i === +selectedSong.songID && song.currentTime == 0.0) {
+          if (song && i === +selectedSong.songID && song.currentTime === 0.0) {
             allSongMP3.forEach((song)=>{
               song.currentTime = 0.0;
             })
-            song.play()
+            song.play();
           }
-          else if (song && (i === +selectedSong.songID) && props.isCurrentSongSet && song.currentTime != 0.0 && selectedSong.songID === props.currentSong.songID) 
+          else if (song && (i === +selectedSong.songID) &&
+            props.isCurrentSongSet && song.currentTime !== 0.0 &&
+            selectedSong.songID === props.currentSong.songID)
           {
             song.pause();
             song.currentTime = 0.0;
@@ -45,7 +38,7 @@ const SongChoosePageContainer = (props) => {
   });
 }
 
- return <SongChoosePage {...props} playSongWhileShoosing = {playSongWhileShoosing}  />
+ return <SongChoosePage {...props} playSongWhileShoosing = {playSongWhileShoosing}/>
 }
 
 
@@ -61,8 +54,9 @@ let mapStateToProps = (state) => ({
   songs: getSongsSelector(state),
   currentSong: getcurrentSongSelector(state),
   isCurrentSongSet: getIscurrentSongSetSelector(state),
+  currentLanguage: getCurrentLanguage(state),
 })
 
 
 
-export default compose(connect(mapStateToProps, { changecurrentSong}))(SongChoosePageContainer)
+export default compose(connect(mapStateToProps, { changecurrentSong, currentLanguageToggle}))(SongChoosePageContainer)

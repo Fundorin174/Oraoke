@@ -192,8 +192,10 @@ const SettingsPage = React.memo((props) => {
         
         {/* advertisment */}
         <div className={classes.column}>
-        <AdvertismentBlock adv = {props.adv1}/>
-        <AdvertismentBlock adv={props.adv2}/>
+        <AdvertismentBlock adv = {props.adv1}
+                           currentLanguage = {props.currentLanguage} />
+        <AdvertismentBlock adv={props.adv2}
+                           currentLanguage = {props.currentLanguage}/>
         </div>
         {/* Title and button */}
         <div className={classes.column}>

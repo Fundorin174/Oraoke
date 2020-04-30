@@ -28,17 +28,17 @@ let initialState = {
     adv1: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
       img: Img1,
-      text: 'Канал ВНИКНИ'
+      text: {ru: 'Канал ВНИКНИ', en: 'VNIKNI channel'},
     },
     adv2: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
       img: Img2,
-      text: 'Канал ВНИКНИ'
+      text: {ru: 'Канал ВНИКНИ', en: 'VNIKNI channel'},
     },
     adv3: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
       img: Img3,
-      text: 'Канал ВНИКНИ'
+      text: {ru: 'Канал ВНИКНИ', en: 'VNIKNI channel'},
     },
     adv4: {
       url:'https://www.youtube.com/playlist?list=PLcvhF2Wqh7DNVy1OCUpG3i5lyxyBWhGZ8',
@@ -48,22 +48,22 @@ let initialState = {
     adv5: {
       url:'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
       img: Img5,
-      text: 'Канал ВНИКНИ'
+      text: {ru: 'Канал ВНИКНИ', en: 'VNIKNI channel'},
     },
     adv6: {
       url:'https://it-incubator.by/',
       img: Img6,
-      text: 'IT ИНКУБАТОР'
+      text: {ru:'IT-ИНКУБАТОР', en: 'IT-INCUBATOR'}
     },
     adv7: {
       url: 'http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98',
       img: Img3,
-      text: 'Канал ВНИКНИ - самый крутой канал'
+      text: {ru: 'Канал ВНИКНИ - самый крутой канал', en: 'VNIKNI channel - the best channel'},
     },
     adv8: {
       url:'https://it-incubator.by/',
       img: Img6,
-      text: 'IT ИНКУБАТОР-надежный путь в программисты'
+      text: {ru:'IT ИНКУБАТОР - надежный путь в программисты', en: 'IT-INCUBATOR - the best way to programmers'}
     }
     
   },

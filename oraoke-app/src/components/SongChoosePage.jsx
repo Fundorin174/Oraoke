@@ -8,35 +8,66 @@ import Song from "./common/Song";
 import AdvertismentBlock from './common/AdvertismentBlock';
 
 const SongChoosePage = (props) => {
-
-
+  let texts;
+  //тексты на разных языках
+  switch (props.currentLanguage) {
+    case 'ru':
+      texts = {
+        askText: 'Что будем орать?',
+        GoText: 'Поехали!',
+        mainMenuText: 'Главное меню',
+      };
+      break;
+    case 'en':
+      texts = {
+        askText: 'What will you bawl',
+        GoText: 'Let\'s start',
+        mainMenuText: 'Main menu'
+      };
+      break;
+    default:
+      return null;
+  }
+  
   // create Songs components from state
   const createSongs = () => {
-    return(
+    return (
       props.songs.map((item) => {
-        return <Song song={item} key={item.songID} changecurrentSong = {props.changecurrentSong} currentSong = {props.currentSong} playSongWhileShoosing = {props.playSongWhileShoosing} isCurrentSongSet = {props.isCurrentSongSet} />
-      })    )
+        return <Song
+          song={item}
+          key={item.songID}
+          changecurrentSong={props.changecurrentSong}
+          currentSong={props.currentSong}
+          playSongWhileShoosing={props.playSongWhileShoosing}
+          isCurrentSongSet={props.isCurrentSongSet}
+          currentLanguage={props.currentLanguage}/>
+      })
+  )
+    ;
   }
-
-
+  
+  
   return (
     <div className={classes.PageContainer}>
-      <div style={bgShape}></div>
+      <div style={bgShape}/>
       <div className={classes.globalBacGround}>
       </div>
       <div className={classes.PageWrp}>
+        
         {/* left advertisment */}
         <div className={classes.column}>
-          <AdvertismentBlock adv = {props.adv3}/>
-          <AdvertismentBlock adv={props.adv4}/>
+          <AdvertismentBlock adv={props.adv3}
+                             currentLanguage = {props.currentLanguage}/>
+          <AdvertismentBlock adv={props.adv4}
+                             currentLanguage = {props.currentLanguage}/>
         </div>
         <div className={classes.column}>
           <div className={classes.title}>
             <div>
-              <img src={oraokeLogo} alt={'Logo'} />
+              <img src={oraokeLogo} alt={'Logo'}/>
             </div>
             <div>
-              <p>Что будем орать?</p>
+              <p>{texts.askText}</p>
             </div>
           </div>
           {/*songs*/}
@@ -49,31 +80,34 @@ const SongChoosePage = (props) => {
           {/*  Button */}
           <NavLink to={'/song-play-page'}>
             <div className={classes.btnsWrp}>
-              <Button btnText='Поехали!' btnNumber='1' currentSong={props.currentSong} />
+              <Button btnText={texts.GoText}
+                      btnNumber='1'
+                      currentSong={props.currentSong}
+                      currentLanguage={props.currentLanguage}/>
             </div>
           </NavLink>
-
         </div>
-
-
+        
         {/* advertisment */}
         <div className={classes.column}>
-          <AdvertismentBlock adv={props.adv5} />
-          <AdvertismentBlock adv={props.adv6} />
+          <AdvertismentBlock adv={props.adv5}
+                             currentLanguage = {props.currentLanguage}/>
+          <AdvertismentBlock adv={props.adv6}
+                             currentLanguage = {props.currentLanguage}/>
         </div>
         <div className={classes.toMainMenu}>
           <NavLink to={'/start-page'}>
-            <span>Главное меню</span>
+            <span>{texts.mainMenuText}</span>
           </NavLink>
         </div>
         <div className={classes.langToggle}>
-          <span>рус</span>
+          <span onClick={() => props.currentLanguageToggle('ru')}>рус</span>
           <span>|</span>
-          <span>eng</span>
+          <span onClick={() => props.currentLanguageToggle('en')}>eng</span>
         </div>
       </div>
-      </div>
-
+    </div>
+  
   )
 }
 

@@ -23,4 +23,8 @@ let mapStateToProps = (state) => ({
   currentLanguage: getCurrentLanguage(state),
 })
 
-export default compose(connect(mapStateToProps, { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess,currentLanguageToggle }))(SettingsPage)
+export default compose(connect(mapStateToProps,
+  { toggleIsCheckingMicrophoneStart,
+    setMaxUserVoiceLevel,
+    isSetMaxUserVoiceLevelSuccsess,
+    currentLanguageToggle }))(SettingsPage)

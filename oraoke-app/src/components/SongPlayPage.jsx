@@ -6,7 +6,6 @@ import oraokeLogo from "../img/ОраокеLogo.png";
 import AdvertismentBlock from "./common/AdvertismentBlock";
 import ButtonSmall from "./common/ButtonSmall";
 import Canvas from "./Canvas";
-import InputRange from "react-input-range";
 
 const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
@@ -15,6 +14,33 @@ const SongPlayPage = React.memo((props) => {
     props.xCoordOfBird
       ? props.xCoordOfBird
       : 150; // соордината птицы в 200px от левого края
+  
+  let texts;
+  //тексты на разных языках
+  switch (props.currentLanguage){
+    case 'ru':
+      texts = {
+        volumeText: 'Громкость',
+        musicText: 'Музыка',
+        voiceText: 'Голос',
+        mainMenuText: 'Главное меню',
+        buttonStopText: "СТОП",
+        buttonStartText: 'СТАРТ'
+      };
+      break;
+    case 'en':
+      texts = {
+        volumeText: 'Volume',
+        musicText: 'Music',
+        voiceText: 'Voice',
+        mainMenuText: 'Main menu',
+        buttonStopText: "STOP",
+        buttonStartText: 'START'
+      };
+      break;
+    default:
+      return null;
+  }
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape}/>
@@ -22,8 +48,10 @@ const SongPlayPage = React.memo((props) => {
       <div className={classes.PageWrp}>
         {/* left advertisment */}
         <div className={classes.column}>
-          <AdvertismentBlock adv={props.adv7}/>
-          <AdvertismentBlock adv={props.adv8}/>
+          <AdvertismentBlock adv={props.adv7}
+                             currentLanguage = {props.currentLanguage}/>
+          <AdvertismentBlock adv={props.adv8}
+                             currentLanguage = {props.currentLanguage}/>
         </div>
         <div className={classes.column}>
           <div className={classes.title}>
@@ -31,7 +59,7 @@ const SongPlayPage = React.memo((props) => {
               <img src={oraokeLogo} alt={"Logo"} />
             </div>
             <div>
-              <p>{props.currentSong.fullTitle}</p>
+              <p>{props.currentSong.fullTitle[props.currentLanguage]}</p>
             </div>
           </div>
           <Canvas
@@ -42,12 +70,11 @@ const SongPlayPage = React.memo((props) => {
             birdRefGetter = {props.birdRefGetter}
             song={props.currentSong}
           />
-          {/* Потом автоматизировать выбор песни */}
-          <div className={classes.buttonAndVolumeWrp}>
+            <div className={classes.buttonAndVolumeWrp}>
             <fieldset className={classes.volumeControlWrp}>
-              <legend>Громкость</legend>
+              <legend>{texts.volumeText}</legend>
               <label>
-                музыка:
+                {texts.musicText}:
                 <input
                   ref = {props.songVolumeInputRefGetter}
                   type="range"
@@ -59,7 +86,7 @@ const SongPlayPage = React.memo((props) => {
                 />
                 </label>
               <label>
-                голос:
+                {texts.voiceText}:
                 <input
                   ref = {props.voiceVolumeInputRefGetter}
                   type="range"
@@ -75,12 +102,11 @@ const SongPlayPage = React.memo((props) => {
                 className={classes.btnWrp}
                 id={classes.btnWrpStop}
                 onClick={() => {
-                  // props.stopSigningAndMoving(props.timerId);
                   props.stopBtnIsPushSet(true);
                 }}
               >
                 {!props.isSetMaxUserVoiceLevel && <p className={classes.warning}>Вы не откалибровали микрофон!</p>}
-                <ButtonSmall btnNumber="1" btnText="СТОП" />
+                <ButtonSmall btnNumber="1" btnText={texts.buttonStopText} />
                 <div>{`X: ${xCoordinata}_____`}</div>
               </div>
             ) : (
@@ -92,7 +118,7 @@ const SongPlayPage = React.memo((props) => {
                 className={classes.btnWrp}
                 id={classes.btnWrpPlay}
               >
-                <ButtonSmall btnNumber="1" btnText="СТАРТ" />
+                <ButtonSmall btnNumber="1" btnText={texts.buttonStartText} />
                 <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
               </div>
             )}
@@ -107,13 +133,13 @@ const SongPlayPage = React.memo((props) => {
           className={classes.toMainMenu}
         >
           <NavLink to={"/start-page"}>
-            <span>Главное меню</span>
+            <span>{texts.mainMenuText}</span>
           </NavLink>
         </div>
         <div className={classes.langToggle}>
-          <span>рус</span>
+          <span onClick={()=>props.currentLanguageToggle('ru')}>рус</span>
           <span>|</span>
-          <span>eng</span>
+          <span onClick={()=>props.currentLanguageToggle('en')}>eng</span>
           {/*аудиофайлы невидимые*/}
           <span>
               <audio

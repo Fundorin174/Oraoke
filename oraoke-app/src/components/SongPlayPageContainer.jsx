@@ -24,7 +24,7 @@ import {
   getSrcToSoundExploision,
   getSrcToSoundOfFinish,
   getSrcTofinishLineImg,
-  getFinishLineXCoordinate, getCurrentSongVolume, getCurrentVoiceVolume
+  getFinishLineXCoordinate, getCurrentSongVolume, getCurrentVoiceVolume, getCurrentLanguage
 } from "../redux/startPageSelectors";
 import {
   isPlayingSet,
@@ -33,7 +33,7 @@ import {
   isCurrentSongPlayingSetter,
   sendChangingMoveDataToState,
   setNewVolumeOfSong,
-  setNewVolumeOfVoice,
+  setNewVolumeOfVoice, currentLanguageToggle,
 } from "./../redux/startPageReduser";
 
 
@@ -828,6 +828,7 @@ let mapStateToProps = (state) => ({
   finishLineXCoordinate: getFinishLineXCoordinate(state),
   currentSongVolume: getCurrentSongVolume(state),
   currentVoiceVolume: getCurrentVoiceVolume(state),
+  currentLanguage: getCurrentLanguage(state),
 });
 
 export default compose(
@@ -839,5 +840,6 @@ export default compose(
     sendChangingMoveDataToState,
     setNewVolumeOfSong,
     setNewVolumeOfVoice,
+    currentLanguageToggle
   })
 )(SongPlayPageContainer);
