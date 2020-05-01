@@ -69,6 +69,7 @@ const SongPlayPage = React.memo((props) => {
             textWrpRefGetter={props.textWrpRefGetter}
             birdRefGetter = {props.birdRefGetter}
             song={props.currentSong}
+            canvasWrpHeight = {props.canvasWrpHeight}
           />
             <div className={classes.buttonAndVolumeWrp}>
             <fieldset className={classes.volumeControlWrp}>
