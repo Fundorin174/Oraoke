@@ -1,45 +1,47 @@
 @import "variables";
 
 .btnwrp {
-@include buttonBig
+  @include buttonBig
 }
 
-.btnwrp:hover{
+.btnwrp:hover {
   background-color: $bgColorDark;
   border: 3px solid $bgColorBright
 }
 
 
-@media all and (max-width: 750px) , (max-height: 850px) {
-.btnwrp {
-  width: 200px;
-  height: 70px;
-  border: 1px solid #8700FA;
+@media all and (max-width: 750px),
+(max-height: 850px) {
+  .btnwrp {
+    width: 200px;
+    height: 70px;
+    border: 1px solid #8700FA;
 
-  .star {
+    .star {
       img {
-          max-height: 65%;
-        }
+        max-height: 65%;
+      }
 
       span {
         left: 37%;
         top: 18%;
         font-size: 20px;
-      }  
+      }
+    }
+
+    .text {
+      font-size: 20px;
+      line-height: 25px;
+      letter-spacing: 2px;
+
+
+      .currentSong {
+        width: 122px;
+        height: 25px;
+        font-size: 8px;
+        line-height: 25px;
+      }
+    }
   }
-
-  .text {
-    font-size: 20px;
-    line-height: 25px;
-
-
-          .currentSong {
-            width: 122px;
-            height: 25px;
-            font-size: 8px;
-            line-height: 25px;
-          }
-  }
-}
 
 }

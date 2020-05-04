@@ -8,7 +8,7 @@
   position: absolute;
 }
 
-.startPageWrp{
+.startPageWrp {
   position: absolute;
   min-height: 100vh;
   min-width: 100vw;
@@ -18,7 +18,7 @@
   flex-direction: column;
   justify-content: flex-start;
 
-  .title{
+  .title {
     margin-top: 60px;
     font-style: normal;
     font-weight: normal;
@@ -29,7 +29,7 @@
   }
 
 
-  .btnsWrp{
+  .btnsWrp {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,18 +39,19 @@
 
 
 
-  
+
 }
 
 
-@media all and (max-width: 750px) , (max-height: 850px) {
+@media all and (max-width: 750px),
+(max-height: 850px) {
 
   .startPageWrp .title {
     margin-top: 60px;
-    font-size: 30px;
+    font-size: 20px;
     line-height: 40px;
 
-    img{
+    img {
       height: 90px;
     }
   }
