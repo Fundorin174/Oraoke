@@ -30,7 +30,6 @@ import {
   getCurrentLanguage,
 } from "../redux/startPageSelectors";
 import {
-  isPlayingSet,
   stopBtnIsPushSet,
   saveDOMElementToState,
   isCurrentSongPlayingSetter,
@@ -38,7 +37,7 @@ import {
   setNewVolumeOfSong,
   setNewVolumeOfVoice,
   currentLanguageToggle,
-} from "./../redux/startPageReduser";
+} from "../redux/startPageReduser";
 
 class SongPlayPageContainer extends React.PureComponent {
   constructor(props) {
@@ -927,7 +926,6 @@ export default compose(
   connect(mapStateToProps, {
     saveDOMElementToState,
     stopBtnIsPushSet,
-    isPlayingSet,
     isCurrentSongPlayingSetter,
     sendChangingMoveDataToState,
     setNewVolumeOfSong,

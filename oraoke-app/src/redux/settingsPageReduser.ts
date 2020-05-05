@@ -11,20 +11,40 @@ const IS_CHECKING_MICROPHONE_START =
   IS_MAX_USER_VOICE_LEVEL_SET =
     "ORAOKE/SETTINGS_PAGE/IS_MAX_USER_VOICE_LEVEL_SET";
 
-export const toggleIsCheckingMicrophoneStart = (isStart: boolean) => ({
+type ToggleIsCheckingMicrophoneStartType = {
+  type: typeof IS_CHECKING_MICROPHONE_START
+  isStart: boolean
+}
+
+export const toggleIsCheckingMicrophoneStart = (isStart: boolean): ToggleIsCheckingMicrophoneStartType => ({
   type: IS_CHECKING_MICROPHONE_START,
   isStart: isStart,
 });
-export const setMaxUserVoiceLevel = (userVoiceLevel: number) => ({
+
+type SetMaxUserVoiceLevelType = {
+  type: typeof MAX_USER_VOICE_LEVEL
+  userVoiceLevel: number
+}
+
+export const setMaxUserVoiceLevel = (userVoiceLevel: number): SetMaxUserVoiceLevelType => ({
   type: MAX_USER_VOICE_LEVEL,
   userVoiceLevel: userVoiceLevel,
 });
+
+type IsSetMaxUserVoiceLevelSuccsessType = {
+  type: typeof IS_MAX_USER_VOICE_LEVEL_SET
+  isMaxUserVoiseLevelSet: boolean
+}
+
 export const isSetMaxUserVoiceLevelSuccsess = (
   isMaxUserVoiseLevelSet: boolean
-) => ({
+): IsSetMaxUserVoiceLevelSuccsessType => ({
   type: IS_MAX_USER_VOICE_LEVEL_SET,
   isMaxUserVoiseLevelSet: isMaxUserVoiseLevelSet,
 });
+
+
+type ActionType = ToggleIsCheckingMicrophoneStartType | SetMaxUserVoiceLevelType | IsSetMaxUserVoiceLevelSuccsessType;
 
 let initialState = {
   isCheckingMicrophoneStart: false,
@@ -99,7 +119,9 @@ let initialState = {
   isSetMaxUserVoiceLevel: false,
 };
 
-const settingsPageReducer = (state = initialState, action: any) => {
+export type SettingPageInitialStateType = typeof initialState
+
+const settingsPageReducer = (state = initialState, action: ActionType): SettingPageInitialStateType => {
   switch (action.type) {
     case IS_CHECKING_MICROPHONE_START:
       return {

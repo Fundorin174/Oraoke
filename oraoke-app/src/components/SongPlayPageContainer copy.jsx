@@ -12,7 +12,7 @@ import {
   getSongsSelector,
   getIsStopBtnPushed,
 } from "../redux/startPageSelectors";
-import { isPlayingSet, stopBtnIsPushSet } from "./../redux/startPageReduser";
+import { stopBtnIsPushSet } from "../redux/startPageReduser";
 import { useRef } from "react";
 
 const SongPlayPageContainer = React.memo((props) => {
@@ -230,5 +230,5 @@ let mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { stopBtnIsPushSet, isPlayingSet })
+  connect(mapStateToProps, { stopBtnIsPushSet })
 )(SongPlayPageContainer);
