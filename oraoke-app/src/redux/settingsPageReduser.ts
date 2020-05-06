@@ -1,3 +1,4 @@
+import { MultiLanguageTextType } from "./startPageReduser";
 import Img1 from "./../img/advertisment/adv1SettingPage.png";
 import Img2 from "./../img/advertisment/adv2SettingPage.png";
 import Img3 from "./../img/advertisment/adv1SettingPage.png";
@@ -12,39 +13,51 @@ const IS_CHECKING_MICROPHONE_START =
     "ORAOKE/SETTINGS_PAGE/IS_MAX_USER_VOICE_LEVEL_SET";
 
 type ToggleIsCheckingMicrophoneStartType = {
-  type: typeof IS_CHECKING_MICROPHONE_START
-  isStart: boolean
-}
+  type: typeof IS_CHECKING_MICROPHONE_START;
+  isStart: boolean;
+};
 
-export const toggleIsCheckingMicrophoneStart = (isStart: boolean): ToggleIsCheckingMicrophoneStartType => ({
+export const toggleIsCheckingMicrophoneStart = (
+  isStart: boolean
+): ToggleIsCheckingMicrophoneStartType => ({
   type: IS_CHECKING_MICROPHONE_START,
   isStart: isStart,
 });
 
 type SetMaxUserVoiceLevelType = {
-  type: typeof MAX_USER_VOICE_LEVEL
-  userVoiceLevel: number
-}
+  type: typeof MAX_USER_VOICE_LEVEL;
+  userVoiceLevel: number;
+};
 
-export const setMaxUserVoiceLevel = (userVoiceLevel: number): SetMaxUserVoiceLevelType => ({
+export const setMaxUserVoiceLevel = (
+  userVoiceLevel: number
+): SetMaxUserVoiceLevelType => ({
   type: MAX_USER_VOICE_LEVEL,
   userVoiceLevel: userVoiceLevel,
 });
 
 type IsSetMaxUserVoiceLevelSuccsessType = {
-  type: typeof IS_MAX_USER_VOICE_LEVEL_SET
-  isMaxUserVoiseLevelSet: boolean
-}
+  type: typeof IS_MAX_USER_VOICE_LEVEL_SET;
+  isMaxUserVoiсeLevelSet: boolean;
+};
 
 export const isSetMaxUserVoiceLevelSuccsess = (
-  isMaxUserVoiseLevelSet: boolean
+  isMaxUserVoiсeLevelSet: boolean
 ): IsSetMaxUserVoiceLevelSuccsessType => ({
   type: IS_MAX_USER_VOICE_LEVEL_SET,
-  isMaxUserVoiseLevelSet: isMaxUserVoiseLevelSet,
+  isMaxUserVoiсeLevelSet: isMaxUserVoiсeLevelSet,
 });
 
+type ActionType =
+  | ToggleIsCheckingMicrophoneStartType
+  | SetMaxUserVoiceLevelType
+  | IsSetMaxUserVoiceLevelSuccsessType;
 
-type ActionType = ToggleIsCheckingMicrophoneStartType | SetMaxUserVoiceLevelType | IsSetMaxUserVoiceLevelSuccsessType;
+export type AdvertismentType = {
+  url: string;
+  img: string;
+  text: MultiLanguageTextType;
+};
 
 let initialState = {
   isCheckingMicrophoneStart: false,
@@ -119,9 +132,12 @@ let initialState = {
   isSetMaxUserVoiceLevel: false,
 };
 
-export type SettingPageInitialStateType = typeof initialState
+export type SettingPageInitialStateType = typeof initialState;
 
-const settingsPageReducer = (state = initialState, action: ActionType): SettingPageInitialStateType => {
+const settingsPageReducer = (
+  state = initialState,
+  action: ActionType
+): SettingPageInitialStateType => {
   switch (action.type) {
     case IS_CHECKING_MICROPHONE_START:
       return {
@@ -136,7 +152,7 @@ const settingsPageReducer = (state = initialState, action: ActionType): SettingP
     case IS_MAX_USER_VOICE_LEVEL_SET:
       return {
         ...state,
-        isSetMaxUserVoiceLevel: action.isMaxUserVoiseLevelSet,
+        isSetMaxUserVoiceLevel: action.isMaxUserVoiсeLevelSet,
       };
 
     default:

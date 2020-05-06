@@ -16,7 +16,6 @@ import {
   getSongMP3,
   getBirdOnCanvas,
   getIsCurrentSongPlayingSetter,
-  getTimerSongPlaying,
   getXCoordOfBird,
   getYCoordOfBird,
   getSoundExploision,
@@ -37,7 +36,10 @@ import {
   setNewVolumeOfSong,
   setNewVolumeOfVoice,
   currentLanguageToggle,
+  SongType,
 } from "../redux/startPageReduser";
+import { AdvertismentType } from "../redux/settingsPageReduser";
+import { AppStateType } from "../redux/redux-store";
 
 class SongPlayPageContainer extends React.PureComponent {
   constructor(props) {
@@ -895,6 +897,52 @@ class SongPlayPageContainer extends React.PureComponent {
   }
 }
 
+// type MapStateToPropsType = {
+//   maxUserVoiceLevel: number;
+//   isSetMaxUserVoiceLevel: boolean;
+//   currentSong: SongType;
+//   songs: Array<SongType>;
+//   adv7: AdvertismentType;
+//   adv8: AdvertismentType;
+//   isStopBtnPushed: boolean;
+//   canvas: null | HTMLElement;
+//   canvasWrp: null | HTMLElement;
+//   songMP3: null | HTMLAudioElement;
+//   birdOnCanvas: null | HTMLElement;
+//   isCurrentSongPlaying: boolean;
+//   xCoordOfBird: null | number;
+//   yCoordOfBird: null | number;
+//   soundExploision: null | HTMLAudioElement;
+//   soundOfFinish: null | HTMLAudioElement;
+//   srcToSoundExploision: string;
+//   srcToSoundOfFinish: string;
+//   srcTofinishLineImg: string;
+//   finishLineXCoordinate: number;
+//   currentSongVolume: number;
+//   currentVoiceVolume: number;
+//   currentLanguage: "ru" | "en";
+//   canvasRef: any;
+// };
+
+// type MapDispatchToPropsType = {
+//   saveDOMElementToState: (DOMelement: HTMLElement, elementName: string) => void;
+//   stopBtnIsPushSet: (isBtnPushed: boolean) => void;
+//   isCurrentSongPlayingSetter: (isCurrentSongPlaying: boolean) => void;
+//   sendChangingMoveDataToState: (
+//     xCoordOfBird: null | number,
+//     yCoordOfBird: null | number
+//   ) => void;
+//   setNewVolumeOfSong: (newVolume: number) => void;
+//   setNewVolumeOfVoice: (newVolume: number) => void;
+//   currentLanguageToggle: (lang: "ru" | "en") => void;
+// };
+
+// type OwnPropsType = {};
+
+// type SongPlayPageContainerPropsType = MapStateToPropsType &
+//   MapDispatchToPropsType &
+//   OwnPropsType;
+
 let mapStateToProps = (state) => ({
   maxUserVoiceLevel: getMaxUserVoiceLevel(state),
   isSetMaxUserVoiceLevel: getIsSetMaxUserVoiceLevel(state),
@@ -908,7 +956,6 @@ let mapStateToProps = (state) => ({
   songMP3: getSongMP3(state),
   birdOnCanvas: getBirdOnCanvas(state),
   isCurrentSongPlaying: getIsCurrentSongPlayingSetter(state),
-  timerSongPlaying: getTimerSongPlaying(state),
   xCoordOfBird: getXCoordOfBird(state),
   yCoordOfBird: getYCoordOfBird(state),
   soundExploision: getSoundExploision(state),
