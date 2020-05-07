@@ -722,7 +722,7 @@ let initialState = {
     srcToSong: srcToSong1LepsRumkaVodki,
     srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
     playbackSpeed: 200,
-    startMovingDelay: 26,
+    startMovingDelay: 0, //26,
     canvasWigth: 20000,
     finishLineXCoordinate: 16300,
     itemsOnCanvasCoordinates: [
