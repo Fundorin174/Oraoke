@@ -44,23 +44,27 @@ import { AppStateType } from "../redux/redux-store";
 class SongPlayPageContainer extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.window = window;
-    this.canvasRef = null;
-    this.canvasWrpRef = null;
-    this.songMP3Ref = null;
-    this.textWrpRef = null;
-    this.birdRef = null;
-    this.soundExploisionRef = null;
-    this.soundOfFinishRef = null;
-    this.allLinesCoordinatesArray = []; //массив с координатами внешних границ всех препятствий
-    this.birdCoordinatesArray = []; //массив координат прицы на данный момент
-    this.voiceArray = []; //массив для хранеия данных с микрофона
-    this.numOfItemsInVoiceArray = 32; //количество элементов в массиве
-    // в который будет записан звук с микрофона
-    this.analyser = null;
-    this.flying = null;
-    this.ctx = null; //контекст для рисования в canvas
-    this.canvasHeight = null;
+    this.state = {
+      canvasRef: null,
+      canvasWrpRef: null,
+      songMP3Ref: null,
+      textWrpRef: null,
+      birdRef: null,
+      soundExploisionRef: null,
+      soundOfFinishRef: null,
+      allLinesCoordinatesArray: [], //массив с координатами внешних границ всех препятствий
+      birdCoordinatesArray: [], //массив координат прицы на данный момент
+      voiceArray: [], //массив для хранеия данных с микрофона
+      numOfItemsInVoiceArray: 32, //количество элементов в массиве
+      // в который будет записан звук с микрофона
+      analyser: null,
+      flying: null,
+      ctx: null, //контекст для рисования в canvas
+      canvasHeight: null,
+    };
+    // this.window = window;
+    // this.canvasRef = null;
+    // this.canvasWrpRef = null;
 
     //////////////////////////
     //Забиндить this для всех методов где это надо
@@ -95,25 +99,25 @@ class SongPlayPageContainer extends React.PureComponent {
     ////////////////////////////////////////
     //ref calback to DOM elements
     this.canvasRefGetter = (el) => {
-      this.canvasRef = el;
+      this.state.canvasRef = el;
     };
     this.canvasWrpRefGetter = (el) => {
-      this.canvasWrpRef = el;
+      this.state.canvasWrpRef = el;
     };
     this.songMP3RefGetter = (el) => {
-      this.songMP3Ref = el;
+      this.state.songMP3Ref = el;
     };
     this.textWrpRefGetter = (el) => {
-      this.textWrpRef = el;
+      this.state.textWrpRef = el;
     };
     this.birdRefGetter = (el) => {
-      this.birdRef = el;
+      this.state.birdRef = el;
     };
     this.soundExploisionRefGetter = (el) => {
-      this.soundExploisionRef = el;
+      this.state.soundExploisionRef = el;
     };
     this.soundOfFinishRefGetter = (el) => {
-      this.soundOfFinishRef = el;
+      this.state.soundOfFinishRef = el;
     };
     this.songVolumeInputRefGetter = (el) => {
       this.songVolumeInputRef = el;
@@ -209,22 +213,31 @@ class SongPlayPageContainer extends React.PureComponent {
   //сохранение всех нужных DOM элементов в сторе
   saveDOMElementsToState() {
     const canvasWrp = this.getElementFromDOMorState(
-      this.canvasWrpRef,
+      this.state.canvasWrpRef,
       "canvasWrp"
     );
-    const canvas = this.getElementFromDOMorState(this.canvasRef, "canvas");
-    const songMP3 = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
-    const textWrp = this.getElementFromDOMorState(this.textWrpRef, "textWrp");
+    const canvas = this.getElementFromDOMorState(
+      this.state.canvasRef,
+      "canvas"
+    );
+    const songMP3 = this.getElementFromDOMorState(
+      this.state.songMP3Ref,
+      "songMP3"
+    );
+    const textWrp = this.getElementFromDOMorState(
+      this.state.textWrpRef,
+      "textWrp"
+    );
     const birdOnCanvas = this.getElementFromDOMorState(
-      this.birdRef,
+      this.state.birdRef,
       "birdOnCanvas"
     );
     const soundExploision = this.getElementFromDOMorState(
-      this.soundExploisionRef,
+      this.state.soundExploisionRef,
       "soundExploision"
     );
     const soundOfFinish = this.getElementFromDOMorState(
-      this.soundOfFinishRef,
+      this.state.soundOfFinishRef,
       "soundOfFinish"
     );
     this.props.saveDOMElementToState(canvasWrp, "canvasWrp");
@@ -248,7 +261,10 @@ class SongPlayPageContainer extends React.PureComponent {
   // ////////////////////////////////////////////////////////////////////////
   // Запуск фоновой песни
   playSongStart() {
-    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+    const audio = this.getElementFromDOMorState(
+      this.state.songMP3Ref,
+      "songMP3"
+    );
     audio.volume = this.props.currentSongVolume; // получение громкости из props
     // в зависимости от инпута
     audio.play();
@@ -259,7 +275,7 @@ class SongPlayPageContainer extends React.PureComponent {
   //Запуск звука взрыва при столкновении
   playSoundExploisionStart() {
     const soundExploision = this.getElementFromDOMorState(
-      this.soundExploisionRef,
+      this.state.soundExploisionRef,
       "soundExploision"
     );
     soundExploision.play();
@@ -268,14 +284,17 @@ class SongPlayPageContainer extends React.PureComponent {
   ////////////////////////////////////////////////////////////////////////
   //запуск зпобедных фанфар при прохождении до конца
   playSoundOfFinish() {
-    const soundOfFinish = this.soundOfFinishRef;
+    const soundOfFinish = this.state.soundOfFinishRef;
     soundOfFinish.play();
   }
 
   // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни и отправка к началу
   playSongStop() {
-    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+    const audio = this.getElementFromDOMorState(
+      this.state.songMP3Ref,
+      "songMP3"
+    );
     audio.pause();
     audio.currentTime = 0;
     this.isCurrentSongPlayingSet(false);
@@ -284,7 +303,10 @@ class SongPlayPageContainer extends React.PureComponent {
   // ////////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни на текущем месте
   playSongPause() {
-    const audio = this.getElementFromDOMorState(this.songMP3Ref, "songMP3");
+    const audio = this.getElementFromDOMorState(
+      this.state.songMP3Ref,
+      "songMP3"
+    );
     audio.pause();
     this.isCurrentSongPlayingSet(false);
   }
@@ -320,23 +342,26 @@ class SongPlayPageContainer extends React.PureComponent {
     const birdOnCanvas =
       this.props.birdOnCanvas && this.props.birdOnCanvas.clientHeight !== 0
         ? this.props.birdOnCanvas
-        : this.birdRef;
+        : this.state.birdRef;
 
     const canvas =
       this.props.canvas && this.props.canvas.clientHeight !== 0
         ? this.props.canvas
-        : this.canvasRef;
+        : this.state.canvasRef;
     const birdHeigth = birdOnCanvas.clientHeight;
     let maxHeightForWile = this.props.isSetMaxUserVoiceLevel
       ? this.props.maxUserVoiceLevel
       : 255;
     let canvasHeight = canvas.clientHeight;
-    this.voiceArray = new Uint8Array(this.numOfItemsInVoiceArray);
+    this.setState({
+      voiceArray: new Uint8Array(this.state.numOfItemsInVoiceArray),
+    });
+
     // if (this.context) return;
     let context = new (window.AudioContext || window.webkitAudioContext)(); //аудиоконтекст WEB AudioAPI
     let analyser = context.createAnalyser();
     let gainNode = context.createGain(); //создание усилительного узла
-    this.analyser = analyser; //передаем данные в глобальную переменную для сброса
+    this.setState({ analyser: analyser }); //передаем данные в глобальную переменную для сброса
     //получаем поток с микрофона и работаем с ним
     navigator.mediaDevices
       .getUserMedia({ audio: true })
@@ -355,14 +380,14 @@ class SongPlayPageContainer extends React.PureComponent {
         //рекурсивная функция обработки принятого звука с частотой примерно 60 раз в секугду
         let loop = () => {
           let flying = window.requestAnimationFrame(loop);
-          analyser.getByteFrequencyData(this.voiceArray); //получение данных частот
-          this.flying = flying; //передаем данные в глобальную переменную для сброса
+          analyser.getByteFrequencyData(this.state.voiceArray); //получение данных частот
+          this.setState({ flying: flying }); //передаем данные в глобальную переменную для сброса
 
           // Получение усредненного значения звука по всем частотам - это и будет текущее
           // значение уровня звука
           let averageHeight =
-            this.voiceArray.reduce((summ, current) => summ + current) /
-            this.voiceArray.length;
+            this.state.voiceArray.reduce((summ, current) => summ + current) /
+            this.state.voiceArray.length;
 
           // Задание высоты подъема птицы от стреднего уровня сигнала в массиве
           let birdFlyingHigh =
@@ -425,9 +450,9 @@ class SongPlayPageContainer extends React.PureComponent {
   /////////////////////////////////////////////////////////////////////////
   //сброс птицы в начальное состояние
   stopBirdFlying() {
-    cancelAnimationFrame(this.flying);
+    cancelAnimationFrame(this.state.flying);
     this.props.birdOnCanvas.style.bottom = 70 + "px";
-    this.analyser && this.analyser.disconnect();
+    this.state.analyser && this.state.analyser.disconnect();
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -449,16 +474,16 @@ class SongPlayPageContainer extends React.PureComponent {
     const canvas =
       this.props.canvas && this.props.canvas.clientHeight !== 0
         ? this.props.canvas
-        : this.canvasRef;
+        : this.state.canvasRef;
     const canvasWrp =
       this.props.canvasWrp && this.props.canvasWrp.clientHeight !== 0
         ? this.props.canvasWrp
-        : this.canvasWrpRef;
+        : this.state.canvasWrpRef;
 
     //устанавливаем высоту планшета на 80 px меньше родителя (80 для текста)
     let canvasHeigth = canvasWrp.clientHeight - 80;
     canvas.height = `${canvasHeigth}px`;
-    this.canvasHeight = canvasHeigth;
+    this.state.canvasHeight = canvasHeigth;
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -544,8 +569,8 @@ class SongPlayPageContainer extends React.PureComponent {
     const canvas =
       this.props.canvas && this.props.canvas.clientHeight !== 0
         ? this.props.canvas
-        : this.canvasRef;
-    let canvasHeigth = this.canvasHeight; //высота
+        : this.state.canvasRef;
+    let canvasHeigth = this.state.canvasHeight; //высота
 
     if (canvas.height !== canvasHeigth) {
       canvas.height = canvasHeigth;
@@ -554,7 +579,7 @@ class SongPlayPageContainer extends React.PureComponent {
 
     //получение контекста canvas
     const ctx = canvas.getContext("2d");
-    this.ctx = ctx;
+    this.setState({ ctx: ctx });
 
     //рисование
 
@@ -660,7 +685,7 @@ class SongPlayPageContainer extends React.PureComponent {
 
     for (let x = A[0]; x <= B[0]; x++) {
       let y = +(m * x + b).toFixed(0);
-      this.allLinesCoordinatesArray.push({ x: x, y: y });
+      this.state.allLinesCoordinatesArray.push({ x: x, y: y });
     }
   }
 
@@ -668,7 +693,7 @@ class SongPlayPageContainer extends React.PureComponent {
   // создание массива координат круга, который занимает птица в данный момент
   // (достаточно 8 точек по кругу)
   saveBirdCoordinatesArray(newx, newy, radius) {
-    this.birdCoordinatesArray = []; //обнулить массив
+    this.setState({ birdCoordinatesArray: [] }); //обнулить массив
     let centerX = newx;
     let centerY = newy;
 
@@ -680,7 +705,7 @@ class SongPlayPageContainer extends React.PureComponent {
       let x = +(centerX + radius * Math.cos(radians)).toFixed(0);
       let y = +(centerY + radius * Math.sin(radians)).toFixed(0);
       if (x !== prevX && y !== prevY) {
-        this.birdCoordinatesArray.push({ x: x, y: y });
+        this.state.birdCoordinatesArray.push({ x: x, y: y });
         prevX = x;
         prevY = y;
       }
@@ -691,15 +716,15 @@ class SongPlayPageContainer extends React.PureComponent {
   //сравнение перекрытия координат препятствий и координат птицы
   compareObstacleAndBirdCoordinates(allLinesCoordinatesArray) {
     //координата в середине массива всегда минимальная
-    let xBirdMin = this.birdCoordinatesArray[0]
-      ? this.birdCoordinatesArray[
-          ((this.birdCoordinatesArray.length - 1) / 2).toFixed(0)
+    let xBirdMin = this.state.birdCoordinatesArray[0]
+      ? this.state.birdCoordinatesArray[
+          ((this.state.birdCoordinatesArray.length - 1) / 2).toFixed(0)
         ].x
       : 75;
 
     //первая координата всегда максимальная
-    let xBirdMax = this.birdCoordinatesArray[0]
-      ? this.birdCoordinatesArray[0].x
+    let xBirdMax = this.state.birdCoordinatesArray[0]
+      ? this.state.birdCoordinatesArray[0].x
       : 185;
 
     let acrossingCoordinatesArray = [];
@@ -722,7 +747,7 @@ class SongPlayPageContainer extends React.PureComponent {
     //     acrossingCoordinatesArray.push(currentCoordinate);
     //   }
     // });
-    this.birdCoordinatesArray.forEach((currentCoordinate) => {
+    this.state.birdCoordinatesArray.forEach((currentCoordinate) => {
       for (let i = 0; i < acrossingCoordinatesArray.length - 1; i++) {
         if (currentCoordinate.y === acrossingCoordinatesArray[i].y) {
           //событие столкновения птицы и препятствия
@@ -743,7 +768,9 @@ class SongPlayPageContainer extends React.PureComponent {
   checkBirdFacedOnWall() {
     // сравнивает координаты птицы и препятствий и выдает сообщение о столкновении
     this.props.birdOnCanvas &&
-      this.compareObstacleAndBirdCoordinates(this.allLinesCoordinatesArray);
+      this.compareObstacleAndBirdCoordinates(
+        this.state.allLinesCoordinatesArray
+      );
   }
 
   // ///////////////////////////////////////////////////////////////////////
@@ -753,11 +780,11 @@ class SongPlayPageContainer extends React.PureComponent {
     const canvas =
       this.props.canvas && this.props.canvas.clientHeight !== 0
         ? this.props.canvas
-        : this.canvasRef;
+        : this.state.canvasRef;
     const textWrp =
       this.props.textWrp && this.props.textWrp.clientHeight !== 0
         ? this.props.textWrp
-        : this.textWrpRef;
+        : this.state.textWrpRef;
     let canvasWidth = canvas.clientWidth; // ширина
 
     this.shiftTextToLeft -= 1; //значение для сдвига текста на каждом шаге
@@ -777,7 +804,7 @@ class SongPlayPageContainer extends React.PureComponent {
       }
       // служебная функция  если надо проверить точность положения птицы с ее координами в стейте
       // if (Math.abs(this.shiftTextToLeft) > 10000) {
-      //   this.paintCircle(this.ctx, this.xCoordOfBird, this.yCoordOfBird, 35);
+      //   this.paintCircle(this.state.ctx, this.xCoordOfBird, this.yCoordOfBird, 35);
       // }
     }
 
@@ -818,11 +845,11 @@ class SongPlayPageContainer extends React.PureComponent {
     const canvas =
       this.props.canvas && this.props.canvas.clientHeight !== 0
         ? this.props.canvas
-        : this.canvasRef;
+        : this.state.canvasRef;
     const textWrp =
       this.props.textWrp && this.props.textWrp.clientHeight !== 0
         ? this.props.textWrp
-        : this.textWrpRef;
+        : this.state.textWrpRef;
     let speed = this.props.currentSong.playbackSpeed;
     this.playSongStop();
     this.clearTimer();
