@@ -18,6 +18,9 @@ export const getIsStopBtnPushed = (state: AppStateType) => {
 export const getCanvas = (state: AppStateType) => {
   return state.startPage.canvas;
 };
+export const getTextWrp = (state: AppStateType) => {
+  return state.startPage.textWrp;
+};
 export const getCanvasWrp = (state: AppStateType) => {
   return state.startPage.canvasWrp;
 };
