@@ -150,57 +150,9 @@ class SongPlayPageContainer extends React.PureComponent<
     this.soundOfFinishRefGetter = this.soundOfFinishRefGetter.bind(this);
     this.songVolumeInputRefGetter = this.songVolumeInputRefGetter.bind(this);
     this.voiceVolumeInputRefGetter = this.voiceVolumeInputRefGetter.bind(this);
-
-    ////////////////////////////////////////
-    //ref calback to DOM elements
-
-    this.canvasRefGetter = (el: HTMLCanvasElement) => {
-      this.setState({
-        canvasRef: el,
-      });
-    };
-    this.canvasWrpRefGetter = (el: HTMLElement) => {
-      this.setState({
-        canvasWrpRef: el,
-      });
-    };
-    this.songMP3RefGetter = (el: HTMLAudioElement) => {
-      this.setState({
-        songMP3Ref: el,
-      });
-    };
-    this.textWrpRefGetter = (el: HTMLElement) => {
-      this.setState({
-        textWrpRef: el,
-      });
-    };
-    this.birdRefGetter = (el: HTMLElement) => {
-      this.setState({
-        birdRef: el,
-      });
-    };
-    this.soundExploisionRefGetter = (el: HTMLAudioElement) => {
-      this.setState({
-        soundExploisionRef: el,
-      });
-    };
-    this.soundOfFinishRefGetter = (el: HTMLAudioElement) => {
-      this.setState({
-        soundOfFinishRef: el,
-      });
-    };
-    this.songVolumeInputRefGetter = (el: HTMLElement) => {
-      this.setState({
-        songVolumeInputRef: el,
-      });
-    };
-    this.voiceVolumeInputRefGetter = (el: HTMLElement) => {
-      this.setState({
-        voiceVolumeInputRef: el,
-      });
-    };
   }
-
+  ////////////////////////////////////////
+  //ref calback to DOM elements
   canvasRefGetter = (el: HTMLCanvasElement) => {
     this.setState({
       canvasRef: el,
@@ -250,7 +202,7 @@ class SongPlayPageContainer extends React.PureComponent<
   /////////////////////////////////////////////////////////////////////////////////////
   componentDidMount() {
     this.saveDOMElementsToState(); //сохранение всех нужных DOM элементов в стейте
-
+    debugger;
     this.setCanvasHeigthAndWidth(); //изменение высоты canvas по родителю
 
     //перезагрузка страницы при изменении размеров окна браузера
@@ -719,6 +671,8 @@ class SongPlayPageContainer extends React.PureComponent<
     // canvas.width = canvas.offsetWidth; //Чтобы изображение не растягивалось
 
     //получение контекста canvas
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
     this.setState({ ctx: ctx });
 
