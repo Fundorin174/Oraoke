@@ -68,12 +68,9 @@ type SongPlayPageContainerStateType = {
   autoPlaySong: any;
 };
 
-type SongPlayPageContainerRef = {};
-
 class SongPlayPageContainer extends React.PureComponent<
   SongPlayPageContainerPropsType,
-  SongPlayPageContainerStateType,
-  SongPlayPageContainerRef
+  SongPlayPageContainerStateType
 > {
   constructor(props: SongPlayPageContainerPropsType) {
     super(props);
@@ -141,68 +138,78 @@ class SongPlayPageContainer extends React.PureComponent<
     this.playSoundExploisionStart = this.playSoundExploisionStart.bind(this);
     this.changeVolumeOfSong = this.changeVolumeOfSong.bind(this);
     this.changeVolumeOfVoice = this.changeVolumeOfVoice.bind(this);
-    this.canvasRefGetter = this.canvasRefGetter.bind(this);
-    this.canvasWrpRefGetter = this.canvasWrpRefGetter.bind(this);
-    this.songMP3RefGetter = this.songMP3RefGetter.bind(this);
-    this.textWrpRefGetter = this.textWrpRefGetter.bind(this);
-    this.birdRefGetter = this.birdRefGetter.bind(this);
-    this.soundExploisionRefGetter = this.soundExploisionRefGetter.bind(this);
-    this.soundOfFinishRefGetter = this.soundOfFinishRefGetter.bind(this);
-    this.songVolumeInputRefGetter = this.songVolumeInputRefGetter.bind(this);
-    this.voiceVolumeInputRefGetter = this.voiceVolumeInputRefGetter.bind(this);
-  }
-  ////////////////////////////////////////
-  //ref calback to DOM elements
-  canvasRefGetter = (el: HTMLCanvasElement) => {
-    this.setState({
-      canvasRef: el,
-    });
-  };
-  canvasWrpRefGetter = (el: HTMLElement) => {
-    this.setState({
-      canvasWrpRef: el,
-    });
-  };
-  songMP3RefGetter = (el: HTMLAudioElement) => {
-    this.setState({
-      songMP3Ref: el,
-    });
-  };
-  textWrpRefGetter = (el: HTMLElement) => {
-    this.setState({
-      textWrpRef: el,
-    });
-  };
-  birdRefGetter = (el: HTMLElement) => {
-    this.setState({
-      birdRef: el,
-    });
-  };
-  soundExploisionRefGetter = (el: HTMLAudioElement) => {
-    this.setState({
-      soundExploisionRef: el,
-    });
-  };
-  soundOfFinishRefGetter = (el: HTMLAudioElement) => {
-    this.setState({
-      soundOfFinishRef: el,
-    });
-  };
-  songVolumeInputRefGetter = (el: HTMLElement) => {
-    this.setState({
-      songVolumeInputRef: el,
-    });
-  };
-  voiceVolumeInputRefGetter = (el: HTMLElement) => {
-    this.setState({
-      voiceVolumeInputRef: el,
-    });
-  };
+    // this.canvasRefGetter = this.canvasRefGetter.bind(this);
+    // this.canvasWrpRefGetter = this.canvasWrpRefGetter.bind(this);
+    // this.songMP3RefGetter = this.songMP3RefGetter.bind(this);
+    // this.textWrpRefGetter = this.textWrpRefGetter.bind(this);
+    // this.birdRefGetter = this.birdRefGetter.bind(this);
+    // this.soundExploisionRefGetter = this.soundExploisionRefGetter.bind(this);
+    // this.soundOfFinishRefGetter = this.soundOfFinishRefGetter.bind(this);
+    // this.songVolumeInputRefGetter = this.songVolumeInputRefGetter.bind(this);
+    // this.voiceVolumeInputRefGetter = this.voiceVolumeInputRefGetter.bind(this);
 
+    ////////////////////////////////////////
+    //ref calback to DOM elements
+    this.canvasRefGetter = (el: HTMLCanvasElement) => {
+      this.setState({
+        canvasRef: el,
+      });
+    };
+    this.canvasWrpRefGetter = (el: HTMLElement) => {
+      this.setState({
+        canvasWrpRef: el,
+      });
+    };
+    this.songMP3RefGetter = (el: HTMLAudioElement) => {
+      this.setState({
+        songMP3Ref: el,
+      });
+    };
+    this.textWrpRefGetter = (el: HTMLElement) => {
+      this.setState({
+        textWrpRef: el,
+      });
+    };
+    this.birdRefGetter = (el: HTMLElement) => {
+      this.setState({
+        birdRef: el,
+      });
+    };
+    this.soundExploisionRefGetter = (el: HTMLAudioElement) => {
+      this.setState({
+        soundExploisionRef: el,
+      });
+    };
+    this.soundOfFinishRefGetter = (el: HTMLAudioElement) => {
+      this.setState({
+        soundOfFinishRef: el,
+      });
+    };
+    this.songVolumeInputRefGetter = (el: HTMLElement) => {
+      this.setState({
+        songVolumeInputRef: el,
+      });
+    };
+    this.voiceVolumeInputRefGetter = (el: HTMLElement) => {
+      this.setState({
+        voiceVolumeInputRef: el,
+      });
+    };
+  }
+
+  canvasRefGetter(el: HTMLCanvasElement) {}
+  canvasWrpRefGetter = (el: HTMLElement) => {};
+  songMP3RefGetter = (el: HTMLAudioElement) => {};
+  textWrpRefGetter = (el: HTMLElement) => {};
+  birdRefGetter = (el: HTMLElement) => {};
+  soundExploisionRefGetter = (el: HTMLAudioElement) => {};
+  soundOfFinishRefGetter = (el: HTMLAudioElement) => {};
+  songVolumeInputRefGetter = (el: HTMLElement) => {};
+  voiceVolumeInputRefGetter = (el: HTMLElement) => {};
   /////////////////////////////////////////////////////////////////////////////////////
   componentDidMount() {
     this.saveDOMElementsToState(); //сохранение всех нужных DOM элементов в стейте
-    debugger;
+
     this.setCanvasHeigthAndWidth(); //изменение высоты canvas по родителю
 
     //перезагрузка страницы при изменении размеров окна браузера
@@ -288,7 +295,7 @@ class SongPlayPageContainer extends React.PureComponent<
     }
   }
 
-  //сохранение всех нужных DOM элементов в сторе
+  //сохранение всех нужных DOM элементов из локального стейта в store
   saveDOMElementsToState() {
     const canvasWrp = this.getElementFromDOMorState(
       this.state.canvasWrpRef,
@@ -559,15 +566,9 @@ class SongPlayPageContainer extends React.PureComponent<
 
   // изменение высоты canvas
   setCanvasHeigthAndWidth() {
-    const canvas =
-      this.props.canvas && this.props.canvas.clientHeight !== 0
-        ? this.props.canvas
-        : (this.state.canvasRef as HTMLCanvasElement);
-    const canvasWrp =
-      this.props.canvasWrp && this.props.canvasWrp.clientHeight !== 0
-        ? this.props.canvasWrp
-        : this.state.canvasWrpRef;
-
+    const canvas = this.state.canvasRef;
+    const canvasWrp = this.state.canvasWrpRef;
+    debugger;
     //устанавливаем высоту планшета на 80 px меньше родителя (80 для текста)
     let canvasHeight = canvasWrp ? canvasWrp.clientHeight - 80 : 0;
     canvas && canvas.setAttribute("height", `${canvasHeight}px`);

@@ -9,7 +9,6 @@ const Canvas = React.memo((props) => {
       id="canvasWrp"
       className={classes.canvasWrp}
     >
-      
       {/*Поле*/}
       <canvas
         ref={props.canvasRefGetter}
@@ -17,14 +16,14 @@ const Canvas = React.memo((props) => {
         className={classes.canvas}
         width={props.song.canvasWigth}
       />
-      
+
       {/*птица*/}
       <div className={classes.birdMainWrp} ref={props.birdRefGetter}>
-        <div id='bird' className={classes.birdWrp}>
-          <img src={birdRight} alt="bird"/>
+        <div id="bird" className={classes.birdWrp}>
+          <img src={birdRight} alt="bird" />
         </div>
       </div>
-      
+
       {/*текст*/}
       <div
         ref={props.textWrpRefGetter}
@@ -33,7 +32,7 @@ const Canvas = React.memo((props) => {
       >
         <pre>{props.song.songText}</pre>
       </div>
-      
+
       {/*невидимая песня*/}
       <div className={classes.song}>
         <span>
