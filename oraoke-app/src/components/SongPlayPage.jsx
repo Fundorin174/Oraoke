@@ -10,32 +10,29 @@ import Canvas from "./Canvas";
 const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
   let timer = props.songMP3 ? props.songMP3.currentTime : 0;
-  let xCoordinata =
-    props.xCoordOfBird
-      ? props.xCoordOfBird
-      : 150; // соордината птицы в 200px от левого края
-  
+  let xCoordinata = props.xCoordOfBird ? props.xCoordOfBird : 150; // соордината птицы в 200px от левого края
+
   let texts;
   //тексты на разных языках
-  switch (props.currentLanguage){
-    case 'ru':
+  switch (props.currentLanguage) {
+    case "ru":
       texts = {
-        volumeText: 'Громкость',
-        musicText: 'Музыка',
-        voiceText: 'Голос',
-        mainMenuText: 'Главное меню',
+        volumeText: "Громкость",
+        musicText: "Музыка",
+        voiceText: "Голос",
+        mainMenuText: "Главное меню",
         buttonStopText: "СТОП",
-        buttonStartText: 'СТАРТ'
+        buttonStartText: "СТАРТ",
       };
       break;
-    case 'en':
+    case "en":
       texts = {
-        volumeText: 'Volume',
-        musicText: 'Music',
-        voiceText: 'Voice',
-        mainMenuText: 'Main menu',
+        volumeText: "Volume",
+        musicText: "Music",
+        voiceText: "Voice",
+        mainMenuText: "Main menu",
         buttonStopText: "STOP",
-        buttonStartText: 'START'
+        buttonStartText: "START",
       };
       break;
     default:
@@ -43,15 +40,19 @@ const SongPlayPage = React.memo((props) => {
   }
   return (
     <div className={classes.PageContainer}>
-      <div style={bgShape}/>
-      <div className={classes.globalBacGround}/>
+      <div style={bgShape} />
+      <div className={classes.globalBacGround} />
       <div className={classes.PageWrp}>
         {/* left advertisment */}
         <div className={classes.column}>
-          <AdvertismentBlock adv={props.adv7}
-                             currentLanguage = {props.currentLanguage}/>
-          <AdvertismentBlock adv={props.adv8}
-                             currentLanguage = {props.currentLanguage}/>
+          <AdvertismentBlock
+            adv={props.adv7}
+            currentLanguage={props.currentLanguage}
+          />
+          <AdvertismentBlock
+            adv={props.adv8}
+            currentLanguage={props.currentLanguage}
+          />
         </div>
         <div className={classes.column}>
           <div className={classes.title}>
@@ -67,35 +68,36 @@ const SongPlayPage = React.memo((props) => {
             canvasWrpRefGetter={props.canvasWrpRefGetter}
             songMP3RefGetter={props.songMP3RefGetter}
             textWrpRefGetter={props.textWrpRefGetter}
-            birdRefGetter = {props.birdRefGetter}
+            birdRefGetter={props.birdRefGetter}
             song={props.currentSong}
-            canvasWrpHeight = {props.canvasWrpHeight}
+            canvasWrpHeight={props.canvasWrpHeight}
           />
-            <div className={classes.buttonAndVolumeWrp}>
+          <div className={classes.buttonAndVolumeWrp}>
             <fieldset className={classes.volumeControlWrp}>
               <legend>{texts.volumeText}</legend>
               <label>
                 {texts.musicText}:
                 <input
-                  ref = {props.songVolumeInputRefGetter}
+                  ref={props.songVolumeInputRefGetter}
                   type="range"
-                  max='1'
-                  min='0'
-                  step = '0.1'
+                  max="1"
+                  min="0"
+                  step="0.1"
                   value={props.currentSongVolume}
-                  onChange={value => props.changeVolumeOfSong(value)}
+                  onChange={(value) => props.changeVolumeOfSong(value)}
                 />
-                </label>
+              </label>
               <label>
                 {texts.voiceText}:
                 <input
-                  ref = {props.voiceVolumeInputRefGetter}
+                  ref={props.voiceVolumeInputRefGetter}
                   type="range"
-                  max='4'
-                  min='0'
-                  step = '0.1'
+                  max="4"
+                  min="0"
+                  step="0.1"
                   value={props.currentVoiceVolume}
-                  onChange={value => props.changeVolumeOfVoice(value)} />
+                  onChange={(value) => props.changeVolumeOfVoice(value)}
+                />
               </label>
             </fieldset>
             {isSongPlaying ? (
@@ -106,25 +108,30 @@ const SongPlayPage = React.memo((props) => {
                   props.stopBtnIsPushSet(true);
                 }}
               >
-                {!props.isSetMaxUserVoiceLevel && <p className={classes.warning}>Вы не откалибровали микрофон!</p>}
+                {!props.isSetMaxUserVoiceLevel && (
+                  <p className={classes.warning}>
+                    Вы не откалибровали микрофон!
+                  </p>
+                )}
                 <ButtonSmall btnNumber="1" btnText={texts.buttonStopText} />
-                <div>{`X: ${xCoordinata}_____`}</div>
+                {/* <div>{`X: ${xCoordinata}_____`}</div> */}
               </div>
             ) : (
               <div
                 onClick={() => {
                   props.stopBtnIsPushSet(false);
-                  props.startSigningAndMoving(props.currentSong.startMovingDelay);
+                  props.startSigningAndMoving(
+                    props.currentSong.startMovingDelay
+                  );
                 }}
                 className={classes.btnWrp}
                 id={classes.btnWrpPlay}
               >
                 <ButtonSmall btnNumber="1" btnText={texts.buttonStartText} />
-                <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
+                {/* <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div> */}
               </div>
             )}
           </div>
-          
         </div>
         <div
           id="mainMenu"
@@ -138,25 +145,26 @@ const SongPlayPage = React.memo((props) => {
           </NavLink>
         </div>
         <div className={classes.langToggle}>
-          <span onClick={()=>props.currentLanguageToggle('ru')}>рус</span>
+          <span onClick={() => props.currentLanguageToggle("ru")}>рус</span>
           <span>|</span>
-          <span onClick={()=>props.currentLanguageToggle('en')}>eng</span>
+          <span onClick={() => props.currentLanguageToggle("en")}>eng</span>
           {/*аудиофайлы невидимые*/}
           <span>
-              <audio
-                ref={props.soundExploisionRefGetter}
-                id="soundExploision"
-                src={props.srcToSoundExploision}
-              />
-              <audio
-                ref={props.soundOfFinishRefGetter}
-                id="soundOfFinish"
-                src={props.srcToSoundOfFinish}
-              />
+            <audio
+              ref={props.soundExploisionRefGetter}
+              id="soundExploision"
+              src={props.srcToSoundExploision}
+            />
+            <audio
+              ref={props.soundOfFinishRefGetter}
+              id="soundOfFinish"
+              src={props.srcToSoundOfFinish}
+            />
           </span>
         </div>
       </div>
-    </div>);
+    </div>
+  );
 });
 
 export default SongPlayPage;

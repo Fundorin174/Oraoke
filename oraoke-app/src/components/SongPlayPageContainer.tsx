@@ -66,6 +66,7 @@ type SongPlayPageContainerStateType = {
   xCoordOfBird: number;
   yCoordOfBird: number;
   autoPlaySong: any;
+  isCanvasHeightSet: number;
 };
 
 class SongPlayPageContainer extends React.PureComponent<
@@ -102,14 +103,10 @@ class SongPlayPageContainer extends React.PureComponent<
       yCoordOfBird: 50, //начальное положение птицы по оси y
       //меняется в функции mooveBirdByVoice
       autoPlaySong: null,
+      isCanvasHeightSet: 0,
     };
-    // this.window = window;
-    // this.canvasRef = null;
-    // this.canvasWrpRef = null;
-
-    //////////////////////////
-    //Забиндить this для всех методов где это надо
-    this.getElementFromDOMorState = this.getElementFromDOMorState.bind(this);
+    // this.window = window; this.canvasRef = null; this.canvasWrpRef = null;
+    // //////////////////////// Забиндить this для всех методов где это надо
     this.isCurrentSongPlayingSet = this.isCurrentSongPlayingSet.bind(this);
     this.setCanvasHeigthAndWidth = this.setCanvasHeigthAndWidth.bind(this);
     this.playSongStart = this.playSongStart.bind(this);
@@ -141,86 +138,58 @@ class SongPlayPageContainer extends React.PureComponent<
     // this.canvasRefGetter = this.canvasRefGetter.bind(this);
     // this.canvasWrpRefGetter = this.canvasWrpRefGetter.bind(this);
     // this.songMP3RefGetter = this.songMP3RefGetter.bind(this);
-    // this.textWrpRefGetter = this.textWrpRefGetter.bind(this);
-    // this.birdRefGetter = this.birdRefGetter.bind(this);
-    // this.soundExploisionRefGetter = this.soundExploisionRefGetter.bind(this);
-    // this.soundOfFinishRefGetter = this.soundOfFinishRefGetter.bind(this);
-    // this.songVolumeInputRefGetter = this.songVolumeInputRefGetter.bind(this);
-    // this.voiceVolumeInputRefGetter = this.voiceVolumeInputRefGetter.bind(this);
-
-    ////////////////////////////////////////
-    //ref calback to DOM elements
-    this.canvasRefGetter = (el: HTMLCanvasElement) => {
-      this.setState({
-        canvasRef: el,
+    // this.textWrpRefGetter = this.textWrpRefGetter.bind(this); this.birdRefGetter
+    // = this.birdRefGetter.bind(this); this.soundExploisionRefGetter =
+    // this.soundExploisionRefGetter.bind(this); this.soundOfFinishRefGetter =
+    // this.soundOfFinishRefGetter.bind(this); this.songVolumeInputRefGetter =
+    // this.songVolumeInputRefGetter.bind(this); this.voiceVolumeInputRefGetter =
+    // this.voiceVolumeInputRefGetter.bind(this);
+    // ////////////////////////////////////// ref calback to DOM elements
+    this.canvasRefGetter = (canvasEl: HTMLCanvasElement) => {
+      this.setState((state) => {
+        return { canvasRef: canvasEl };
       });
+      this.props.saveDOMElementToState(canvasEl, "canvas");
     };
-    this.canvasWrpRefGetter = (el: HTMLElement) => {
-      this.setState({
-        canvasWrpRef: el,
-      });
+    this.canvasWrpRefGetter = (canvasWrpEl: HTMLElement) => {
+      this.setState({ canvasWrpRef: canvasWrpEl });
+      this.props.saveDOMElementToState(canvasWrpEl, "canvasWrp");
     };
     this.songMP3RefGetter = (el: HTMLAudioElement) => {
-      this.setState({
-        songMP3Ref: el,
-      });
+      this.setState({ songMP3Ref: el });
+      this.props.saveDOMElementToState(el, "songMP3");
     };
     this.textWrpRefGetter = (el: HTMLElement) => {
-      this.setState({
-        textWrpRef: el,
-      });
+      this.setState({ textWrpRef: el });
+      this.props.saveDOMElementToState(el, "textWrp");
     };
     this.birdRefGetter = (el: HTMLElement) => {
-      this.setState({
-        birdRef: el,
-      });
+      this.setState({ birdRef: el });
+      this.props.saveDOMElementToState(el, "birdOnCanvas");
     };
     this.soundExploisionRefGetter = (el: HTMLAudioElement) => {
-      this.setState({
-        soundExploisionRef: el,
-      });
+      this.setState({ soundExploisionRef: el });
+      this.props.saveDOMElementToState(el, "soundExploision");
     };
     this.soundOfFinishRefGetter = (el: HTMLAudioElement) => {
-      this.setState({
-        soundOfFinishRef: el,
-      });
-    };
-    this.songVolumeInputRefGetter = (el: HTMLElement) => {
-      this.setState({
-        songVolumeInputRef: el,
-      });
-    };
-    this.voiceVolumeInputRefGetter = (el: HTMLElement) => {
-      this.setState({
-        voiceVolumeInputRef: el,
-      });
+      this.setState({ soundOfFinishRef: el });
+      this.props.saveDOMElementToState(el, "soundOfFinish");
     };
   }
 
-  canvasRefGetter(el: HTMLCanvasElement) {}
-  canvasWrpRefGetter = (el: HTMLElement) => {};
+  canvasRefGetter(canvasEl: HTMLCanvasElement) {}
+  canvasWrpRefGetter = (canvasWrpEl: HTMLElement) => {};
   songMP3RefGetter = (el: HTMLAudioElement) => {};
   textWrpRefGetter = (el: HTMLElement) => {};
   birdRefGetter = (el: HTMLElement) => {};
   soundExploisionRefGetter = (el: HTMLAudioElement) => {};
   soundOfFinishRefGetter = (el: HTMLAudioElement) => {};
-  songVolumeInputRefGetter = (el: HTMLElement) => {};
-  voiceVolumeInputRefGetter = (el: HTMLElement) => {};
-  /////////////////////////////////////////////////////////////////////////////////////
+
+  // ///////////////////////////////////////////////////////////////////////////
+  // ////////
   componentDidMount() {
-    this.saveDOMElementsToState(); //сохранение всех нужных DOM элементов в стейте
-
-    this.setCanvasHeigthAndWidth(); //изменение высоты canvas по родителю
-
     //перезагрузка страницы при изменении размеров окна браузера
-    window.addEventListener("resize", () => window.location.reload());
-
-    //Отрисовка всего поля canvas
-    this.paintingCanvasField();
-    // запуск проверки на столкновение птицы и препятствия
-    this.checkBirdFacedOnWall();
-    // запуск подъема птицы в зависимости от уровня голоса с микрофона
-    this.mooveBirdByVoice();
+    //window.addEventListener("resize", () => window.location.reload());
 
     //Запуск проигрывания файла через 4 секунды
     const autoPlaySong =
@@ -231,22 +200,37 @@ class SongPlayPageContainer extends React.PureComponent<
         this.props.currentSong.startMovingDelay
       );
 
-    this.setState({
-      autoPlaySong: autoPlaySong,
-    });
+    this.setState({ autoPlaySong: autoPlaySong });
 
     // songVolumeInput.addEventListener('change', (value) => {
-    //   this.changeVolumeOfSong(value);
-    // }, false)
+    // this.changeVolumeOfSong(value); }, false)
     document.addEventListener("keyup", this.playPauseOnSpaseBtn);
   }
 
-  //////////////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////////
+  // /////////
   //@ts-ignore
   componentDidUpdate(
     prevProps: SongPlayPageContainerPropsType,
     prevState: AppStateType
   ) {
+    if (
+      this.props.canvas?.clientHeight !== 0 &&
+      (prevProps.canvas === null || prevProps.canvasWrp === null)
+    ) {
+      this.setCanvasHeigthAndWidth(); //изменение высоты canvas по родителю
+    }
+
+    if (this.state.canvasHeight !== 0 && this.state.isCanvasHeightSet === 1) {
+      //Отрисовка всего поля canvas
+      this.paintingCanvasField();
+
+      this.setState((state) => {
+        return {
+          isCanvasHeightSet: state.isCanvasHeightSet + 1,
+        };
+      });
+    }
     // Нажатие на кнопку СТОП - возврат к началу
     if (
       this.props.isStopBtnPushed &&
@@ -267,7 +251,8 @@ class SongPlayPageContainer extends React.PureComponent<
     }
   }
 
-  //////////////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////////
+  // /////////
   componentWillUnmount() {
     window.removeEventListener("resize", this.setCanvasHeigthAndWidth);
     document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
@@ -275,130 +260,58 @@ class SongPlayPageContainer extends React.PureComponent<
     this.stopBirdFlying();
   }
 
-  // ///////////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////////////
-  // получение элемента из стейта, а если его там нет, то из DOM (при прокиданном
-  // коллбеке ...RefGetter)
-  getElementFromDOMorState(
-    elementRef: HTMLElement | HTMLAudioElement | HTMLCanvasElement | null,
-    elementName: string
-  ) {
-    if (
-      //@ts-ignore
-      (elementRef && !this.props[elementName]) ||
-      (elementRef && elementRef.clientHeight === 0)
-    ) {
-      return elementRef;
-    } else {
-      //@ts-ignore
-      return this.props[elementName];
-    }
-  }
-
-  //сохранение всех нужных DOM элементов из локального стейта в store
-  saveDOMElementsToState() {
-    const canvasWrp = this.getElementFromDOMorState(
-      this.state.canvasWrpRef,
-      "canvasWrp"
-    );
-    const canvas = this.getElementFromDOMorState(
-      this.state.canvasRef,
-      "canvas"
-    );
-    const songMP3 = this.getElementFromDOMorState(
-      this.state.songMP3Ref,
-      "songMP3"
-    );
-    const textWrp = this.getElementFromDOMorState(
-      this.state.textWrpRef,
-      "textWrp"
-    );
-    const birdOnCanvas = this.getElementFromDOMorState(
-      this.state.birdRef,
-      "birdOnCanvas"
-    );
-    const soundExploision = this.getElementFromDOMorState(
-      this.state.soundExploisionRef,
-      "soundExploision"
-    );
-    const soundOfFinish = this.getElementFromDOMorState(
-      this.state.soundOfFinishRef,
-      "soundOfFinish"
-    );
-    this.props.saveDOMElementToState(canvasWrp, "canvasWrp");
-    this.props.saveDOMElementToState(canvas, "canvas");
-    this.props.saveDOMElementToState(songMP3, "songMP3");
-    this.props.saveDOMElementToState(textWrp, "textWrp");
-    this.props.saveDOMElementToState(birdOnCanvas, "birdOnCanvas");
-    this.props.saveDOMElementToState(soundExploision, "soundExploision");
-    this.props.saveDOMElementToState(soundOfFinish, "soundOfFinish");
-  }
-
-  ////////////////////////////////////////////////////////////////////////
-  //РАБОТА С МУЗЫКОЙ
-  ///////////////////////////////////////////////////////////////////////
-
-  //toggle isCurrentSongPlaing
+  // ////////////////////////////////////////////////////////////////////// РАБОТА
+  // С МУЗЫКОЙ
+  // ///////////////////////////////////////////////////////////////////// toggle
+  // isCurrentSongPlaing
   isCurrentSongPlayingSet(isCurrentSongPlaying: boolean) {
     this.props.isCurrentSongPlayingSetter(isCurrentSongPlaying);
   }
 
-  // ////////////////////////////////////////////////////////////////////////
-  // Запуск фоновой песни
+  // ////////////////////////////////////////////////////////////////////// Запуск
+  // фоновой песни
   playSongStart() {
-    const audio = this.getElementFromDOMorState(
-      this.state.songMP3Ref,
-      "songMP3"
-    );
+    const audio = this.state.songMP3Ref as HTMLAudioElement;
     audio.volume = this.props.currentSongVolume; // получение громкости из props
     // в зависимости от инпута
     audio.play();
     this.isCurrentSongPlayingSet(true);
   }
 
-  /////////////////////////////////////////////////////////////////////////
-  //Запуск звука взрыва при столкновении
+  // ///////////////////////////////////////////////////////////////////////
+  // Запуск звука взрыва при столкновении
   playSoundExploisionStart() {
-    const soundExploision = this.getElementFromDOMorState(
-      this.state.soundExploisionRef,
-      "soundExploision"
-    );
+    const soundExploision = this.state.soundExploisionRef as HTMLAudioElement;
+
     soundExploision.play();
   }
 
-  ////////////////////////////////////////////////////////////////////////
-  //запуск зпобедных фанфар при прохождении до конца
+  // ////////////////////////////////////////////////////////////////////// запуск
+  // зпобедных фанфар при прохождении до конца
   playSoundOfFinish() {
     const soundOfFinish = this.state.soundOfFinishRef;
     soundOfFinish?.play();
   }
 
-  // ////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни и отправка к началу
   playSongStop() {
-    const audio = this.getElementFromDOMorState(
-      this.state.songMP3Ref,
-      "songMP3"
-    );
+    const audio = this.state.songMP3Ref as HTMLAudioElement;
     audio.pause();
     audio.currentTime = 0;
     this.isCurrentSongPlayingSet(false);
   }
 
-  // ////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни на текущем месте
   playSongPause() {
-    const audio = this.getElementFromDOMorState(
-      this.state.songMP3Ref,
-      "songMP3"
-    );
+    const audio = this.state.songMP3Ref as HTMLAudioElement;
     audio.pause();
     this.isCurrentSongPlayingSet(false);
   }
 
-  // ///////////////////////////////////////////////////////////////////////// //
-  // Пауза на текущем месте при нажатии клавиш "Space" (служебная функция без
-  // remoove)
+  // /////////////////////////////////////////////////////////////////////// Пауза
+  // на текущем месте при нажатии клавиш "Space" (служебная функция без remoove)
 
   playPauseOnSpaseBtn(event: any) {
     event.preventDefault();
@@ -409,25 +322,22 @@ class SongPlayPageContainer extends React.PureComponent<
     }
   }
 
-  //////////////////////////////////////////////////////////////////////////////
-  //изменение громкости музыки
+  // ////////////////////////////////////////////////////////////////////////////
+  // изменение громкости музыки
   changeVolumeOfSong(value: any) {
     this.props.setNewVolumeOfSong(value.target.value);
   }
 
-  //////////////////////////////////////////////////////////////////////////
-  //изменение громкости голоса
+  // ////////////////////////////////////////////////////////////////////////
+  // изменение громкости голоса
   changeVolumeOfVoice(value: any) {
     this.props.setNewVolumeOfVoice(value.target.value);
   }
 
-  //////////////////////////////////////////////////////////////////////////////
-  //движение птицы в зависимости от звука с микрофона
+  // ////////////////////////////////////////////////////////////////////////////
+  // движение птицы в зависимости от звука с микрофона
   mooveBirdByVoice() {
-    const birdOnCanvas =
-      this.props.birdOnCanvas && this.props.birdOnCanvas.clientHeight !== 0
-        ? this.props.birdOnCanvas
-        : this.state.birdRef;
+    const birdOnCanvas = this.state.birdRef as HTMLElement;
 
     const canvas =
       this.props.canvas && this.props.canvas.clientHeight !== 0
@@ -463,7 +373,8 @@ class SongPlayPageContainer extends React.PureComponent<
         // в зависимости от инпута через стейт звука
         let prevbirdFlyingHigh: number;
         let birdFlyingFinish;
-        //рекурсивная функция обработки принятого звука с частотой примерно 60 раз в секугду
+        // рекурсивная функция обработки принятого звука с частотой примерно 60 раз в
+        // секугду
         let loop = () => {
           let flying = window.requestAnimationFrame(loop);
           this.state.voiceArray &&
@@ -483,11 +394,10 @@ class SongPlayPageContainer extends React.PureComponent<
             canvasHeight - birdHeigth
               ? (canvasHeight * averageHeight) / maxHeightForWile
               : canvasHeight - birdHeigth;
-          // console.log(`текущее: ${averageHeight} максимальное:
-          // ${maxHeightForWile} Итоговое: ${birdFlyingHigh}. Общая высота ${canvasHeight} `);
-
-          //если очередное значение отличается от предыдущего больше чем на 2 то уменьшаем разницу
-          // до 1. Чтобы убрать резкие скачки.
+          // console.log(`текущее: ${averageHeight} максимальное: ${maxHeightForWile}
+          // Итоговое: ${birdFlyingHigh}. Общая высота ${canvasHeight} `); если очередное
+          // значение отличается от предыдущего больше чем на 2 то уменьшаем разницу до 1.
+          // Чтобы убрать резкие скачки.
           if (
             birdFlyingHigh - prevbirdFlyingHigh > 2 &&
             birdFlyingHigh - prevbirdFlyingHigh > 0
@@ -502,16 +412,14 @@ class SongPlayPageContainer extends React.PureComponent<
             birdFlyingFinish = birdFlyingHigh + 70 + "px";
           }
 
-          //записать текущее значение в предыдущее
-          // для сравнения на следующем шаге
+          //записать текущее значение в предыдущее для сравнения на следующем шаге
           prevbirdFlyingHigh = birdFlyingHigh;
 
           //changing bottom - and fly. сдвиг птицы на высоту birdFlyingFinish))
           birdOnCanvas &&
             birdOnCanvas.setAttribute("style", `bottom: ${birdFlyingFinish}`);
-          //birdOnCanvas && birdOnCanvas.style.bottom = birdFlyingFinish;
-
-          // Обновляем значение высоты подъема птицы в глобальной переменной
+          // birdOnCanvas && birdOnCanvas.style.bottom = birdFlyingFinish; Обновляем
+          // значение высоты подъема птицы в глобальной переменной
           this.setState({
             yCoordOfBird: this.props.canvas
               ? canvasHeight - birdFlyingHigh - birdHeigth / 2
@@ -540,18 +448,17 @@ class SongPlayPageContainer extends React.PureComponent<
       });
   }
 
-  /////////////////////////////////////////////////////////////////////////
-  //сброс птицы в начальное состояние
+  // /////////////////////////////////////////////////////////////////////// сброс
+  // птицы в начальное состояние
   stopBirdFlying() {
     cancelAnimationFrame(this.state.flying);
-    this.props.birdOnCanvas &&
-      this.props.birdOnCanvas.setAttribute("style", `bottom: 70px`);
-    //this.props.birdOnCanvas.style.bottom = 70 + "px";
+    this.props.birdOnCanvas?.setAttribute("style", `bottom: 70px`);
     this.state.analyser && this.state.analyser.disconnect();
+    this.setState({ birdCoordinatesArray: [], flying: 0 });
   }
 
-  ////////////////////////////////////////////////////////////////////////////
-  //Создание массива координат птицы на данный момемнт
+  // //////////////////////////////////////////////////////////////////////////
+  // Создание массива координат птицы на данный момемнт
   createBirdCoordinatesArray(birdHeigth: number) {
     let xCoordOfBird = this.state.xCoordOfBird; //положение центра птицы по Х
     let yCoordOfBird = this.state.yCoordOfBird; //положение центра птицы по Y
@@ -560,27 +467,34 @@ class SongPlayPageContainer extends React.PureComponent<
     this.saveBirdCoordinatesArray(xCoordOfBird, yCoordOfBird, birdHeigth / 2);
   }
 
-  /////////////////////////////////////////////////////////////////////////////////
-  //РАБОТА С ГРАФИКОЙ
-  ///////////////////////////////////////////////////////////////////////////////////
-
+  // ///////////////////////////////////////////////////////////////////////////
+  // //// РАБОТА С ГРАФИКОЙ
+  // /////////////////////////////////////////////////////////////////////////////////
   // изменение высоты canvas
   setCanvasHeigthAndWidth() {
-    const canvas = this.state.canvasRef;
+    const canvas = this.state.canvasRef
+      ? this.state.canvasRef
+      : this.props.canvas;
     const canvasWrp = this.state.canvasWrpRef;
-    debugger;
+
     //устанавливаем высоту планшета на 80 px меньше родителя (80 для текста)
     let canvasHeight = canvasWrp ? canvasWrp.clientHeight - 80 : 0;
     canvas && canvas.setAttribute("height", `${canvasHeight}px`);
     //    canvas && canvas.height = `${canvasHeight}px`;
-    this.setState({
-      canvasHeight: canvasHeight,
+    this.setState((state) => {
+      return {
+        canvasHeight: state.canvasHeight + canvasHeight,
+      };
     });
-    //this.state.canvasHeight = canvasHeight;
+    //this.state.canvasHeight = canvasHeight; выссота установлена
+    this.setState((state) => {
+      return {
+        isCanvasHeightSet: state.isCanvasHeightSet + 1,
+      };
+    });
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
-
+  // /////////////////////////////////////////////////////////////////////////
   // рисование треугольника
   paintTriangle(
     ctx: any, //контекст
@@ -650,48 +564,42 @@ class SongPlayPageContainer extends React.PureComponent<
     ctx.beginPath();
     ctx.arc(x, y, r, startAngle, endAngle, anticlockwise);
     ctx.closePath();
-    // ctx.fill();
     ctx.strokeStyle = strokeColor;
     ctx.lineWidth = 3;
     ctx.stroke();
   }
 
-  //////////////////////////////////////////////////////////////////////////////
-  //отрисовка всего canvas
+  // ////////////////////////////////////////////////////////////////////////////
+  // отрисовка всего canvas
   paintingCanvasField() {
-    const canvas =
-      this.props.canvas && this.props.canvas.clientHeight !== 0
-        ? (this.props.canvas as HTMLCanvasElement)
-        : (this.state.canvasRef as HTMLCanvasElement);
+    const canvas = this.state.canvasRef as HTMLCanvasElement;
+
     let canvasHeight = this.state.canvasHeight; //высота
 
-    if (canvas && canvas.clientHeight !== canvasHeight) {
+    if (canvas && canvas.height !== canvasHeight) {
       canvas.setAttribute("height", `${canvasHeight}`);
       // canvas.height = canvasHeight;
     } //Устанавливаем реальную высоту канвас чтоб изображение не растягивалось
-    // canvas.width = canvas.offsetWidth; //Чтобы изображение не растягивалось
-
-    //получение контекста canvas
+    // canvas.width = canvas.offsetWidth; Чтобы изображение не растягивалось
+    // получение контекста canvas
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     this.setState({ ctx: ctx });
 
-    //рисование
-
-    // Создаем объект изображения финишной линии
+    //рисование Создаем объект изображения финишной линии
     let finishLineImg = new Image();
 
-    // Привязываем функцию к событию onload
-    // Рисуем финишную ленту, когда она загружена с шириной 50 и высотой canvasHeight
-    // в координатах finishLineXCoordinate, 0
+    // Привязываем функцию к событию onload Рисуем финишную ленту, когда она
+    // загружена с шириной 50 и высотой canvasHeight в координатах
+    // finishLineXCoordinate, 0
     finishLineImg.onload = () => {
       ctx?.drawImage(
         finishLineImg,
         this.props.finishLineXCoordinate,
         0,
         50,
-        (canvasHeight = 0)
+        canvasHeight
       ); //
     };
     // Загружаем файл изображения финишной ленты
@@ -699,13 +607,27 @@ class SongPlayPageContainer extends React.PureComponent<
 
     //задаем количесство вариантов значения высоты препятствия
     let heightValues = [
-      { h0: canvasHeight + 9 },
-      { h1: canvasHeight - canvasHeight * 0.1 },
-      { h2: canvasHeight - canvasHeight * 0.3 },
-      { h3: canvasHeight - canvasHeight * 0.5 },
-      { h4: canvasHeight - canvasHeight * 0.7 },
-      { h5: canvasHeight - canvasHeight * 0.9 },
-      { h6: 0 },
+      {
+        h0: canvasHeight + 9,
+      },
+      {
+        h1: canvasHeight - canvasHeight * 0.1,
+      },
+      {
+        h2: canvasHeight - canvasHeight * 0.3,
+      },
+      {
+        h3: canvasHeight - canvasHeight * 0.5,
+      },
+      {
+        h4: canvasHeight - canvasHeight * 0.7,
+      },
+      {
+        h5: canvasHeight - canvasHeight * 0.9,
+      },
+      {
+        h6: 0,
+      },
     ];
     let keys = [] as Array<string>;
     let heightData = [] as any;
@@ -717,8 +639,8 @@ class SongPlayPageContainer extends React.PureComponent<
       heightData.push(item[key[0]]); //значение высот в пикселях
     });
 
-    //////////////////////////////////////////////////////////////////////
-    //Автоматическое рисование фигур на основе данных из стейта
+    // ////////////////////////////////////////////////////////////////////
+    // Автоматическое рисование фигур на основе данных из стейта
     this.props.currentSong.itemsOnCanvasCoordinates.map((item) => {
       let y1, y2; //переменные получения значения высоты
       // при совпадении ключа объекта в стейте и в heightValues
@@ -754,8 +676,9 @@ class SongPlayPageContainer extends React.PureComponent<
     });
   }
 
-  /////////////////////////////////////////////////////////////////////
-  //Создание массива координат из точек, которые составляют линию, формирующую препятствие.
+  // /////////////////////////////////////////////////////////////////// Создание
+  // массива координат из точек, которые составляют линию, формирующую
+  // препятствие.
   saveLineCoordinates(x1: number, y1: number, x2: number, y2: number) {
     let A = [x1, y1];
     let B = [x2, y2];
@@ -776,18 +699,18 @@ class SongPlayPageContainer extends React.PureComponent<
       return point[1] - slope * point[0];
     }
 
-    var m = slope(A, B);
+    var m = slope(A, B) as number;
     var b = intercept(A, m);
 
     for (let x = A[0]; x <= B[0]; x++) {
-      let y = +(m = 0 * x + b).toFixed(0);
+      let y = +(m * x + b).toFixed(0);
       this.state.allLinesCoordinatesArray.push({ x: x, y: y });
     }
   }
 
-  ///////////////////////////////////////////////////////////////////
-  // создание массива координат круга, который занимает птица в данный момент
-  // (достаточно 8 точек по кругу)
+  // ///////////////////////////////////////////////////////////////// создание
+  // массива координат круга, который занимает птица в данный момент (достаточно 8
+  // точек по кругу)
   saveBirdCoordinatesArray(newx: number, newy: number, radius: number) {
     this.setState({ birdCoordinatesArray: [] }); //обнулить массив
     let centerX = newx;
@@ -808,8 +731,8 @@ class SongPlayPageContainer extends React.PureComponent<
     }
   }
 
-  //////////////////////////////////////////////////////////////////////////////
-  //сравнение перекрытия координат препятствий и координат птицы
+  // ////////////////////////////////////////////////////////////////////////////
+  // сравнение перекрытия координат препятствий и координат птицы
 
   compareObstacleAndBirdCoordinates(allLinesCoordinatesArray: any) {
     type CoordItemType = {
@@ -830,8 +753,8 @@ class SongPlayPageContainer extends React.PureComponent<
 
     let acrossingCoordinatesArray: Array<CoordItemType> = [];
 
-    // это цикл который считает только каждую третью координату препятствия
-    // (для меньшей загрузки процессора)
+    // это цикл который считает только каждую координату препятствия
+
     for (let i = 0; i < allLinesCoordinatesArray.length - 1; i += 1) {
       if (
         allLinesCoordinatesArray[i].x > xBirdMin &&
@@ -841,80 +764,76 @@ class SongPlayPageContainer extends React.PureComponent<
         acrossingCoordinatesArray.push(allLinesCoordinatesArray[i]);
       }
     }
-    //Это если каждую координату считать
-    // allLinesCoordinatesArray.forEach((currentCoordinate, index) => {
-    //   if (currentCoordinate.x > xBirdMin && currentCoordinate.x < xBirdMax) {
-    //     //X двух массивов пересекаются
-    //     acrossingCoordinatesArray.push(currentCoordinate);
-    //   }
-    // });
+    // Это если каждую координату считать через foreach
+    // allLinesCoordinatesArray.forEach((currentCoordinate, index) => {   if
+    // (currentCoordinate.x > xBirdMin && currentCoordinate.x < xBirdMax) {     X
+    // двух массивов пересекаются
+    // acrossingCoordinatesArray.push(currentCoordinate);   } });
     this.state.birdCoordinatesArray.forEach((currentCoordinate) => {
       for (let i = 0; i < acrossingCoordinatesArray.length - 1; i++) {
         if (currentCoordinate.y === acrossingCoordinatesArray[i].y) {
-          //событие столкновения птицы и препятствия
-          //console.log('СТОЛКНОВЕНИЕ');
+          // событие столкновения птицы и препятствия console.log('СТОЛКНОВЕНИЕ');
           this.stopSigningAndMoving();
           this.playSoundExploisionStart();
-          //console.log(`координата х птицы ${currentCoordinate.x}.
-          // Координата х препятствия ${acrossingCoordinatesArray[i].x}`);
-          //console.log(`координата y птицы ${currentCoordinate.y}.
-          // Координата y препятствия ${acrossingCoordinatesArray[i].y}`);
+          // console.log(`координата х птицы ${currentCoordinate.x}. Координата х
+          // препятствия ${acrossingCoordinatesArray[i].x}`); console.log(`координата y
+          // птицы ${currentCoordinate.y}. Координата y препятствия
+          // ${acrossingCoordinatesArray[i].y}`);
         }
       }
     });
   }
 
-  ////////////////////////////////////////////////////////////////////////////
-  //проверка факта столкновения птицы с препятствием
+  // //////////////////////////////////////////////////////////////////////////
+  // проверка факта столкновения птицы с препятствием
   checkBirdFacedOnWall() {
     // сравнивает координаты птицы и препятствий и выдает сообщение о столкновении
-    this.props.birdOnCanvas &&
+    this.state.birdRef &&
       this.compareObstacleAndBirdCoordinates(
         this.state.allLinesCoordinatesArray
       );
   }
 
-  // ///////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////
   // движение поля влево
 
   moveCanvasAndTextToLeft() {
-    const canvas =
-      this.props.canvas && this.props.canvas.clientHeight !== 0
-        ? this.props.canvas
-        : this.state.canvasRef;
-    const textWrp =
-      this.props.textWrp && this.props.textWrp.clientHeight !== 0
-        ? this.props.textWrp
-        : this.state.textWrpRef;
-    let canvasWidth = canvas?.clientWidth; // ширина
+    const canvas = this.state.canvasRef as HTMLCanvasElement;
+    const textWrp = this.state.textWrpRef as HTMLElement;
 
-    this.setState({ shiftTextToLeft: this.state.shiftTextToLeft - 1 }); //значение для сдвига текста на каждом шаге
+    let canvasWidth = canvas.clientWidth; // ширина
 
+    this.setState((state) => {
+      return {
+        shiftTextToLeft: state.shiftTextToLeft - 1,
+      };
+    }); //значение для сдвига текста на каждом шаге
     //начинаем увеличивать Х координату птицы относительно начала canvas с началом движения поля
     if (this.state.shiftTextToLeft <= 400) {
-      this.setState({ xCoordOfBird: this.state.xCoordOfBird + 1 });
+      this.setState({
+        xCoordOfBird: this.state.xCoordOfBird + 1,
+      });
     }
 
     if (canvasWidth && Math.abs(this.state.shiftTextToLeft) < canvasWidth) {
       // Этосдвиг текста на каждом шаге
-      textWrp?.setAttribute(
+      textWrp.setAttribute(
         "style",
-        `marginLeft: ${this.state.shiftTextToLeft}px`
+        `margin-left: ${this.state.shiftTextToLeft}px`
       );
-      //textWrp.style.marginLeft = `${this.state.shiftTextToLeft}px`;
-
-      // Это сдвиг поля на каждом шаге после того как текст поравняется с полем
+      // textWrp.style.marginLeft = `${this.state.shiftTextToLeft}px`; Это сдвиг поля
+      // на каждом шаге после того как текст поравняется с полем
       if (this.state.shiftTextToLeft <= 400) {
-        canvas?.setAttribute(
+        canvas.setAttribute(
           "style",
           `left: ${this.state.shiftTextToLeft - 400}px`
         );
         //canvas.style.left = `${this.state.shiftTextToLeft - 400}px`;
       }
-      // служебная функция  если надо проверить точность положения птицы с ее координами в стейте
-      // if (Math.abs(this.state.shiftTextToLeft) > 10000) {
-      //   this.paintCircle(this.state.ctx, this.state.xCoordOfBird, this.state.yCoordOfBird, 35);
-      // }
+      // служебная функция  если надо проверить точность положения птицы с ее
+      // координами в стейте if (Math.abs(this.state.shiftTextToLeft) > 100) {
+      // this.paintCircle(     this.state.ctx,     this.state.xCoordOfBird,
+      // this.state.yCoordOfBird,     35   ); }
     }
 
     //остановка по нажатии СТОП.
@@ -936,62 +855,61 @@ class SongPlayPageContainer extends React.PureComponent<
     this.checkBirdFacedOnWall();
   }
 
-  ////////////////////////////////////
-  //сброс таймера settimeout-на движение поля
+  //////////////////////////////////// сброс таймера settimeout-на движение поля
   clearTimer() {
     clearInterval(this.state.timerId);
     clearTimeout(this.state.moovingStartTimer);
     console.log("Таймер остановлен");
   }
 
-  /////////////////////////////////////////////////////////////////////////
-  //УПРАВЛЕНИЕ ЗВУКОМ И ОТРИСОВКОЙ ОДНОВРЕМЕННО
-  ////////////////////////////////////////////////////////////////////////
-
-  // ////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////
+  // УПРАВЛЕНИЕ ЗВУКОМ И ОТРИСОВКОЙ ОДНОВРЕМЕННО
+  // //////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения, возврат в исходное состояние
   stopSigningAndMoving() {
-    const canvas =
-      this.props.canvas && this.props.canvas.clientHeight !== 0
-        ? this.props.canvas
-        : this.state.canvasRef;
-    const textWrp =
-      this.props.textWrp && this.props.textWrp.clientHeight !== 0
-        ? this.props.textWrp
-        : this.state.textWrpRef;
+    const canvas = this.state.canvasRef as HTMLCanvasElement;
+    const textWrp = this.state.textWrpRef as HTMLElement;
     let speed = this.props.currentSong.playbackSpeed;
     this.playSongStop();
     this.clearTimer();
-    canvas?.setAttribute("style", "left: 20px"); //возврат поля в начало
-    //canvas.style.left = `20px`; //возврат поля в начало
-    textWrp?.setAttribute("style", `marginLeft: ${speed * 3}px`); // возврат текста в исх позицию
-    //textWrp.style.marginLeft = `${speed * 3}px`; // возврат текста в исх позицию
-    this.setState({ shiftTextToLeft: speed * 3.5 }); //сброс счетчика сдвига текстового поля
+    this.stopBirdFlying();
+    canvas.setAttribute("style", "left: 20px"); //возврат поля в начало
+    //canvas.style.left = `20px`; возврат поля в начало
+    textWrp.setAttribute("style", `margin-left: ${speed * 3}px`); // возврат текста в исх позицию
+    //textWrp.style.marginLeft = `${speed * 3}px`;  возврат текста в исх позицию
+    this.setState({
+      shiftTextToLeft: speed * 3.5,
+    }); //сброс счетчика сдвига текстового поля
     this.sendChangingDataToState(150, 0); //сброс массива координат прицы
   }
 
-  // ////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения на текущем моменте
   pauseSigningAndMoving() {
     this.playSongPause();
     this.clearTimer();
   }
 
-  // ////////////////////////////////////////////////////////////////////////
-  // Запуск проигрывания и движения поля
+  // ////////////////////////////////////////////////////////////////////// Запуск
+  // проигрывания и движения поля
   startSigningAndMoving(delay: number) {
     const delayMs = delay * 1000; //задержка движения текста и поля относительно музыки
     const playbackSpeed = this.props.currentSong.playbackSpeed;
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
+    // запуск проверки на столкновение птицы и препятствия
+    this.checkBirdFacedOnWall();
+    // запуск подъема птицы в зависимости от уровня голоса с микрофона
+    this.mooveBirdByVoice();
     //если с начала, то текст с задержкой запускается
     this.setState({
       moovingStartTimer: setTimeout(this.runMoving, delayMs, playbackSpeed),
     });
   }
 
-  ////////////////////////////////////////////////////
-  //запуск движения поля и текста со скростью speed px/с
+  // ////////////////////////////////////////////////// запуск движения поля и
+  // текста со скростью speed px/с
   runMoving(speed: number) {
     this.setState({
       timerId: setInterval(this.moveCanvasAndTextToLeft, 1000 / speed),
@@ -999,8 +917,8 @@ class SongPlayPageContainer extends React.PureComponent<
     return this.state.timerId;
   }
 
-  //////////////////////////////////////////////////////////
-  //передача координат птицы (если они пришли) в глобальную переменную и потом в пропсы
+  // //////////////////////////////////////////////////////// передача координат
+  // птицы (если они пришли) в глобальную переменную и потом в пропсы
   sendChangingDataToState(
     xCoordOfBird = this.state.xCoordOfBird,
     yCoordOfBird = this.state.yCoordOfBird
@@ -1010,20 +928,19 @@ class SongPlayPageContainer extends React.PureComponent<
     this.props.sendChangingMoveDataToState(xCoordOfBird, yCoordOfBird);
   }
 
-  // //////////////////////////////////////////////////////////////////////////
-  // //////////////////////////////////////////////////////////////////////////
-  // //////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
   render() {
     return (
       <div>
+        {" "}
         <SongPlayPage
           canvasRefGetter={this.canvasRefGetter}
           canvasWrpRefGetter={this.canvasWrpRefGetter}
           songMP3RefGetter={this.songMP3RefGetter}
           textWrpRefGetter={this.textWrpRefGetter}
           birdRefGetter={this.birdRefGetter}
-          songVolumeInputRefGetter={this.songVolumeInputRefGetter}
-          voiceVolumeInputRefGetter={this.voiceVolumeInputRefGetter}
           soundExploisionRefGetter={this.soundExploisionRefGetter}
           soundOfFinishRefGetter={this.soundOfFinishRefGetter}
           stopSigningAndMoving={this.stopSigningAndMoving}
@@ -1033,7 +950,7 @@ class SongPlayPageContainer extends React.PureComponent<
           changeVolumeOfSong={this.changeVolumeOfSong}
           changeVolumeOfVoice={this.changeVolumeOfVoice}
           {...this.props}
-        />
+        />{" "}
       </div>
     );
   }
