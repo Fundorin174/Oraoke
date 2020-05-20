@@ -42,6 +42,11 @@ import {
 import { AdvertismentType } from "../redux/settingsPageReduser";
 import { AppStateType } from "../redux/redux-store";
 
+type CoordinatesType = {
+  x: number;
+  y: number;
+};
+
 type SongPlayPageContainerStateType = {
   canvasRef: null | HTMLCanvasElement;
   canvasWrpRef: null | HTMLElement;
@@ -52,13 +57,13 @@ type SongPlayPageContainerStateType = {
   soundOfFinishRef: null | HTMLAudioElement;
   songVolumeInputRef: null | HTMLElement;
   voiceVolumeInputRef: null | HTMLElement;
-  allLinesCoordinatesArray: Array<any>;
+  allLinesCoordinatesArray: Array<CoordinatesType>;
   birdCoordinatesArray: Array<any>;
   voiceArray: null | Uint8Array;
   numOfItemsInVoiceArray: number;
   analyser: any;
   flying: number;
-  ctx: any;
+  ctx: CanvasRenderingContext2D | undefined;
   canvasHeight: number;
   timerId: any;
   moovingStartTimer: any;
@@ -127,7 +132,6 @@ class SongPlayPageContainer extends React.PureComponent<
     this.runMoving = this.runMoving.bind(this);
     this.stopBirdFlying = this.stopBirdFlying.bind(this);
     this.sendChangingDataToState = this.sendChangingDataToState.bind(this);
-    this.checkBirdFacedOnWall = this.checkBirdFacedOnWall.bind(this);
     this.mooveBirdByVoice = this.mooveBirdByVoice.bind(this);
     this.createBirdCoordinatesArray = this.createBirdCoordinatesArray.bind(
       this
@@ -135,15 +139,7 @@ class SongPlayPageContainer extends React.PureComponent<
     this.playSoundExploisionStart = this.playSoundExploisionStart.bind(this);
     this.changeVolumeOfSong = this.changeVolumeOfSong.bind(this);
     this.changeVolumeOfVoice = this.changeVolumeOfVoice.bind(this);
-    // this.canvasRefGetter = this.canvasRefGetter.bind(this);
-    // this.canvasWrpRefGetter = this.canvasWrpRefGetter.bind(this);
-    // this.songMP3RefGetter = this.songMP3RefGetter.bind(this);
-    // this.textWrpRefGetter = this.textWrpRefGetter.bind(this); this.birdRefGetter
-    // = this.birdRefGetter.bind(this); this.soundExploisionRefGetter =
-    // this.soundExploisionRefGetter.bind(this); this.soundOfFinishRefGetter =
-    // this.soundOfFinishRefGetter.bind(this); this.songVolumeInputRefGetter =
-    // this.songVolumeInputRefGetter.bind(this); this.voiceVolumeInputRefGetter =
-    // this.voiceVolumeInputRefGetter.bind(this);
+
     // ////////////////////////////////////// ref calback to DOM elements
     this.canvasRefGetter = (canvasEl: HTMLCanvasElement) => {
       this.setState((state) => {
@@ -202,8 +198,6 @@ class SongPlayPageContainer extends React.PureComponent<
 
     this.setState({ autoPlaySong: autoPlaySong });
 
-    // songVolumeInput.addEventListener('change', (value) => {
-    // this.changeVolumeOfSong(value); }, false)
     document.addEventListener("keyup", this.playPauseOnSpaseBtn);
   }
 
@@ -237,7 +231,6 @@ class SongPlayPageContainer extends React.PureComponent<
       this.props.isStopBtnPushed !== prevProps.isStopBtnPushed
     ) {
       this.playSongStop();
-      this.checkBirdFacedOnWall();
       this.sendChangingDataToState(150, 0); //сброс массива координат прицы в пропсах
     }
     //нажатие на кнопку старт при перезапуске песни.
@@ -245,7 +238,6 @@ class SongPlayPageContainer extends React.PureComponent<
       !this.props.isStopBtnPushed &&
       this.props.isStopBtnPushed !== prevProps.isStopBtnPushed
     ) {
-      this.checkBirdFacedOnWall();
       this.mooveBirdByVoice();
       this.sendChangingDataToState(150, 0); //сброс массива координат прицы в пропсах
     }
@@ -352,7 +344,6 @@ class SongPlayPageContainer extends React.PureComponent<
       voiceArray: new Uint8Array(this.state.numOfItemsInVoiceArray),
     });
 
-    // if (this.context) return;
     //@ts-ignore
     let context = new (window.AudioContext || window.webkitAudioContext)(); //аудиоконтекст WEB AudioAPI
     let analyser = context.createAnalyser();
@@ -402,14 +393,14 @@ class SongPlayPageContainer extends React.PureComponent<
             birdFlyingHigh - prevbirdFlyingHigh > 2 &&
             birdFlyingHigh - prevbirdFlyingHigh > 0
           ) {
-            birdFlyingFinish = prevbirdFlyingHigh + 1 + 70 + "px";
+            birdFlyingFinish = Math.round(prevbirdFlyingHigh) + 1 + 70 + "px";
           } else if (
             Math.abs(birdFlyingHigh - prevbirdFlyingHigh) > 2 &&
             birdFlyingHigh - prevbirdFlyingHigh < 0
           ) {
-            birdFlyingFinish = prevbirdFlyingHigh - 1 + 70 + "px";
+            birdFlyingFinish = Math.round(prevbirdFlyingHigh) - 1 + 70 + "px";
           } else {
-            birdFlyingFinish = birdFlyingHigh + 70 + "px";
+            birdFlyingFinish = Math.round(birdFlyingHigh) + 70 + "px";
           }
 
           //записать текущее значение в предыдущее для сравнения на следующем шаге
@@ -472,19 +463,15 @@ class SongPlayPageContainer extends React.PureComponent<
   // /////////////////////////////////////////////////////////////////////////////////
   // изменение высоты canvas
   setCanvasHeigthAndWidth() {
-    const canvas = this.state.canvasRef
-      ? this.state.canvasRef
-      : this.props.canvas;
+    const canvas = this.state.canvasRef as HTMLCanvasElement;
     const canvasWrp = this.state.canvasWrpRef;
 
     //устанавливаем высоту планшета на 80 px меньше родителя (80 для текста)
     let canvasHeight = canvasWrp ? canvasWrp.clientHeight - 80 : 0;
     canvas && canvas.setAttribute("height", `${canvasHeight}px`);
     //    canvas && canvas.height = `${canvasHeight}px`;
-    this.setState((state) => {
-      return {
-        canvasHeight: state.canvasHeight + canvasHeight,
-      };
+    this.setState({
+      canvasHeight: canvasHeight,
     });
     //this.state.canvasHeight = canvasHeight; выссота установлена
     this.setState((state) => {
@@ -497,7 +484,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // /////////////////////////////////////////////////////////////////////////
   // рисование треугольника
   paintTriangle(
-    ctx: any, //контекст
+    ctx: CanvasRenderingContext2D, //контекст
     x1: number, //начальная x (слева)
     y1: number, //начальная y (вверху)
     x2: number, //x вершины
@@ -522,7 +509,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
   //рисование трапеции
   paintTrapeze(
-    ctx: any, //контекст
+    ctx: CanvasRenderingContext2D, //контекст
     x1: number, //начальная x (слева)
     y1: number, //начальная y (внизу)
     x2: number, // сдвиг от начала до первой верхней грани по X
@@ -550,7 +537,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
   //рисование круга или дуги
   paintCircle(
-    ctx: any, //контекст
+    ctx: CanvasRenderingContext2D, //контекст
     x: number, //x центра окружности
     y: number, // y центра окружности
     r: number, // радиус
@@ -584,7 +571,7 @@ class SongPlayPageContainer extends React.PureComponent<
     // получение контекста canvas
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
     this.setState({ ctx: ctx });
 
     //рисование Создаем объект изображения финишной линии
@@ -606,31 +593,19 @@ class SongPlayPageContainer extends React.PureComponent<
     finishLineImg.src = this.props.srcTofinishLineImg;
 
     //задаем количесство вариантов значения высоты препятствия
+
     let heightValues = [
-      {
-        h0: canvasHeight + 9,
-      },
-      {
-        h1: canvasHeight - canvasHeight * 0.1,
-      },
-      {
-        h2: canvasHeight - canvasHeight * 0.3,
-      },
-      {
-        h3: canvasHeight - canvasHeight * 0.5,
-      },
-      {
-        h4: canvasHeight - canvasHeight * 0.7,
-      },
-      {
-        h5: canvasHeight - canvasHeight * 0.9,
-      },
-      {
-        h6: 0,
-      },
+      { h0: canvasHeight + 9 },
+      { h1: canvasHeight - canvasHeight * 0.1 },
+      { h2: canvasHeight - canvasHeight * 0.3 },
+      { h3: canvasHeight - canvasHeight * 0.5 },
+      { h4: canvasHeight - canvasHeight * 0.7 },
+      { h5: canvasHeight - canvasHeight * 0.9 },
+      { h6: 0 },
     ];
+
     let keys = [] as Array<string>;
-    let heightData = [] as any;
+    let heightData = [] as Array<number>;
 
     //разбиваем heightValues на массив ключей и массив значений
     heightValues.forEach((item: any, i: number) => {
@@ -642,9 +617,9 @@ class SongPlayPageContainer extends React.PureComponent<
     // ////////////////////////////////////////////////////////////////////
     // Автоматическое рисование фигур на основе данных из стейта
     this.props.currentSong.itemsOnCanvasCoordinates.map((item) => {
-      let y1, y2; //переменные получения значения высоты
+      let y1 = 0,
+        y2 = 0; //переменные получения значения высоты
       // при совпадении ключа объекта в стейте и в heightValues
-
       for (let i = 0; i < keys.length; i++) {
         if (keys[i] === item.y1) {
           y1 = heightData[i];
@@ -701,9 +676,9 @@ class SongPlayPageContainer extends React.PureComponent<
 
     var m = slope(A, B) as number;
     var b = intercept(A, m);
-
-    for (let x = A[0]; x <= B[0]; x++) {
-      let y = +(m * x + b).toFixed(0);
+    //сохраняем координату линии через каждые 10 px
+    for (let x = A[0]; x <= B[0]; x += 10) {
+      let y = Math.round(+(m * x + b));
       this.state.allLinesCoordinatesArray.push({ x: x, y: y });
     }
   }
@@ -719,10 +694,10 @@ class SongPlayPageContainer extends React.PureComponent<
     // an array to save your points
     let prevX = 0;
     let prevY = 0;
-    for (let degree = 0; degree < 360; degree += 45) {
+    for (let degree = 0; degree < 360; degree += 18) {
       let radians = (degree * Math.PI) / 180;
-      let x = +(centerX + radius * Math.cos(radians)).toFixed(0);
-      let y = +(centerY + radius * Math.sin(radians)).toFixed(0);
+      let x = Math.round(centerX + radius * Math.cos(radians));
+      let y = Math.round(centerY + radius * Math.sin(radians));
       if (x !== prevX && y !== prevY) {
         this.state.birdCoordinatesArray.push({ x: x, y: y });
         prevX = x;
@@ -734,15 +709,12 @@ class SongPlayPageContainer extends React.PureComponent<
   // ////////////////////////////////////////////////////////////////////////////
   // сравнение перекрытия координат препятствий и координат птицы
 
-  compareObstacleAndBirdCoordinates(allLinesCoordinatesArray: any) {
-    type CoordItemType = {
-      x: number;
-      y: number;
-    };
+  compareObstacleAndBirdCoordinates() {
+    let allLinesCoordinatesArray = this.state.allLinesCoordinatesArray;
     //координата в середине массива всегда минимальная
     let xBirdMin = this.state.birdCoordinatesArray[0]
       ? this.state.birdCoordinatesArray[
-          +((this.state.birdCoordinatesArray.length - 1) / 2).toFixed(0)
+          Math.round((this.state.birdCoordinatesArray.length - 1) / 2)
         ].x
       : 75;
 
@@ -751,9 +723,9 @@ class SongPlayPageContainer extends React.PureComponent<
       ? this.state.birdCoordinatesArray[0].x
       : 185;
 
-    let acrossingCoordinatesArray: Array<CoordItemType> = [];
+    let acrossingCoordinatesArray: Array<CoordinatesType> = [];
 
-    // это цикл который считает только каждую координату препятствия
+    // это цикл который считает только каждую координату x препятствия
 
     for (let i = 0; i < allLinesCoordinatesArray.length - 1; i += 1) {
       if (
@@ -782,16 +754,12 @@ class SongPlayPageContainer extends React.PureComponent<
         }
       }
     });
-  }
 
-  // //////////////////////////////////////////////////////////////////////////
-  // проверка факта столкновения птицы с препятствием
-  checkBirdFacedOnWall() {
-    // сравнивает координаты птицы и препятствий и выдает сообщение о столкновении
-    this.state.birdRef &&
-      this.compareObstacleAndBirdCoordinates(
-        this.state.allLinesCoordinatesArray
-      );
+    // this.state.birdCoordinatesArray.forEach((currentBirdCoordinate, birdCoordIndex)=>{
+
+    //   this.state.allLinesCoordinatesArray.forEach((current)=>{})
+
+    // })
   }
 
   // /////////////////////////////////////////////////////////////////////
@@ -802,12 +770,12 @@ class SongPlayPageContainer extends React.PureComponent<
     const textWrp = this.state.textWrpRef as HTMLElement;
 
     let canvasWidth = canvas.clientWidth; // ширина
-
-    this.setState((state) => {
-      return {
-        shiftTextToLeft: state.shiftTextToLeft - 1,
-      };
-    }); //значение для сдвига текста на каждом шаге
+    //@ts-ignore -Это не правильно! Надо через setState,
+    //но мать его тогда программа начинает жутко тупить и поле двигается не равномерно
+    this.state.shiftTextToLeft -= 1; //сдвиг текста на каждом шаге
+    // this.setState({
+    //   shiftTextToLeft: this.state.shiftTextToLeft - 1,
+    // });
     //начинаем увеличивать Х координату птицы относительно начала canvas с началом движения поля
     if (this.state.shiftTextToLeft <= 400) {
       this.setState({
@@ -851,15 +819,15 @@ class SongPlayPageContainer extends React.PureComponent<
     // передаем X положения птицы в стейт
     this.sendChangingDataToState(this.state.xCoordOfBird);
 
-    //проверяем не столкнулась ли птица с препятствием
-    this.checkBirdFacedOnWall();
+    // //проверяем не столкнулась ли птица с препятствием
+    this.compareObstacleAndBirdCoordinates();
   }
 
   //////////////////////////////////// сброс таймера settimeout-на движение поля
   clearTimer() {
     clearInterval(this.state.timerId);
     clearTimeout(this.state.moovingStartTimer);
-    console.log("Таймер остановлен");
+    // console.log("Таймер остановлен");
   }
 
   // ///////////////////////////////////////////////////////////////////////
@@ -898,8 +866,8 @@ class SongPlayPageContainer extends React.PureComponent<
     const playbackSpeed = this.props.currentSong.playbackSpeed;
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
-    // запуск проверки на столкновение птицы и препятствия
-    this.checkBirdFacedOnWall();
+    // // запуск проверки на столкновение птицы и препятствия
+    // this.checkBirdFacedOnWall();
     // запуск подъема птицы в зависимости от уровня голоса с микрофона
     this.mooveBirdByVoice();
     //если с начала, то текст с задержкой запускается
@@ -910,6 +878,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
   // ////////////////////////////////////////////////// запуск движения поля и
   // текста со скростью speed px/с
+
   runMoving(speed: number) {
     this.setState({
       timerId: setInterval(this.moveCanvasAndTextToLeft, 1000 / speed),

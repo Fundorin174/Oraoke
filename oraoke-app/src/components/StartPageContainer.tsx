@@ -24,7 +24,7 @@ export type StartPageConteinerPropsType = MapStateToPropsType &
   MapDisparchToPropsType &
   OwnPropsType;
 
-let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
   currentSong: getcurrentSongSelector(state),
   currentLanguage: getCurrentLanguage(state),
 });
