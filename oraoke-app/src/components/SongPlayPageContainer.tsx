@@ -772,14 +772,15 @@ class SongPlayPageContainer extends React.PureComponent<
     let canvasWidth = canvas.clientWidth; // ширина
     //@ts-ignore -Это не правильно! Надо через setState,
     //но мать его тогда программа начинает жутко тупить и поле двигается не равномерно
-    this.state.shiftTextToLeft -= 1; //сдвиг текста на каждом шаге
+    this.state.shiftTextToLeft -= 2; //сдвиг текста на каждом шаге на 2 px
     // this.setState({
-    //   shiftTextToLeft: this.state.shiftTextToLeft - 1,
+    //   shiftTextToLeft: this.state.shiftTextToLeft - 2,
     // });
-    //начинаем увеличивать Х координату птицы относительно начала canvas с началом движения поля
+    //начинаем увеличивать Х координату птицы относительно начала canvas
+    //с началом движения поля с шагом 2 px
     if (this.state.shiftTextToLeft <= 400) {
       this.setState({
-        xCoordOfBird: this.state.xCoordOfBird + 1,
+        xCoordOfBird: this.state.xCoordOfBird + 2,
       });
     }
 
@@ -799,9 +800,17 @@ class SongPlayPageContainer extends React.PureComponent<
         //canvas.style.left = `${this.state.shiftTextToLeft - 400}px`;
       }
       // служебная функция  если надо проверить точность положения птицы с ее
-      // координами в стейте if (Math.abs(this.state.shiftTextToLeft) > 100) {
-      // this.paintCircle(     this.state.ctx,     this.state.xCoordOfBird,
-      // this.state.yCoordOfBird,     35   ); }
+      // координами в стейте
+      // if (Math.abs(this.state.shiftTextToLeft) > 100) {
+      //   //@ts-ignore
+      //   this.paintCircle(
+      //     //@ts-ignore
+      //     this.state.ctx,
+      //     this.state.xCoordOfBird,
+      //     this.state.yCoordOfBird,
+      //     35
+      //   );
+      // }
     }
 
     //остановка по нажатии СТОП.
