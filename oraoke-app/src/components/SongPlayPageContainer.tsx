@@ -759,8 +759,8 @@ class SongPlayPageContainer extends React.PureComponent<
         (this.state.allLinesCoordinatesArray[i].y >= currentBirdCoordinate.y-2 &&
          this.state.allLinesCoordinatesArray[i].y <= currentBirdCoordinate.y+2)){
           //СТОЛКНОВЕНИЕ
-          // this.stopSigningAndMoving();
-          // this.playSoundExploisionStart();          
+          this.stopSigningAndMoving();
+          this.playSoundExploisionStart();          
       }
  
   })
