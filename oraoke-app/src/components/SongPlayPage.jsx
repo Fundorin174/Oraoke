@@ -114,7 +114,7 @@ const SongPlayPage = React.memo((props) => {
                   </p>
                 )}
                 <ButtonSmall btnNumber="1" btnText={texts.buttonStopText} />
-                {/* <div>{`X: ${xCoordinata}_____`}</div> */}
+                <div>{`X: ${xCoordinata}_____`}</div>
               </div>
             ) : (
               <div
@@ -128,7 +128,7 @@ const SongPlayPage = React.memo((props) => {
                 id={classes.btnWrpPlay}
               >
                 <ButtonSmall btnNumber="1" btnText={texts.buttonStartText} />
-                {/* <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div> */}
+                <div>{`Время: ${timer}____X: ${xCoordinata}_____`}</div>
               </div>
             )}
           </div>

@@ -233,15 +233,13 @@ let initialState = {
       img: imgSong1LepsRumkaVodki,
       srcToSong: srcToSong1LepsRumkaVodki,
       srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
-      playbackSpeed: 220,
+      playbackSpeed: 100,
       startMovingDelay: 26,
       canvasWigth: 20000,
       finishLineXCoordinate: 16300,
       itemsOnCanvasCoordinates: [
         {
-          type: "trapeze",
-          x1: 400,
-          y1: "h0",
+          type: "trapeze", x1: 400, y1: "h0",
           x2: 100,
           x3: 0,
           x4: 950,
@@ -632,20 +630,54 @@ let initialState = {
       img: imgSong5SukochevBabuchka,
       srcToSong: srcToSong5SukochevBabuchka,
       srcToSongIntro: srcToSong5SukochevBabuchkaIntro,
-      playbackSpeed: 200,
-      startMovingDelay: 14,
+      playbackSpeed: 170,
+      startMovingDelay: 14.5,
       canvasWigth: 15000,
       finishLineXCoordinate: 14000,
       itemsOnCanvasCoordinates: [
-        {
-          type: "trapeze",
-          x1: 5880,
-          y1: "h0",
-          x2: 100,
-          x3: 100,
-          x4: 6090,
-          y2: "h3",
-        },
+              //Моя   бабушка   курит   тру  -  б  -  ку
+      {type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 1319, y2: "h2"},
+      //чёрный-пречёрный  табак
+      {type: "trapeze", x1: 1650, y1: "h0", x2: 100, x3: 100, x4: 2250, y2: "h3"},
+      {type: "triangle", x1: 2450, y1: "h6", x2: 2525, y2: "h4", x3: 2600,},
+      //Моя   бабушка 
+      {type: "trapeze", x1: 2750, y1: "h0", x2: 100, x3: 100, x4: 3050, y2: "h2"},
+      //тру  -  б  -  ку
+      {type: "trapeze", x1: 3370, y1: "h0", x2: 100, x3: 100, x4: 3680, y2: "h3"},
+      //в суровый
+      {type: "triangle", x1: 4000, y1: "h0", x2: 4075, y2: "h2", x3: 4150,},
+      //моряцкий 
+      {type: "triangle", x1: 4250, y1: "h0", x2: 4325, y2: "h4", x3: 4400,},
+      // затяг
+      {type: "triangle", x1: 4550, y1: "h0", x2: 4625, y2: "h3", x3: 4700,},
+      {type: "trapeze", x1: 4800, y1: "h6", x2: 100, x3: 100, x4: 5500, y2: "h5"},
+      //Моя бабушка курит
+      {type: "trapeze", x1: 5050, y1: "h0", x2: 100, x3: 100, x4: 5500, y2: "h2"},
+      //тру  -  б  -  ку
+      {type: "triangle", x1: 5700, y1: "h0", x2: 5800, y2: "h2", x3: 5900,},
+      //и обожает   огненный     ром
+      {type: "trapeze", x1: 6050, y1: "h0", x2: 100, x3: 100, x4: 6750, y2: "h3"},
+      //и когда я к бабуле заскочу на минутку
+      {type: "trapeze", x1: 7150, y1: "h0", x2: 100, x3: 100, x4: 8000, y2: "h4"},
+      //мы     c    ней
+      {type: "triangle", x1: 8250, y1: "h0", x2: 8375, y2: "h2", x3: 8500,},
+      //его     весело
+      {type: "triangle", x1: 8700, y1: "h0", x2: 8775, y2: "h2", x3: 8850,},
+      //пьём
+      {type: "triangle", x1: 9000, y1: "h0", x2: 9075, y2: "h3", x3: 9150,},
+      {type: "triangle", x1: 9300, y1: "h6", x2: 9350, y2: "h4", x3: 9400,},
+     //У    неё     ничего     не осталось
+      {type: "trapeze", x1: 9500, y1: "h0", x2: 100, x3: 100, x4: 10200, y2: "h2"},
+      {type: "trapeze", x1: 10300, y1: "h6", x2: 100, x3: 100, x4: 10600, y2: "h4"},
+      //у неё в кошельке три рубля
+      {type: "trapeze", x1: 10750, y1: "h0", x2: 100, x3: 100, x4: 11400, y2: "h2"},
+      {type: "triangle", x1: 11500, y1: "h6", x2: 11600, y2: "h4", x3: 11700,},
+      //моя бабушка курит трубку
+      {type: "trapeze", x1: 11950, y1: "h0", x2: 100, x3: 100, x4: 12550, y2: "h3"},
+      //труб    ку     ку     рит
+      {type: "trapeze", x1: 12930, y1: "h0", x2: 100, x3: 100, x4: 13400, y2: "h4"},
+      //бабушка    моя!
+      {type: "triangle", x1: 13600, y1: "h0", x2: 13700, y2: "h4", x3: 13800,}
       ],
       songText:
         "Моя   бабушка   курит   тру  -  б  -  ку,             чёрный-пречёрный  табак,                           Моя   бабушка     курит   тру  -  б  -  ку,              в суровый    моряцкий    затяг.                      Моя бабушка курит тру  -  б  -  ку         и обожает   огненный     ром,                      и когда я к бабуле заскочу на минутку,   мы     c    ней     его     весело     пьём.                      У    неё     ничего     не осталось,                            у неё в кошельке три рубля,                            моя бабушка курит трубку,                   труб    ку     ку     рит         бабушка    моя!                                                                                                          ",
@@ -712,23 +744,57 @@ let initialState = {
     img: imgSong5SukochevBabuchka,
     srcToSong: srcToSong5SukochevBabuchka,
     srcToSongIntro: srcToSong5SukochevBabuchkaIntro,
-    playbackSpeed: 200,
-    startMovingDelay: 14,
+    playbackSpeed: 170,
+    startMovingDelay: 0,//14.5,
     canvasWigth: 15000,
     finishLineXCoordinate: 14000,
     itemsOnCanvasCoordinates: [
-      {
-        type: "trapeze",
-        x1: 5880,
-        y1: "h0",
-        x2: 100,
-        x3: 100,
-        x4: 6090,
-        y2: "h3",
-      },
+      //Моя   бабушка   курит   тру  -  б  -  ку
+      {type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 1319, y2: "h2"},
+      //чёрный-пречёрный  табак
+      {type: "trapeze", x1: 1650, y1: "h0", x2: 100, x3: 100, x4: 2250, y2: "h3"},
+      {type: "triangle", x1: 2450, y1: "h6", x2: 2525, y2: "h4", x3: 2600,},
+      //Моя   бабушка 
+      {type: "trapeze", x1: 2750, y1: "h0", x2: 100, x3: 100, x4: 3050, y2: "h2"},
+      //тру  -  б  -  ку
+      {type: "trapeze", x1: 3370, y1: "h0", x2: 100, x3: 100, x4: 3680, y2: "h3"},
+      //в суровый
+      {type: "triangle", x1: 4000, y1: "h0", x2: 4075, y2: "h2", x3: 4150,},
+      //моряцкий 
+      {type: "triangle", x1: 4250, y1: "h0", x2: 4325, y2: "h4", x3: 4400,},
+      // затяг
+      {type: "triangle", x1: 4550, y1: "h0", x2: 4625, y2: "h3", x3: 4700,},
+      {type: "trapeze", x1: 4800, y1: "h6", x2: 100, x3: 100, x4: 5500, y2: "h5"},
+      //Моя бабушка курит
+      {type: "trapeze", x1: 5050, y1: "h0", x2: 100, x3: 100, x4: 5500, y2: "h2"},
+      //тру  -  б  -  ку
+      {type: "triangle", x1: 5700, y1: "h0", x2: 5800, y2: "h2", x3: 5900,},
+      //и обожает   огненный     ром
+      {type: "trapeze", x1: 6050, y1: "h0", x2: 100, x3: 100, x4: 6750, y2: "h3"},
+      //и когда я к бабуле заскочу на минутку
+      {type: "trapeze", x1: 7150, y1: "h0", x2: 100, x3: 100, x4: 8000, y2: "h4"},
+      //мы     c    ней
+      {type: "triangle", x1: 8250, y1: "h0", x2: 8375, y2: "h2", x3: 8500,},
+      //его     весело
+      {type: "triangle", x1: 8700, y1: "h0", x2: 8775, y2: "h2", x3: 8850,},
+      //пьём
+      {type: "triangle", x1: 9000, y1: "h0", x2: 9075, y2: "h3", x3: 9150,},
+      {type: "triangle", x1: 9300, y1: "h6", x2: 9350, y2: "h4", x3: 9400,},
+     //У    неё     ничего     не осталось
+      {type: "trapeze", x1: 9500, y1: "h0", x2: 100, x3: 100, x4: 10200, y2: "h2"},
+      {type: "trapeze", x1: 10300, y1: "h6", x2: 100, x3: 100, x4: 10600, y2: "h4"},
+      //у неё в кошельке три рубля
+      {type: "trapeze", x1: 10750, y1: "h0", x2: 100, x3: 100, x4: 11400, y2: "h2"},
+      {type: "triangle", x1: 11500, y1: "h6", x2: 11600, y2: "h4", x3: 11700,},
+      //моя бабушка курит трубку
+      {type: "trapeze", x1: 11950, y1: "h0", x2: 100, x3: 100, x4: 12550, y2: "h3"},
+      //труб    ку     ку     рит
+      {type: "trapeze", x1: 12930, y1: "h0", x2: 100, x3: 100, x4: 13400, y2: "h4"},
+      //бабушка    моя!
+      {type: "triangle", x1: 13600, y1: "h0", x2: 13700, y2: "h4", x3: 13800,}
     ],
     songText:
-      "Моя   бабушка   курит   тру  -  б  -  ку,             чёрный-пречёрный  табак,                           Моя   бабушка     курит   тру  -  б  -  ку,              в суровый    моряцкий    затяг.                      Моя бабушка курит тру  -  б  -  ку         и обожает   огненный     ром,                      и когда я к бабуле заскочу на минутку,   мы     c    ней     его     весело     пьём.                      У    неё     ничего     не осталось,                            у неё в кошельке три рубля,                            моя бабушка курит трубку,                   труб    ку     ку     рит         бабушка    моя!                                                                                                          ",
+      "Моя   бабушка   курит   тру  -  б  -  ку,                 чёрный-пречёрный  табак,                           Моя   бабушка     курит   тру  -  б  -  ку,              в суровый    моряцкий    затяг.                      Моя бабушка курит тру  -  б  -  ку         и обожает   огненный     ром,                      и когда я к бабуле заскочу на минутку,   мы     c    ней     его     весело     пьём.                      У    неё     ничего     не осталось,                            у неё в кошельке три рубля,                            моя бабушка курит трубку,                   труб    ку     ку     рит         бабушка    моя!                                                                                                          ",
   },
   isCurrentSongSet: false,
   currentSongVolume: 0.5,
