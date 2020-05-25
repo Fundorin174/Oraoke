@@ -742,7 +742,48 @@ let initialState = {
     startMovingDelay: 0,
     canvasWigth: 22500,
     finishLineXCoordinate: 21500,
-    itemsOnCanvasCoordinates: [] as Array<
+    itemsOnCanvasCoordinates: [
+      //беззабo-о-отно
+      { type: "trapeze", x1: 470, y1: "h0", x2: 100, x3: 100, x4: 900, y2: "h3" },
+      //вда-а-ааль
+      { type: "triangle", x1: 1050, y1: "h0", x2: 1175, y2: "h2", x3: 1300, },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 1590, y1: "h0", x2: 100, x3: 100, x4: 1800, y2: "h3" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 2050, y1: "h0", x2: 100, x3: 100, x4: 2500, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 2950, y1: "h0", x2: 100, x3: 100, x4: 3150, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 3500, y1: "h0", x2: 100, x3: 100, x4: 3750, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 4500, y1: "h0", x2: 100, x3: 100, x4: 5250, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 5650, y1: "h0", x2: 100, x3: 100, x4: 6500, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 7500, y1: "h0", x2: 100, x3: 100, x4: 7850, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 9000, y1: "h0", x2: 100, x3: 100, x4: 10100, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 10850, y1: "h0", x2: 100, x3: 100, x4: 11800, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 12500, y1: "h0", x2: 100, x3: 100, x4: 13100, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 13950, y1: "h0", x2: 100, x3: 100, x4: 14350, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 14750, y1: "h0", x2: 100, x3: 100, x4: 15100, y2: "h4" },
+      //вда-а-ааль
+      { type: "triangle", x1: 15400, y1: "h0", x2: 15500, y2: "h2", x3: 15600, },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 16000, y1: "h0", x2: 100, x3: 100, x4: 16950, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 17650, y1: "h0", x2: 100, x3: 100, x4: 18250, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 19100, y1: "h0", x2: 100, x3: 100, x4: 19500, y2: "h4" },
+      //беззабo-о-отно
+      { type: "trapeze", x1: 19900, y1: "h0", x2: 100, x3: 100, x4: 20250, y2: "h4" },
+      //вда-а-ааль
+      { type: "triangle", x1: 20550, y1: "h0", x2: 20650, y2: "h2", x3: 20750, },
+    ] as Array<
       TrapezeType | TriangleType | CircleType
     >,
     songText:
