@@ -1,5 +1,5 @@
 import imgSong1LepsRumkaVodki from "./../img/songs/1_leps_rumka_vodki.png";
-import imgSong2Leningraglabuteni from "./../img/songs/2_leningrad_eksponat.png";
+import imgSong2VitaminkaBelorusskih from "./../img/songs/2_vitaminka.png";
 import imgSong3AiowaSmile from "./../img/songs/3_aiowa_ulibaysya.png";
 import imgSong4PirozhkowZacepila from "./../img/songs/4_Pirozhkov_Zacepila.png";
 import imgSong5SukochevBabuchka from "./../img/songs/5_Sukachev_Babushka.png";
@@ -9,9 +9,9 @@ import srcToSong1LepsRumkaVodki from "./../songs/1_Leps_Rumka_Vodki/Grigoriy_Lep
 // @ts-ignore
 import srcToSong1LepsRumkaVodkiIntro from "./../songs/1_Leps_Rumka_Vodki/Grigoriy_Leps_Rumka_Vodki_introduse.mp3";
 // @ts-ignore
-import srcToSong2Leningraglabuteni from "./../songs/2_leningrad_eksponat/Leningrad_Eksponat.mp3";
+import srcToSong2Vitaminka from "./../songs/2_Vitaminka_Belorusskih/Vitaminka-Belorusskif-Minus-Cut.mp3";
 // @ts-ignore
-import srcToSong2LeningraglabuteniIntro from "./../songs/2_leningrad_eksponat/Leningrad_Eksponat_Introduce.mp3";
+import srcToSong2VitaminkaIntro from "./../songs/2_Vitaminka_Belorusskih/Vitaminka-Intro-Cut.mp3";
 // @ts-ignore
 import srcToong3AiowaSmile from "./../songs/3_Aiowa_ulibaysya/IOWA_Smile.mp3";
 // @ts-ignore
@@ -471,29 +471,29 @@ let initialState = {
     {
       songID: "1" as string,
       songName: {
-        ru: "Экспонат (Лабутены)",
-        en: "Eksponat (Labuteny)",
+        ru: "Витаминка",
+        en: "Vitaminka",
       },
       artistName: {
-        ru: "Ленинград",
-        en: "Leningrad",
+        ru: "Тима Белорусских",
+        en: "Tima Belorusskih",
       },
       fullTitle: {
-        ru: "Ленинград - Экспонат (Лабутены)",
-        en: "Leningrad - Eksponat (Labuteny)",
+        ru: "Тима Белорусских - Витаминка",
+        en: "Tima Belorusskih - Vitaminka",
       },
-      img: imgSong2Leningraglabuteni,
-      srcToSong: srcToSong2Leningraglabuteni,
-      srcToSongIntro: srcToSong2LeningraglabuteniIntro,
-      playbackSpeed: 50,
+      img: imgSong2VitaminkaBelorusskih,
+      srcToSong: srcToSong2Vitaminka,
+      srcToSongIntro: srcToSong2VitaminkaIntro,
+      playbackSpeed: 180,
       startMovingDelay: 0,
-      canvasWigth: 14000,
-      finishLineXCoordinate: 17000,
+      canvasWigth: 22500,
+      finishLineXCoordinate: 21500,
       itemsOnCanvasCoordinates: [] as Array<
         TrapezeType | TriangleType | CircleType
       >,
       songText:
-        "Водил меня Серёга на выставку Ван Гога. Там было тёлок много, и нервы, как канат, но я не недотрога. Дала понять с порога - на выставке Ван Гога я главный экспонат. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. Штанах. Мы с Генкой и Маринкой ходили в «Мариинку» - послушать чисто Глинку. Партер, туда-сюда. Там, сразу без заминки, в партере «Мариинки», все поняли блондинки, Я - Прима и звезда. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах Штанах... штанах... Водил меня Серёга на выставку Ван Гога. Там было тёлок много, и нервы, как канат, но я не недотрога. Дала понять с порога - на выставке Ван Гога я главный экспонат. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. На лабутенах нах и в офигительных штанах. Штанах... штанах...",
+        "Так беззабo-о-отно уходит вда-а-ааль   Наша с тоб-о-ой  жизнь одна-а-а на дво-о-и-их Я прошу об одно-о-ом, только не забыва-аай обо мне, как мы с тобой и о все-е-е-е-х  оста-а-а-льны-ы-х    Провожая печа-а-аль, мы просто мимо молчим Просто и без при-и-и-чин, ссылаясь на н-е-е-е-е-т                                                   И в этот моме-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-ент                           И все мои сюжеты по твоим карти-и-н-к-а-а-а м      Девочка-разноцветная витами-и-и-и-и н-к-а-а-а-а Сегодня я буду любить тебя си-и-ильно-о-о-о     Пока в моей голове действие витами-и-и-и-на              И все мои сюжеты по твоим карти-и-н-к-а-а-а м      Девочка-разноцветная витами-и-и-и-и н-к-а-а-а-а Сегодня я буду любить тебя си-и-ильно-о-о-о     Пока в моей голове действие витами-и-и-и-на                                                                                                                                          ",
     },
     {
       songID: "2" as string,
@@ -512,32 +512,56 @@ let initialState = {
       img: imgSong3AiowaSmile,
       srcToSong: srcToong3AiowaSmile,
       srcToSongIntro: srcToong3AiowaSmileIntro,
-      playbackSpeed: 50,
-      startMovingDelay: 0,
-      canvasWigth: 14000,
-      finishLineXCoordinate: 17000,
+      playbackSpeed: 160,
+      startMovingDelay: 12,
+      canvasWigth: 17200,
+      finishLineXCoordinate: 15500,
       itemsOnCanvasCoordinates: [
-        {
-          type: "trapeze",
-          x1: 15200,
-          y1: "h6",
-          x2: 100,
-          x3: 100,
-          x4: 15500,
-          y2: "h5",
-        },
-        {
-          type: "trapeze",
-          x1: 15880,
-          y1: "h0",
-          x2: 100,
-          x3: 100,
-          x4: 16090,
-          y2: "h3",
-        },
+        //Я птицу счастья свою отпускаю на юг
+        {type: "trapeze",x1: 450, y1: "h0",x2: 100,x3: 100,x4: 1300,y2: "h1"},
+        //Теперь   сама    я     пою
+        {type: "trapeze",x1: 1700, y1: "h0",x2: 100,x3: 100,x4: 2050,y2: "h2"},
+        //теперь сама летаю
+        {type: "trapeze",x1: 2320, y1: "h0",x2: 100,x3: 100,x4: 2530,y2: "h2"},
+        //Аа  -  аа
+        {type: "triangle", x1: 2750, y1: "h0", x2: 2875, y2: "h4", x3: 3000,},
+        //Аа  -  аа
+        {type: "triangle", x1: 4080, y1: "h0", x2: 4255, y2: "h4", x3: 4430,},
+        //В открытый космос лечу
+        {type: "trapeze",x1: 5350, y1: "h0",x2: 100,x3: 100,x4: 5850,y2: "h1"},
+        //кометы  огибая
+        {type: "trapeze",x1: 6000, y1: "h0",x2: 100,x3: 100,x4: 6350,y2: "h2"},
+        //Тебя мечтать научу
+        {type: "trapeze",x1: 6600, y1: "h0",x2: 100,x3: 100,x4: 7000,y2: "h2"},
+        //теперь одна мы стая
+        {type: "trapeze",x1: 7100, y1: "h0",x2: 100,x3: 100,x4: 7600,y2: "h3"},
+        //Аа  -  аа
+        {type: "triangle", x1: 7720, y1: "h0", x2: 7820, y2: "h4", x3: 7920,},
+  
+        {type: "trapeze",x1: 8250, y1: "h6",x2: 100,x3: 100,x4: 8600,y2: "h4"},
+  
+        {type: "trapeze",x1: 9000, y1: "h6",x2: 100,x3: 100,x4: 9600,y2: "h4"},
+        //Только у -   лы  -  бааааай-  ся
+        {type: "trapeze",x1: 9800, y1: "h0",x2: 100,x3: 100,x4: 10350,y2: "h3"},
+        //невесомости поверь
+        {type: "trapeze",x1: 10920, y1: "h0",x2: 100,x3: 100,x4: 11420,y2: "h3"},
+        //и отд - а - а- -а- -а- йся
+        {type: "triangle", x1: 11750, y1: "h0", x2: 12000, y2: "h4", x3: 12250,},
+        //у -   лы  -  бааааай-  ся
+        {type: "triangle", x1: 12620, y1: "h0", x2: 12770, y2: "h4", x3: 12920,},
+        //у -   лы  -  бааааай-  ся
+        {type: "trapeze",x1: 13200, y1: "h0",x2: 100,x3: 100,x4: 13750,y2: "h2"},
+        //aaaa
+        {type: "triangle", x1: 14020, y1: "h0", x2: 14085, y2: "h2", x3: 14150,},
+        //aaaa
+        {type: "triangle", x1: 14320, y1: "h0", x2: 14370, y2: "h3", x3: 14420,},
+        //aaaa
+        {type: "triangle", x1: 14530, y1: "h0", x2: 14580, y2: "h3", x3: 14630,},
+        //у -   лы  -  бааааай-  ся
+        {type: "trapeze",x1: 14720, y1: "h0",x2: 100,x3: 100,x4: 14920,y2: "h2"},
       ],
       songText:
-        "Я птицу счастья свою отпускаю на юг. Теперь сама я пою, теперь сама летаю Аа-аа. В открытый космос лечу, кометы огибая. Тебя мечтать научу, теперь одна мы стая Аа-аа Только улыбайся, улыбайся невесомости поверь и отдайся. Улыбайся, улыбайся Аа-аа Закинув лески в дали, ловим мы корабли. Рисуем время в пыли, мы Сальвадоры Дали Аа-аа Над этой бездной во ржи мне глаза завяжи. Рискуя с ветром, дыши, его за крылья держи Аа-аа И улыбайся, улыбайся. Невесомости поверь и отдайся. Улыбайся, улыбайся Аа-аа Я птицу счастья свою отпускаю на юг. Теперь сама я пою, теперь сама летаю Аа-аа Аа-аа",
+        "Я птицу счастья свою отпускаю на юг.         Теперь   сама    я     пою, теперь сама летаю    Аа  -  аа   -  аа.                                                                Аа  -  аа -  аа                                                         В открытый космос лечу,  кометы  огибая.            Тебя мечтать научу, теперь одна мы стая     Аа-аа -аа.                                                                                                          Только у -   лы  -  бааааай-  ся,   улыбайся             невесомости поверь                 и отд - а - а- -а- -а- йся.      У -   лы  -  бааай  -  ся,       Улы  -  бааааай  -  сяяяяяя,           Аа-аа-ааа      -ааа       ааа     улыбайся!                                                                                                                                ",
     },
     {
       songID: "3" as string,
@@ -601,56 +625,56 @@ let initialState = {
       srcToSong: srcToSong5SukochevBabuchka,
       srcToSongIntro: srcToSong5SukochevBabuchkaIntro,
       playbackSpeed: 170,
-      startMovingDelay: 14.5,
+      startMovingDelay: 14,
       canvasWigth: 15000,
       finishLineXCoordinate: 14000,
       itemsOnCanvasCoordinates: [
-              //Моя   бабушка   курит   тру  -  б  -  ку
-      {type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 1319, y2: "h2"},
-      //чёрный-пречёрный  табак
-      {type: "trapeze", x1: 1650, y1: "h0", x2: 100, x3: 100, x4: 2250, y2: "h3"},
-      {type: "triangle", x1: 2450, y1: "h6", x2: 2525, y2: "h4", x3: 2600,},
-      //Моя   бабушка 
-      {type: "trapeze", x1: 2750, y1: "h0", x2: 100, x3: 100, x4: 3050, y2: "h2"},
-      //тру  -  б  -  ку
-      {type: "trapeze", x1: 3370, y1: "h0", x2: 100, x3: 100, x4: 3680, y2: "h3"},
-      //в суровый
-      {type: "triangle", x1: 4000, y1: "h0", x2: 4075, y2: "h2", x3: 4150,},
-      //моряцкий 
-      {type: "triangle", x1: 4250, y1: "h0", x2: 4325, y2: "h4", x3: 4400,},
-      // затяг
-      {type: "triangle", x1: 4550, y1: "h0", x2: 4625, y2: "h3", x3: 4700,},
-      {type: "trapeze", x1: 4800, y1: "h6", x2: 100, x3: 100, x4: 5500, y2: "h5"},
-      //Моя бабушка курит
-      {type: "trapeze", x1: 5050, y1: "h0", x2: 100, x3: 100, x4: 5500, y2: "h2"},
-      //тру  -  б  -  ку
-      {type: "triangle", x1: 5700, y1: "h0", x2: 5800, y2: "h2", x3: 5900,},
-      //и обожает   огненный     ром
-      {type: "trapeze", x1: 6050, y1: "h0", x2: 100, x3: 100, x4: 6750, y2: "h3"},
-      //и когда я к бабуле заскочу на минутку
-      {type: "trapeze", x1: 7150, y1: "h0", x2: 100, x3: 100, x4: 8000, y2: "h4"},
-      //мы     c    ней
-      {type: "triangle", x1: 8250, y1: "h0", x2: 8375, y2: "h2", x3: 8500,},
-      //его     весело
-      {type: "triangle", x1: 8700, y1: "h0", x2: 8775, y2: "h2", x3: 8850,},
-      //пьём
-      {type: "triangle", x1: 9000, y1: "h0", x2: 9075, y2: "h3", x3: 9150,},
-      {type: "triangle", x1: 9300, y1: "h6", x2: 9350, y2: "h4", x3: 9400,},
-     //У    неё     ничего     не осталось
-      {type: "trapeze", x1: 9500, y1: "h0", x2: 100, x3: 100, x4: 10200, y2: "h2"},
-      {type: "trapeze", x1: 10300, y1: "h6", x2: 100, x3: 100, x4: 10600, y2: "h4"},
-      //у неё в кошельке три рубля
-      {type: "trapeze", x1: 10750, y1: "h0", x2: 100, x3: 100, x4: 11400, y2: "h2"},
-      {type: "triangle", x1: 11500, y1: "h6", x2: 11600, y2: "h4", x3: 11700,},
-      //моя бабушка курит трубку
-      {type: "trapeze", x1: 11950, y1: "h0", x2: 100, x3: 100, x4: 12550, y2: "h3"},
-      //труб    ку     ку     рит
-      {type: "trapeze", x1: 12930, y1: "h0", x2: 100, x3: 100, x4: 13400, y2: "h4"},
-      //бабушка    моя!
-      {type: "triangle", x1: 13600, y1: "h0", x2: 13700, y2: "h4", x3: 13800,}
+        //Моя   бабушка   курит   тру  -  б  -  ку
+        {type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 1319, y2: "h2"},
+        //чёрный-пречёрный  табак
+        {type: "trapeze", x1: 1600, y1: "h0", x2: 100, x3: 100, x4: 2200, y2: "h3"},
+        {type: "triangle", x1: 2450, y1: "h6", x2: 2525, y2: "h4", x3: 2600,},
+        //Моя   бабушка 
+        {type: "trapeze", x1: 2700, y1: "h0", x2: 100, x3: 100, x4: 3000, y2: "h2"},
+        //тру  -  б  -  ку
+        {type: "trapeze", x1: 3300, y1: "h0", x2: 100, x3: 100, x4: 3610, y2: "h3"},
+        //в суровый
+        {type: "triangle", x1: 3900, y1: "h0", x2: 3975, y2: "h2", x3: 4050,},
+        //моряцкий 
+        {type: "triangle", x1: 4150, y1: "h0", x2: 4225, y2: "h4", x3: 4300,},
+        // затяг
+        {type: "triangle", x1: 4450, y1: "h0", x2: 4525, y2: "h3", x3: 4600,},
+        {type: "trapeze", x1: 4700, y1: "h6", x2: 100, x3: 100, x4: 4900, y2: "h5"},
+        //Моя бабушка курит
+        {type: "trapeze", x1: 4950, y1: "h0", x2: 100, x3: 100, x4: 5400, y2: "h2"},
+        //тру  -  б  -  ку
+        {type: "triangle", x1: 5600, y1: "h0", x2: 5700, y2: "h2", x3: 5800,},
+        //и обожает   огненный     ром
+        {type: "trapeze", x1: 6100, y1: "h0", x2: 100, x3: 100, x4: 6800, y2: "h3"},
+        //и когда я к бабуле заскочу на минутку
+        {type: "trapeze", x1: 7200, y1: "h0", x2: 100, x3: 100, x4: 8050, y2: "h4"},
+        //мы     c    ней
+        {type: "triangle", x1: 8250, y1: "h0", x2: 8375, y2: "h2", x3: 8500,},
+        //его     весело
+        {type: "triangle", x1: 8650, y1: "h0", x2: 8725, y2: "h2", x3: 8800,},
+        //пьём
+        {type: "triangle", x1: 9050, y1: "h0", x2: 9125, y2: "h3", x3: 9200,},
+        {type: "triangle", x1: 9300, y1: "h6", x2: 9350, y2: "h4", x3: 9400,},
+       //У    неё     ничего     не осталось
+        {type: "trapeze", x1: 9500, y1: "h0", x2: 100, x3: 100, x4: 10200, y2: "h2"},
+        {type: "trapeze", x1: 10300, y1: "h6", x2: 100, x3: 100, x4: 10600, y2: "h4"},
+        //у неё в кошельке три рубля
+        {type: "trapeze", x1: 10750, y1: "h0", x2: 100, x3: 100, x4: 11400, y2: "h2"},
+        {type: "triangle", x1: 11500, y1: "h6", x2: 11600, y2: "h4", x3: 11700,},
+        //моя бабушка курит трубку
+        {type: "trapeze", x1: 11950, y1: "h0", x2: 100, x3: 100, x4: 12550, y2: "h3"},
+        //труб    ку     ку     рит
+        {type: "trapeze", x1: 12930, y1: "h0", x2: 100, x3: 100, x4: 13400, y2: "h4"},
+        //бабушка    моя!
+        {type: "triangle", x1: 13600, y1: "h0", x2: 13700, y2: "h4", x3: 13800,}
       ],
       songText:
-        "Моя   бабушка   курит   тру  -  б  -  ку,             чёрный-пречёрный  табак,                           Моя   бабушка     курит   тру  -  б  -  ку,              в суровый    моряцкий    затяг.                      Моя бабушка курит тру  -  б  -  ку         и обожает   огненный     ром,                      и когда я к бабуле заскочу на минутку,   мы     c    ней     его     весело     пьём.                      У    неё     ничего     не осталось,                            у неё в кошельке три рубля,                            моя бабушка курит трубку,                   труб    ку     ку     рит         бабушка    моя!                                                                                                          ",
+        "Моя   бабушка   курит   тру  -  б  -  ку,              чёрный-пречёрный  табак,                      Моя   бабушка     курит   тру  -  б  -  ку,              в суровый    моряцкий    затяг.                      Моя бабушка      курит    тру  -    б      -  ку        и обожает   огненный    ром,                      и когда я к бабуле заскочу на минутку,   мы     c    ней     его     весело     пьём.                   У    неё     ничего     не осталось,                             у неё в кошельке три рубля,                         моя бабушка курит    трубку,                   труб    ку     ку     рит         бабушка    моя!                                                                                                          ",
     },
     {
       songID: "5" as string,
@@ -698,73 +722,31 @@ let initialState = {
     },
   ],
   currentSong: {
-    songID: "4" as string,
+    songID: "1" as string,
     songName: {
-      ru: "Моя бабушка курит трубку",
-      en: "Moya babushka kurit trubku",
+      ru: "Витаминка",
+      en: "Vitaminka",
     },
     artistName: {
-      ru: "Гарик Сукачев",
-      en: "Garik Sukochev",
+      ru: "Тима Белорусских",
+      en: "Tima Belorusskih",
     },
     fullTitle: {
-      ru: "Гарик Сукачев - Моя бабушка курит трубку",
-      en: "Garik Sukochev - Moya babushka kurit trubku",
+      ru: "Тима Белорусских - Витаминка",
+      en: "Tima Belorusskih - Vitaminka",
     },
-    img: imgSong5SukochevBabuchka,
-    srcToSong: srcToSong5SukochevBabuchka,
-    srcToSongIntro: srcToSong5SukochevBabuchkaIntro,
-    playbackSpeed: 170,
-    startMovingDelay: 14,
-    canvasWigth: 15000,
-    finishLineXCoordinate: 14000,
-    itemsOnCanvasCoordinates: [
-      //Моя   бабушка   курит   тру  -  б  -  ку
-      {type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 1319, y2: "h2"},
-      //чёрный-пречёрный  табак
-      {type: "trapeze", x1: 1600, y1: "h0", x2: 100, x3: 100, x4: 2200, y2: "h3"},
-      {type: "triangle", x1: 2450, y1: "h6", x2: 2525, y2: "h4", x3: 2600,},
-      //Моя   бабушка 
-      {type: "trapeze", x1: 2700, y1: "h0", x2: 100, x3: 100, x4: 3000, y2: "h2"},
-      //тру  -  б  -  ку
-      {type: "trapeze", x1: 3300, y1: "h0", x2: 100, x3: 100, x4: 3610, y2: "h3"},
-      //в суровый
-      {type: "triangle", x1: 3900, y1: "h0", x2: 3975, y2: "h2", x3: 4050,},
-      //моряцкий 
-      {type: "triangle", x1: 4150, y1: "h0", x2: 4225, y2: "h4", x3: 4300,},
-      // затяг
-      {type: "triangle", x1: 4450, y1: "h0", x2: 4525, y2: "h3", x3: 4600,},
-      {type: "trapeze", x1: 4700, y1: "h6", x2: 100, x3: 100, x4: 4900, y2: "h5"},
-      //Моя бабушка курит
-      {type: "trapeze", x1: 4950, y1: "h0", x2: 100, x3: 100, x4: 5400, y2: "h2"},
-      //тру  -  б  -  ку
-      {type: "triangle", x1: 5600, y1: "h0", x2: 5700, y2: "h2", x3: 5800,},
-      //и обожает   огненный     ром
-      {type: "trapeze", x1: 6100, y1: "h0", x2: 100, x3: 100, x4: 6800, y2: "h3"},
-      //и когда я к бабуле заскочу на минутку
-      {type: "trapeze", x1: 7200, y1: "h0", x2: 100, x3: 100, x4: 8050, y2: "h4"},
-      //мы     c    ней
-      {type: "triangle", x1: 8250, y1: "h0", x2: 8375, y2: "h2", x3: 8500,},
-      //его     весело
-      {type: "triangle", x1: 8650, y1: "h0", x2: 8725, y2: "h2", x3: 8800,},
-      //пьём
-      {type: "triangle", x1: 9050, y1: "h0", x2: 9125, y2: "h3", x3: 9200,},
-      {type: "triangle", x1: 9300, y1: "h6", x2: 9350, y2: "h4", x3: 9400,},
-     //У    неё     ничего     не осталось
-      {type: "trapeze", x1: 9500, y1: "h0", x2: 100, x3: 100, x4: 10200, y2: "h2"},
-      {type: "trapeze", x1: 10300, y1: "h6", x2: 100, x3: 100, x4: 10600, y2: "h4"},
-      //у неё в кошельке три рубля
-      {type: "trapeze", x1: 10750, y1: "h0", x2: 100, x3: 100, x4: 11400, y2: "h2"},
-      {type: "triangle", x1: 11500, y1: "h6", x2: 11600, y2: "h4", x3: 11700,},
-      //моя бабушка курит трубку
-      {type: "trapeze", x1: 11950, y1: "h0", x2: 100, x3: 100, x4: 12550, y2: "h3"},
-      //труб    ку     ку     рит
-      {type: "trapeze", x1: 12930, y1: "h0", x2: 100, x3: 100, x4: 13400, y2: "h4"},
-      //бабушка    моя!
-      {type: "triangle", x1: 13600, y1: "h0", x2: 13700, y2: "h4", x3: 13800,}
-    ],
+    img: imgSong2VitaminkaBelorusskih,
+    srcToSong: srcToSong2Vitaminka,
+    srcToSongIntro: srcToSong2VitaminkaIntro,
+    playbackSpeed: 180,
+    startMovingDelay: 0,
+    canvasWigth: 22500,
+    finishLineXCoordinate: 21500,
+    itemsOnCanvasCoordinates: [] as Array<
+      TrapezeType | TriangleType | CircleType
+    >,
     songText:
-      "Моя   бабушка   курит   тру  -  б  -  ку,              чёрный-пречёрный  табак,                      Моя   бабушка     курит   тру  -  б  -  ку,              в суровый    моряцкий    затяг.                      Моя бабушка      курит    тру  -    б      -  ку        и обожает   огненный    ром,                      и когда я к бабуле заскочу на минутку,   мы     c    ней     его     весело     пьём.                   У    неё     ничего     не осталось,                             у неё в кошельке три рубля,                         моя бабушка курит    трубку,                   труб    ку     ку     рит         бабушка    моя!                                                                                                          ",
+      "Так беззабo-о-отно уходит вда-а-ааль   Наша с тоб-о-ой  жизнь одна-а-а на дво-о-и-их Я прошу об одно-о-ом, только не забыва-аай обо мне, как мы с тобой и о все-е-е-е-х  оста-а-а-льны-ы-х    Провожая печа-а-аль, мы просто мимо молчим Просто и без при-и-и-чин, ссылаясь на н-е-е-е-е-т                                                   И в этот моме-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-е-ент                           И все мои сюжеты по твоим карти-и-н-к-а-а-а м      Девочка-разноцветная витами-и-и-и-и н-к-а-а-а-а Сегодня я буду любить тебя си-и-ильно-о-о-о     Пока в моей голове действие витами-и-и-и-на              И все мои сюжеты по твоим карти-и-н-к-а-а-а м      Девочка-разноцветная витами-и-и-и-и н-к-а-а-а-а Сегодня я буду любить тебя си-и-ильно-о-о-о     Пока в моей голове действие витами-и-и-и-на                                                                                                                                          ",
   },
   isCurrentSongSet: false,
   currentSongVolume: 0.5,

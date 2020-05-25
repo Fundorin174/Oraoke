@@ -717,8 +717,8 @@ class SongPlayPageContainer extends React.PureComponent<
 
 
   // ///////////////////////////////////////////////////////////////// создание
-  // массива координат круга, который занимает птица в данный момент (достаточно 8
-  // точек по кругу)
+  // массива координат круга, который занимает птица в данный момент (достаточно 5
+  // точек)
   saveBirdCoordinatesArray(newx: number, newy: number, radius: number) {
     this.setState({ birdCoordinatesArray: [] }); //обнулить массив
     let centerX = newx;
@@ -759,8 +759,8 @@ class SongPlayPageContainer extends React.PureComponent<
         (this.state.allLinesCoordinatesArray[i].y >= currentBirdCoordinate.y-2 &&
          this.state.allLinesCoordinatesArray[i].y <= currentBirdCoordinate.y+2)){
           //СТОЛКНОВЕНИЕ
-          this.stopSigningAndMoving();
-          this.playSoundExploisionStart();          
+          // this.stopSigningAndMoving();
+          // this.playSoundExploisionStart();          
       }
  
   })
@@ -778,9 +778,9 @@ class SongPlayPageContainer extends React.PureComponent<
     //@ts-ignore -Это не правильно! Надо через setState,
     //но мать его тогда программа начинает жутко тупить и поле двигается не равномерно
     this.state.shiftTextToLeft -= 2; //сдвиг текста на каждом шаге на 2 px
-    // this.setState({
-    //   shiftTextToLeft: this.state.shiftTextToLeft - 2,
-    // });
+    // this.setState((state) => ({
+    //   shiftTextToLeft: state.shiftTextToLeft - 2,
+    // }));
     
     // //проверяем не столкнулась ли птица с препятствием
     this.compareObstacleAndBirdCoordinates();  
