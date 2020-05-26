@@ -413,15 +413,15 @@ class SongPlayPageContainer extends React.PureComponent<
           birdOnCanvas &&
             birdOnCanvas.setAttribute("style", `bottom: ${birdFlyingFinish}`);
           // birdOnCanvas && birdOnCanvas.style.bottom = birdFlyingFinish; Обновляем
-          
+
           // значение высоты подъема птицы 
           let currentYCoordinatOfBird = this.props.canvas
-              ? Math.round(canvasHeight - birdFlyingHigh - birdHeigth / 2)
-              : Math.round(canvasHeight - birdHeigth / 2); //текущая Y коорината центра птицы
-          
+            ? Math.round(canvasHeight - birdFlyingHigh - birdHeigth / 2)
+            : Math.round(canvasHeight - birdHeigth / 2); //текущая Y коорината центра птицы
+
           //Обновляем значение высоты птицы в локальном стейте
           this.setYCoordinateToState(currentYCoordinatOfBird);
-          
+
           //Создаем массив координат птицы в тукцщий момент
           this.createBirdCoordinatesArray(birdHeigth);
 
@@ -429,7 +429,7 @@ class SongPlayPageContainer extends React.PureComponent<
           //Выход из рекурсии и возврат в начальное положение
           if (
             this.props.isStopBtnPushed ||
-            (canvas && 
+            (canvas &&
               Math.abs(this.state.shiftTextToLeft) > canvas.offsetWidth)
           ) {
             this.stopBirdFlying();
@@ -655,7 +655,7 @@ class SongPlayPageContainer extends React.PureComponent<
       }
     });
 
-//вызов функции дабавляющей в массив из препятствий пустые значения, чтобы в нем было значение для каждого X
+    //вызов функции дабавляющей в массив из препятствий пустые значения, чтобы в нем было значение для каждого X
     this.addZeroValuesInAllLinesCoordinatesArray();
 
   }
@@ -690,11 +690,11 @@ class SongPlayPageContainer extends React.PureComponent<
       let y = Math.round(+(m * x + b));
       //добавляем элемент в массив если только предыдущий элемент не на той же x координате
 
-      if (this.state.allLinesCoordinatesArray.length === 0)  {this.state.allLinesCoordinatesArray.push({ x: x, y: y }) }
-      else if (this.state.allLinesCoordinatesArray[this.state.allLinesCoordinatesArray.length-1].x !==x) {
+      if (this.state.allLinesCoordinatesArray.length === 0) { this.state.allLinesCoordinatesArray.push({ x: x, y: y }) }
+      else if (this.state.allLinesCoordinatesArray[this.state.allLinesCoordinatesArray.length - 1].x !== x) {
         this.state.allLinesCoordinatesArray.push({ x: x, y: y })
-      } 
-              
+      }
+
     }
   }
 
@@ -702,15 +702,15 @@ class SongPlayPageContainer extends React.PureComponent<
   //Добаввление в массив координат из точек, которые составляют линию, формирующую
   // препятствие. пустых значений, чтобы номер элемента в массиве allLinesCoordinatesArray
   // соответствовал значению X.(для этого не должно быть препятствий одновременно сверху и снизу )
-  addZeroValuesInAllLinesCoordinatesArray(){
+  addZeroValuesInAllLinesCoordinatesArray() {
 
-    for (let i=0; i < this.props.currentSong.canvasWigth; i++) {
-     
-      let zeroElem = this.state.allLinesCoordinatesArray.find( currentcoordinata => {
+    for (let i = 0; i < this.props.currentSong.canvasWigth; i++) {
+
+      let zeroElem = this.state.allLinesCoordinatesArray.find(currentcoordinata => {
         return i == currentcoordinata.x
       });
       if (!zeroElem) {
-        this.state.allLinesCoordinatesArray.splice(i, 0, {x: i, y: -1})
+        this.state.allLinesCoordinatesArray.splice(i, 0, { x: i, y: -1 })
       }
     }
   }
@@ -723,13 +723,13 @@ class SongPlayPageContainer extends React.PureComponent<
     this.setState({ birdCoordinatesArray: [] }); //обнулить массив
     let centerX = newx;
     let centerY = newy;
-    let coord1 = {x: newx, y: newy},
-        coord2 = {x: newx-radius, y: newy},
-        coord3 = {x: newx, y: newy-radius},
-        coord4 = {x: newx + radius, y: newy},
-        coord5 = {x: newx, y: newy+radius};
-        
-      this.state.birdCoordinatesArray.push(coord1, coord2, coord3, coord4, coord5);
+    let coord1 = { x: newx, y: newy },
+      coord2 = { x: newx - radius, y: newy },
+      coord3 = { x: newx, y: newy - radius },
+      coord4 = { x: newx + radius, y: newy },
+      coord5 = { x: newx, y: newy + radius };
+
+    this.state.birdCoordinatesArray.push(coord1, coord2, coord3, coord4, coord5);
     // an array to save your points
     // let prevX = 0;
     // let prevY = 0;
@@ -748,23 +748,23 @@ class SongPlayPageContainer extends React.PureComponent<
   // ////////////////////////////////////////////////////////////////////////////
   // сравнение перекрытия координат препятствий и любой из координат птицы
 
-  compareObstacleAndBirdCoordinates() {    
-    
-    this.state.birdCoordinatesArray.forEach((currentBirdCoordinate)=>{
- 
+  compareObstacleAndBirdCoordinates() {
+
+    this.state.birdCoordinatesArray.forEach((currentBirdCoordinate) => {
+
       let i = currentBirdCoordinate.x
-      if ((this.state.allLinesCoordinatesArray[i].x >= currentBirdCoordinate.x-2 &&
-           this.state.allLinesCoordinatesArray[i].x <= currentBirdCoordinate.x+2 
-        ) && 
-        (this.state.allLinesCoordinatesArray[i].y >= currentBirdCoordinate.y-2 &&
-         this.state.allLinesCoordinatesArray[i].y <= currentBirdCoordinate.y+2)){
-          //СТОЛКНОВЕНИЕ
-          // this.stopSigningAndMoving();
-          // this.playSoundExploisionStart();          
+      if ((this.state.allLinesCoordinatesArray[i].x >= currentBirdCoordinate.x - 2 &&
+        this.state.allLinesCoordinatesArray[i].x <= currentBirdCoordinate.x + 2
+      ) &&
+        (this.state.allLinesCoordinatesArray[i].y >= currentBirdCoordinate.y - 2 &&
+          this.state.allLinesCoordinatesArray[i].y <= currentBirdCoordinate.y + 2)) {
+        //СТОЛКНОВЕНИЕ
+        // this.stopSigningAndMoving();
+        // this.playSoundExploisionStart();          
       }
- 
-  })
-}
+
+    })
+  }
 
   // /////////////////////////////////////////////////////////////////////
   // движение поля влево
@@ -774,23 +774,23 @@ class SongPlayPageContainer extends React.PureComponent<
     const textWrp = this.state.textWrpRef as HTMLElement;
 
     let canvasWidth = canvas.clientWidth; // ширина
-    
+
     //@ts-ignore -Это не правильно! Надо через setState,
     //но мать его тогда программа начинает жутко тупить и поле двигается не равномерно
     this.state.shiftTextToLeft -= 2; //сдвиг текста на каждом шаге на 2 px
     // this.setState((state) => ({
     //   shiftTextToLeft: state.shiftTextToLeft - 2,
     // }));
-    
+
     // //проверяем не столкнулась ли птица с препятствием
-    this.compareObstacleAndBirdCoordinates();  
+    this.compareObstacleAndBirdCoordinates();
 
 
     //начинаем увеличивать Х координату птицы относительно начала canvas
     //с началом движения поля с шагом 2 px
     if (this.state.shiftTextToLeft <= 400) {
       // передаем X положения птицы в стейт
-    this.setXCoordinateToState(this.state.xCoordOfBird+2);
+      this.setXCoordinateToState(this.state.xCoordOfBird + 2);
     }
 
     if (canvasWidth && Math.abs(this.state.shiftTextToLeft) < canvasWidth) {
@@ -823,7 +823,7 @@ class SongPlayPageContainer extends React.PureComponent<
     }
 
 
-  
+
 
     //остановка по нажатии СТОП.
     if (this.props.isStopBtnPushed) {
@@ -917,22 +917,21 @@ class SongPlayPageContainer extends React.PureComponent<
   //   console.log('y:'+this.state.yCoordOfBird)
   // }
 
-  setXCoordinateToState(xCoordOfBird:number){
+  setXCoordinateToState(xCoordOfBird: number) {
     this.setState({ xCoordOfBird: xCoordOfBird });
     this.props.sendChangingMoveDataToState(xCoordOfBird);
   }
-  
-  setYCoordinateToState(yCoordOfBird:number){
+
+  setYCoordinateToState(yCoordOfBird: number) {
     this.setState({ yCoordOfBird: yCoordOfBird });
   }
-  
+
   // ////////////////////////////////////////////////////////////////////////
   // ////////////////////////////////////////////////////////////////////////
   // ////////////////////////////////////////////////////////////////////////
   render() {
     return (
       <div>
-        {" "}
         <SongPlayPage
           canvasRefGetter={this.canvasRefGetter}
           canvasWrpRefGetter={this.canvasWrpRefGetter}
@@ -948,7 +947,7 @@ class SongPlayPageContainer extends React.PureComponent<
           changeVolumeOfSong={this.changeVolumeOfSong}
           changeVolumeOfVoice={this.changeVolumeOfVoice}
           {...this.props}
-        />{" "}
+        />
       </div>
     );
   }
