@@ -15,38 +15,11 @@ export const getSongsSelector = (state: AppStateType) => {
 export const getIsStopBtnPushed = (state: AppStateType) => {
   return state.startPage.isStopBtnPushed;
 };
-export const getCanvas = (state: AppStateType) => {
-  return state.startPage.canvas;
-};
-export const getTextWrp = (state: AppStateType) => {
-  return state.startPage.textWrp;
-};
-export const getCanvasWrp = (state: AppStateType) => {
-  return state.startPage.canvasWrp;
-};
-export const getSongMP3 = (state: AppStateType) => {
-  return state.startPage.songMP3;
-};
 export const getIsCurrentSongPlayingSetter = (state: AppStateType) => {
   return state.startPage.isCurrentSongPlaying;
 };
-export const getXCoordOfBird = (state: AppStateType) => {
-  return state.startPage.xCoordOfBird;
-};
-export const getYCoordOfBird = (state: AppStateType) => {
-  return state.startPage.yCoordOfBird;
-};
-export const getBirdOnCanvas = (state: AppStateType) => {
-  return state.startPage.birdOnCanvas;
-};
-export const getSoundExploision = (state: AppStateType) => {
-  return state.startPage.soundExploision;
-};
 export const getSrcToSoundExploision = (state: AppStateType) => {
   return state.startPage.srcToSoundExploision;
-};
-export const getSoundOfFinish = (state: AppStateType) => {
-  return state.startPage.soundOfFinish;
 };
 export const getSrcToSoundOfFinish = (state: AppStateType) => {
   return state.startPage.srcToSoundOfFinish;

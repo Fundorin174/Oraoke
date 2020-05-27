@@ -36,10 +36,7 @@ import srcTofinishLineImg from "./../img/finishLine.jpg";
 
 const CHANGE_CURRENT_SONG = "ORAOKE/START_PAGE/CHANGE_CURRENT_SONG";
 const STOP_BTN_IS_PUSHED_SET = "ORAOKE/PLAY_SONG_PAGE/STOP_BTN_IS_PUSHED_SET";
-const SAVE_ELEMENT_TO_STATE = "ORAOKE/PLAY_SONG_PAGE/SAVE_ELEMENT_TO_STATE";
 const IS_CURRENT_SONG_PLAYING = "ORAOKE/PLAY_SONG_PAGE/IS_CURRENT_SONG_PLAYING";
-const SEND_CHANGING_MOVE_DATA_TO_STATE =
-  "ORAOKE/PLAY_SONG_PAGE/SEND_CHANGING_MOVE_DATA_TO_STATE";
 const SET_NEW_VOLUME_OF_SONG = "ORAOKE/PLAY_SONG_PAGE/SET_NEW_VOLUME_OF_SONG";
 const SET_NEW_VOLUME_OF_VOICE = "ORAOKE/PLAY_SONG_PAGE/SET_NEW_VOLUME_OF_VOICE";
 const SET_NEW_LANGUAGE = "ORAOKE/START_PAGE/SET_NEW_LANGUAGE";
@@ -136,33 +133,6 @@ export const isCurrentSongPlayingSetter = (
   isCurrentSongPlaying,
 });
 
-type SaveDOMElementToStateType = {
-  type: typeof SAVE_ELEMENT_TO_STATE;
-  DOMelement: HTMLElement;
-  elementName: string;
-};
-
-export const saveDOMElementToState = (
-  DOMelement: HTMLElement,
-  elementName: string
-): SaveDOMElementToStateType => ({
-  type: SAVE_ELEMENT_TO_STATE,
-  DOMelement,
-  elementName,
-});
-
-type SendChangingMoveDataToStateType = {
-  type: typeof SEND_CHANGING_MOVE_DATA_TO_STATE;
-  xCoordOfBird: number
-};
-
-export const sendChangingMoveDataToState = (
-  xCoordOfBird: number
-): SendChangingMoveDataToStateType => ({
-  type: SEND_CHANGING_MOVE_DATA_TO_STATE,
-  xCoordOfBird
-});
-
 type SetNewVolumeOfSongType = {
   type: typeof SET_NEW_VOLUME_OF_SONG;
   newVolume: number;
@@ -203,8 +173,6 @@ type ActionType =
   | CurrentLanguageToggleType
   | SetNewVolumeOfVoiceType
   | SetNewVolumeOfSongType
-  | SendChangingMoveDataToStateType
-  | SaveDOMElementToStateType
   | IsCurrentSongPlayingSetterType
   | StopBtnIsPushSetType
   | ChangecurrentSong;
@@ -762,66 +730,330 @@ let initialState = {
       img: imgSong6NatalyOBozhe,
       srcToSong: srcToSong6NatalyOBozhe,
       srcToSongIntro: srcToSong6NatalyOBozheIntro,
-      playbackSpeed: 100,
-      startMovingDelay: 7,
-      canvasWigth: 14000,
-      finishLineXCoordinate: 17000,
+      playbackSpeed: 150,
+      startMovingDelay: 8.5,
+      canvasWigth: 22000,
+      finishLineXCoordinate: 21000,
       itemsOnCanvasCoordinates: [
-        // сказала что я сегодня 
-        { type: "trapeze", x1: 7400, y1: "h0", x2: 100, x3: 100, x4: 8000, y2: "h3" },
-        //танцевал
-        { type: "triangle", x1: 8550, y1: "h0", x2: 8650, y2: "h4", x3: 8750 },
+        // Ты ворвался 
+        { type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 750, y2: "h2" },
+        //нежданно изменил
+        { type: "trapeze", x1: 1200, y1: "h0", x2: 100, x3: 100, x4: 1850, y2: "h2" },
+        //мою-ю-ю  ре-а- а-ально-о-ость
+        { type: "trapeze", x1: 2200, y1: "h0", x2: 100, x3: 100, x4: 2800, y2: "h3" },
+        { type: "trapeze", x1: 3100, y1: "h6", x2: 100, x3: 100, x4: 3400, y2: "h5" },
+        //вспышки-и-и,    и-и-и-и любовь
+        { type: "trapeze", x1: 3600, y1: "h0", x2: 100, x3: 100, x4: 4420, y2: "h2" },
+        { type: "trapeze", x1: 4600, y1: "h6", x2: 100, x3: 100, x4: 4850, y2: "h4" },
+        // без передышки
+        { type: "trapeze", x1: 4950, y1: "h0", x2: 100, x3: 100, x4: 5250, y2: "h4" },
+        //как неви-и-нный флирт
+        { type: "trapeze", x1: 5600, y1: "h0", x2: 100, x3: 100, x4: 6300, y2: "h2" },
+        //а       теперь
+        { type: "triangle", x1: 6800, y1: "h0", x2: 6885, y2: "h4", x3: 6970 },
+        //без теб-я-мой мир
+        { type: "trapeze", x1: 7300, y1: "h0", x2: 100, x3: 100, x4: 7750, y2: "h3" },
+        // с другой пла  не  т-ы-ы-ы
+        { type: "trapeze", x1: 8500, y1: "h0", x2: 100, x3: 100, x4: 9100, y2: "h3" },
+        { type: "triangle", x1: 9300, y1: "h6", x2: 9400, y2: "h4", x3: 9500 },
+        //ты из моей мечты-ы-ы-!
+        { type: "trapeze", x1: 9750, y1: "h0", x2: 100, x3: 100, x4: 10350, y2: "h4" },
+        //О-о-о Бо-о-же, как-о-ой мужчи-и-на
+        { type: "trapeze", x1: 11000, y1: "h0", x2: 100, x3: 100, x4: 11750, y2: "h3" },
+        //Я хочу    
+        { type: "triangle", x1: 12240, y1: "h0", x2: 12305, y2: "h4", x3: 12370 },
+        //От тебя    
+        { type: "triangle", x1: 12500, y1: "h0", x2: 12575, y2: "h4", x3: 12650 },
+        //Сына    
+        { type: "triangle", x1: 12800, y1: "h0", x2: 12875, y2: "h4", x3: 12950 },
+        //и я хочу-у-у   от тебя         дочку-у-у-у-у
+        { type: "trapeze", x1: 13400, y1: "h0", x2: 100, x3: 100, x4: 14350, y2: "h3" },
+        //и точ - ка,
+        { type: "trapeze", x1: 14670, y1: "h0", x2: 100, x3: 100, x4: 14880, y2: "h4" },
+        //и точ - ка,
+        { type: "trapeze", x1: 15100, y1: "h0", x2: 100, x3: 100, x4: 15450, y2: "h4" },
+        { type: "trapeze", x1: 15600, y1: "h6", x2: 100, x3: 100, x4: 15850, y2: "h5" },
+        //О-о-о Бо-о-же, как-о-ой мужчи-и-на
+        { type: "trapeze", x1: 16000, y1: "h0", x2: 100, x3: 100, x4: 16700, y2: "h3" },
+        //Я хочу    
+        { type: "triangle", x1: 17200, y1: "h0", x2: 17250, y2: "h4", x3: 17300 },
+        //От тебя    
+        { type: "triangle", x1: 17450, y1: "h0", x2: 17540, y2: "h4", x3: 17630 },
+        //Сына    
+        { type: "triangle", x1: 17800, y1: "h0", x2: 17875, y2: "h4", x3: 17950 },
+        //и я хочу-у-у   от тебя         дочку-у-у-у-у
+        { type: "trapeze", x1: 18450, y1: "h0", x2: 100, x3: 100, x4: 19350, y2: "h3" },
+        //и точ - ка,
+        { type: "trapeze", x1: 19740, y1: "h0", x2: 100, x3: 100, x4: 19950, y2: "h4" },
+        //и точ - ка,
+        { type: "trapeze", x1: 20250, y1: "h0", x2: 100, x3: 100, x4: 20530, y2: "h4" }      
       ],
       songText:
-        "Ты ворвался в жизнь мою нежданно, изменил мою реальность. Мысли мерцают, на сердце вспышки, и любовь без передышки. Все начиналось как невинный флирт, а теперь пуст без тебя мой мир. Ты волшебный, ты с другой планеты, и ты из моей мечты! О Боже, какой мужчина, я хочу от тебя сына, и я хочу от тебя дочку, и точка, и точка! О Боже, какой мужчина, я хочу от тебя сына, и я хочу от тебя дочку, и точка, и точка!                                                                                                    ",
-    },
+        "Ты  вор - вался    в жизнь мою неждан-н-н-но, из - ме - нил           мою-ю-ю  ре-а- а-ально-о-ость. Мысли мерцают,    на сердце вспышки-и-и,    и-и-и-и любовь                             без передышки.  Все начина-а-а-лось как неви-и-нный флирт,          а       теперь               пуст без теб-я-мой мир.        Ты волшебный, ты с другой пла  не  т-ы-ы-ы,                                            ты из моей мечты-ы-ы-!                                О-о-о Бо-о-же, как-о-ой мужчи-и-на,                         я хочу      от тебя        сы - на,                       и я хочу-у-у   от тебя         дочку-у-у-у-у,                  и точ - ка,            и  точ - ка-а-а!                      О-о-о Бо-о-же, как-о-ой мужчи-и-на,                          я хочу       от тебя         сы - на,                        и я хочу-у-у    от тебя          дочку-у-у-у-у,                   и точ - ка,             и  точ - ка-а-а!                                                                                                                               ",
+   },
   ],
   currentSong: {
-    songID: "5" as string,
+    songID: "0" as string,
     songName: {
-      ru: "О Боже! Какой мужчина!",
-      en: "O Bozhe! Kakoy muzhchina!",
+      ru: "Рюмка водки на столе",
+      en: "Rumka vodki na stole",
     },
     artistName: {
-      ru: "Натали",
-      en: "Nataly",
+      ru: "Григорий Лепс",
+      en: "Grigoriy Leps",
     },
     fullTitle: {
-      ru: "Натали - О Боже! Какой мужчина!",
-      en: "Nataly - O Bozhe! Kakoy muzhchina!",
+      ru: "Григорий Лепс - Рюмка водки на столе",
+      en: "Grigoriy Leps - Rumka vodki na stole",
     },
-    img: imgSong6NatalyOBozhe,
-    srcToSong: srcToSong6NatalyOBozhe,
-    srcToSongIntro: srcToSong6NatalyOBozheIntro,
-    playbackSpeed: 150,
-    startMovingDelay: 8.5,
-    canvasWigth: 22000,
-    finishLineXCoordinate: 21000,
+    img: imgSong1LepsRumkaVodki,
+    srcToSong: srcToSong1LepsRumkaVodki,
+    srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
+    playbackSpeed: 100,
+    startMovingDelay: 26,
+    canvasWigth: 20000,
+    finishLineXCoordinate: 16300,
     itemsOnCanvasCoordinates: [
-      // сказала что я сегодня 
-      { type: "trapeze", x1: 7400, y1: "h0", x2: 100, x3: 100, x4: 8000, y2: "h3" },
-      //танцевал
-      { type: "triangle", x1: 8550, y1: "h0", x2: 8650, y2: "h4", x3: 8750 },
+      {
+        type: "trapeze", x1: 400, y1: "h0",
+        x2: 100,
+        x3: 0,
+        x4: 950,
+        y2: "h1",
+      }, //Ночь по улицам пошла
+      {
+        type: "trapeze",
+        x1: 1250,
+        y1: "h6",
+        x2: 100,
+        x3: 100,
+        x4: 1500,
+        y2: "h3",
+      },
+      {
+        type: "trapeze",
+        x1: 1680,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 2000,
+        y2: "h2",
+      }, //Звездной постутью
+      {
+        type: "triangle",
+        x1: 2150,
+        y1: "h0",
+        x2: 2225,
+        y2: "h3",
+        x3: 2300,
+      }, // цариц
+      {
+        type: "trapeze",
+        x1: 2500,
+        y1: "h6",
+        x2: 100,
+        x3: 50,
+        x4: 2900,
+        y2: "h4",
+      },
+      {
+        type: "trapeze",
+        x1: 3050,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 3620,
+        y2: "h2",
+      }, ////Слов и чисел простота
+      {
+        type: "trapeze",
+        x1: 3800,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 4250,
+        y2: "h2",
+      }, //у небесного моста
+      {
+        type: "trapeze",
+        x1: 4470,
+        y1: "h0",
+        x2: 50,
+        x3: 50,
+        x4: 4880,
+        y2: "h2",
+      }, //раскидала перья
+      {
+        type: "triangle",
+        x1: 5000,
+        y1: "h0",
+        x2: 5125,
+        y2: "h3",
+        x3: 5250,
+      }, //пти и и и и и ц
+      {
+        type: "trapeze",
+        x1: 5750,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 6240,
+        y2: "h1",
+      }, //Не забудутся никем
+      {
+        type: "trapeze",
+        x1: 6560,
+        y1: "h6",
+        x2: 100,
+        x3: 100,
+        x4: 6800,
+        y2: "h3",
+      },
+      {
+        type: "trapeze",
+        x1: 7050,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 7650,
+        y2: "h2",
+      }, //праздник губ обид и глаз
+      {
+        type: "trapeze",
+        x1: 7850,
+        y1: "h6",
+        x2: 100,
+        x3: 100,
+        x4: 8200,
+        y2: "h4",
+      },
+      {
+        type: "trapeze",
+        x1: 8430,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 9100,
+        y2: "h3",
+      }, //Забери меня в свой плен
+      {
+        type: "trapeze",
+        x1: 9230,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 9630,
+        y2: "h2",
+      }, //эту линию колен
+      {
+        type: "trapeze",
+        x1: 9850,
+        y1: "h0",
+        x2: 100,
+        x3: 50,
+        x4: 10200,
+        y2: "h2",
+      }, //целовать в последний
+      {
+        type: "triangle",
+        x1: 10400,
+        y1: "h0",
+        x2: 10525,
+        y2: "h4",
+        x3: 10650,
+      }, //раааааааз
+      {
+        type: "trapeze",
+        x1: 10900,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 11370,
+        y2: "h3",
+      }, //Тоооолькооооооо
+      {
+        type: "trapeze",
+        x1: 11630,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 12266,
+        y2: "h3",
+      }, //рюмка водкииии на столе
+      {
+        type: "trapeze",
+        x1: 12570,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 12990,
+        y2: "h2",
+      }, //Ветер плачет за окнооом
+      {
+        type: "trapeze",
+        x1: 13200,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 13400,
+        y2: "h3",
+      }, //тиииииихооо
+      {
+        type: "trapeze",
+        x1: 13550,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 13850,
+        y2: "h3",
+      }, //больююююю
+      {
+        type: "trapeze",
+        x1: 14000,
+        y1: "h6",
+        x2: 100,
+        x3: 100,
+        x4: 14300,
+        y2: "h4",
+      },
+      {
+        type: "trapeze",
+        x1: 14386,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 15000,
+        y2: "h2",
+      }, //о т з ы в а ю т с я в о м н е
+      {
+        type: "trapeze",
+        x1: 15180,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 15650,
+        y2: "h2",
+      }, // э т о й молодой   л у н ы
+      {
+        type: "trapeze",
+        x1: 15880,
+        y1: "h0",
+        x2: 100,
+        x3: 100,
+        x4: 16090,
+        y2: "h3",
+      }, //к р и к и
     ],
     songText:
-      "Ты  вор - вался    в жизнь мою неждан-н-н-но, из - ме - нил           мою-ю-ю  ре-а- а-ально-о-ость. Мысли мерцают,    на сердце вспышки-и-и,    и-и-и-и любовь                             без передышки.  Все начина-а-а-лось как неви-и-нный флирт,          а       теперь               пуст без теб-я-мой мир.        Ты волшебный, ты с другой пла  не  т-ы-ы-ы,                                            ты из моей мечты-ы-ы-!                                О-о-о Бо-о-же, как-о-ой мужчи-и-на,                         я хочу      от тебя        сы - на,                       и я хочу-у-у   от тебя         дочку-у-у-у-у,                  и точ - ка,            и  точ - ка-а-а!                      О-о-о Бо-о-же, как-о-ой мужчи-и-на,                          я хочу       от тебя         сы - на,                        и я хочу-у-у    от тебя          дочку-у-у-у-у,                   и точ - ка,             и  точ - ка-а-а!                                                                                                                               ",
+      "Ночь по улицам пошла                                          звездной поступью цариц.                                               Слов и чисел простота          у небесного моста           раскидала перья пти и и и и и ц.                              Не забудутся никем                                                  праздник губ обид и глаз.                                                Забери меня в свой плен,       эту линию колен            целовать в последний раааааааз.               Тоооолькооооооо                рюмка водкииии на столе.           Ветер плачет за окнооом      тиииииихооо больююююю                                 о т з ы в а ю т с я в о м н е        э т о й молодой   л у н ы       к р и к и.                                                                                                  ",
   },
   isCurrentSongSet: false,
   currentSongVolume: 0.5,
   currentVoiceVolume: 1,
   currentLanguage: "ru" as "ru" | "en",
   isStopBtnPushed: false,
-  canvas: null as null | HTMLCanvasElement,
-  canvasWrp: null as null | HTMLElement,
-  songMP3: null as null | HTMLAudioElement,
-  textWrp: null as null | HTMLElement,
-  birdOnCanvas: null as null | HTMLElement,
   isCurrentSongPlaying: false,
-  xCoordOfBird: 185,
-  yCoordOfBird: 50,
-  soundExploision: null as null | HTMLAudioElement,
   srcToSoundExploision: srcToSoundExploision,
-  soundOfFinish: null as null | HTMLAudioElement,
   srcToSoundOfFinish: srcToSoundOfFinish,
   srcTofinishLineImg: srcTofinishLineImg,
 };
@@ -834,7 +1066,6 @@ const startPageReducer = (
 ): StartPageInitialStateType => {
   switch (action.type) {
     case CHANGE_CURRENT_SONG:
-      console.log(action.song);
       return {
         ...state,
         currentSong: action.song,
@@ -845,20 +1076,10 @@ const startPageReducer = (
         ...state,
         isStopBtnPushed: action.isBtnPushed,
       };
-    case SAVE_ELEMENT_TO_STATE:
-      return {
-        ...state,
-        [action.elementName]: action.DOMelement,
-      };
     case IS_CURRENT_SONG_PLAYING:
       return {
         ...state,
         isCurrentSongPlaying: action.isCurrentSongPlaying,
-      };
-    case SEND_CHANGING_MOVE_DATA_TO_STATE:
-      return {
-        ...state,
-        xCoordOfBird: action.xCoordOfBird,
       };
     case SET_NEW_VOLUME_OF_SONG:
       return {

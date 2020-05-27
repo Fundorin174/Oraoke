@@ -11,15 +11,7 @@ import {
   getcurrentSongSelector,
   getSongsSelector,
   getIsStopBtnPushed,
-  getCanvas,
-  getCanvasWrp,
-  getSongMP3,
-  getBirdOnCanvas,
   getIsCurrentSongPlayingSetter,
-  getXCoordOfBird,
-  getYCoordOfBird,
-  getSoundExploision,
-  getSoundOfFinish,
   getSrcToSoundExploision,
   getSrcToSoundOfFinish,
   getSrcTofinishLineImg,
@@ -27,13 +19,10 @@ import {
   getCurrentSongVolume,
   getCurrentVoiceVolume,
   getCurrentLanguage,
-  getTextWrp,
-} from "../redux/startPageSelectors";
+  } from "../redux/startPageSelectors";
 import {
   stopBtnIsPushSet,
-  saveDOMElementToState,
   isCurrentSongPlayingSetter,
-  sendChangingMoveDataToState,
   setNewVolumeOfSong,
   setNewVolumeOfVoice,
   currentLanguageToggle,
@@ -147,31 +136,24 @@ class SongPlayPageContainer extends React.PureComponent<
       this.setState((state) => {
         return { canvasRef: canvasEl };
       });
-      this.props.saveDOMElementToState(canvasEl, "canvas");
     };
     this.canvasWrpRefGetter = (canvasWrpEl: HTMLElement) => {
       this.setState({ canvasWrpRef: canvasWrpEl });
-      this.props.saveDOMElementToState(canvasWrpEl, "canvasWrp");
     };
     this.songMP3RefGetter = (el: HTMLAudioElement) => {
       this.setState({ songMP3Ref: el });
-      this.props.saveDOMElementToState(el, "songMP3");
     };
     this.textWrpRefGetter = (el: HTMLElement) => {
       this.setState({ textWrpRef: el });
-      this.props.saveDOMElementToState(el, "textWrp");
     };
     this.birdRefGetter = (el: HTMLElement) => {
       this.setState({ birdRef: el });
-      this.props.saveDOMElementToState(el, "birdOnCanvas");
     };
     this.soundExploisionRefGetter = (el: HTMLAudioElement) => {
       this.setState({ soundExploisionRef: el });
-      this.props.saveDOMElementToState(el, "soundExploision");
     };
     this.soundOfFinishRefGetter = (el: HTMLAudioElement) => {
       this.setState({ soundOfFinishRef: el });
-      this.props.saveDOMElementToState(el, "soundOfFinish");
     };
   }
 
@@ -189,7 +171,7 @@ class SongPlayPageContainer extends React.PureComponent<
     //перезагрузка страницы при изменении размеров окна браузера
     //window.addEventListener("resize", () => window.location.reload());
 
-    //Запуск проигрывания файла через 4 секунды
+    //Запуск проигрывания файла через 1 секунду
     const autoPlaySong =
       !this.props.isCurrentSongPlaying &&
       setTimeout(
@@ -200,7 +182,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
     this.setState({ autoPlaySong: autoPlaySong });
 
-    document.addEventListener("keyup", this.playPauseOnSpaseBtn);
+    // document.addEventListener("keyup", this.playPauseOnSpaseBtn);
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -210,17 +192,18 @@ class SongPlayPageContainer extends React.PureComponent<
     prevProps: SongPlayPageContainerPropsType,
     prevState: AppStateType
   ) {
+    // Установка высоты canvas после получения элементов DOM
     if (
-      this.props.canvas?.clientHeight !== 0 &&
-      (prevProps.canvas === null || prevProps.canvasWrp === null)
+      this.state.canvasRef?.clientHeight !== 0 &&
+      this.state.isCanvasHeightSet === 0
     ) {
       this.setCanvasHeigthAndWidth(); //изменение высоты canvas по родителю
     }
 
     if (this.state.canvasHeight !== 0 && this.state.isCanvasHeightSet === 1) {
-      //Отрисовка всего поля canvas
+      //Отрисовка всего поля canvas после задания его размеров
       this.paintingCanvasField();
-
+      //увеличение счетчика для выхода из рекурсии
       this.setState((state) => {
         return {
           isCanvasHeightSet: state.isCanvasHeightSet + 1,
@@ -250,9 +233,10 @@ class SongPlayPageContainer extends React.PureComponent<
   // ///////////////////////////////////////////////////////////////////////////
   // /////////
   componentWillUnmount() {
-    window.removeEventListener("resize", this.setCanvasHeigthAndWidth);
-    document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
+    //window.removeEventListener("resize", this.setCanvasHeigthAndWidth);
+    //document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
     clearTimeout(this.state.autoPlaySong);
+    this.clearTimer();
     this.stopBirdFlying();
   }
 
@@ -333,16 +317,12 @@ class SongPlayPageContainer extends React.PureComponent<
   // движение птицы в зависимости от звука с микрофона
   mooveBirdByVoice() {
     const birdOnCanvas = this.state.birdRef as HTMLElement;
-
-    const canvas =
-      this.props.canvas && this.props.canvas.clientHeight !== 0
-        ? this.props.canvas
-        : (this.state.canvasRef as HTMLCanvasElement);
-    const birdHeigth = birdOnCanvas ? birdOnCanvas.clientHeight : 75; //высота птицы
+    const canvas = this.state.canvasRef as HTMLCanvasElement;
+    const birdHeigth = birdOnCanvas?.clientHeight; //высота птицы
     let maxHeightForWile = this.props.isSetMaxUserVoiceLevel
-      ? this.props.maxUserVoiceLevel
-      : 255;
-    let canvasHeight = canvas ? canvas.clientHeight : 0;
+                          ? this.props.maxUserVoiceLevel
+                          : 255;
+    let canvasHeight = canvas?.clientHeight;
     this.setState({
       voiceArray: new Uint8Array(this.state.numOfItemsInVoiceArray),
     });
@@ -360,11 +340,12 @@ class SongPlayPageContainer extends React.PureComponent<
         srcOfVoice.connect(analyser); //передача звука в аналайзер
         analyser.connect(gainNode); //включение усилителя перед колонками
         gainNode.connect(context.destination); //вывод звука c усилителя на колонки
+        //усиление/ослабление исходного звука
+        // в зависимости от инпута через стейт звука
         gainNode.gain.setValueAtTime(
           +this.props.currentVoiceVolume,
           context.currentTime
-        ); //усиление/ослабление исходного звука
-        // в зависимости от инпута через стейт звука
+        ); 
         let prevbirdFlyingHigh: number;
         let birdFlyingFinish;
         // рекурсивная функция обработки принятого звука с частотой примерно 60 раз в
@@ -415,7 +396,7 @@ class SongPlayPageContainer extends React.PureComponent<
           // birdOnCanvas && birdOnCanvas.style.bottom = birdFlyingFinish; Обновляем
 
           // значение высоты подъема птицы 
-          let currentYCoordinatOfBird = this.props.canvas
+          let currentYCoordinatOfBird = canvas
             ? Math.round(canvasHeight - birdFlyingHigh - birdHeigth / 2)
             : Math.round(canvasHeight - birdHeigth / 2); //текущая Y коорината центра птицы
 
@@ -449,7 +430,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // птицы в начальное состояние
   stopBirdFlying() {
     cancelAnimationFrame(this.state.flying);
-    this.props.birdOnCanvas?.setAttribute("style", `bottom: 70px`);
+    this.state.birdRef?.setAttribute("style", `bottom: 70px`);
     this.state.analyser && this.state.analyser.disconnect();
     this.setState({ birdCoordinatesArray: [], flying: 0 });
   }
@@ -789,7 +770,7 @@ class SongPlayPageContainer extends React.PureComponent<
     //начинаем увеличивать Х координату птицы относительно начала canvas
     //с началом движения поля с шагом 2 px
     if (this.state.shiftTextToLeft <= 400) {
-      // передаем X положения птицы в стейт
+      // передаем X нового положения птицы в стейт
       this.setXCoordinateToState(this.state.xCoordOfBird + 2);
     }
 
@@ -887,8 +868,7 @@ class SongPlayPageContainer extends React.PureComponent<
     const playbackSpeed = this.props.currentSong.playbackSpeed;
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
-    // // запуск проверки на столкновение птицы и препятствия
-    // this.checkBirdFacedOnWall();
+  
     // запуск подъема птицы в зависимости от уровня голоса с микрофона
     this.mooveBirdByVoice();
     //если с начала, то текст с задержкой запускается
@@ -918,8 +898,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // }
 
   setXCoordinateToState(xCoordOfBird: number) {
-    this.setState({ xCoordOfBird: xCoordOfBird });
-    this.props.sendChangingMoveDataToState(xCoordOfBird);
+    this.setState({ xCoordOfBird: xCoordOfBird });  
   }
 
   setYCoordinateToState(yCoordOfBird: number) {
@@ -961,16 +940,7 @@ type MapStateToPropsType = {
   adv7: AdvertismentType;
   adv8: AdvertismentType;
   isStopBtnPushed: boolean;
-  canvas: null | HTMLElement;
-  canvasWrp: null | HTMLElement;
-  textWrp: null | HTMLElement;
-  songMP3: null | HTMLAudioElement;
-  birdOnCanvas: null | HTMLElement;
   isCurrentSongPlaying: boolean;
-  xCoordOfBird: number;
-  yCoordOfBird: number;
-  soundExploision: null | HTMLAudioElement;
-  soundOfFinish: null | HTMLAudioElement;
   srcToSoundExploision: string;
   srcToSoundOfFinish: string;
   srcTofinishLineImg: string;
@@ -981,15 +951,8 @@ type MapStateToPropsType = {
 };
 
 type MapDispatchToPropsType = {
-  saveDOMElementToState: (
-    DOMelement: HTMLElement | HTMLAudioElement | HTMLCanvasElement,
-    elementName: string
-  ) => void;
   stopBtnIsPushSet: (isBtnPushed: boolean) => void;
   isCurrentSongPlayingSetter: (isCurrentSongPlaying: boolean) => void;
-  sendChangingMoveDataToState: (
-    xCoordOfBird: number
-  ) => void;
   setNewVolumeOfSong: (newVolume: number) => void;
   setNewVolumeOfVoice: (newVolume: number) => void;
   currentLanguageToggle: (lang: "ru" | "en") => void;
@@ -1025,16 +988,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
   adv7: getAdv(state, 7),
   adv8: getAdv(state, 8),
   isStopBtnPushed: getIsStopBtnPushed(state),
-  canvas: getCanvas(state),
-  canvasWrp: getCanvasWrp(state),
-  textWrp: getTextWrp(state),
-  songMP3: getSongMP3(state),
-  birdOnCanvas: getBirdOnCanvas(state),
   isCurrentSongPlaying: getIsCurrentSongPlayingSetter(state),
-  xCoordOfBird: getXCoordOfBird(state),
-  yCoordOfBird: getYCoordOfBird(state),
-  soundExploision: getSoundExploision(state),
-  soundOfFinish: getSoundOfFinish(state),
   srcToSoundExploision: getSrcToSoundExploision(state),
   srcToSoundOfFinish: getSrcToSoundOfFinish(state),
   srcTofinishLineImg: getSrcTofinishLineImg(state),
@@ -1051,10 +1005,8 @@ export default compose(
     OwnPropsType,
     AppStateType
   >(mapStateToProps, {
-    saveDOMElementToState,
     stopBtnIsPushSet,
     isCurrentSongPlayingSetter,
-    sendChangingMoveDataToState,
     setNewVolumeOfSong,
     setNewVolumeOfVoice,
     currentLanguageToggle,
