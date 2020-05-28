@@ -149,7 +149,7 @@ type SetNewVolumeOfVoiceType = {
   type: typeof SET_NEW_VOLUME_OF_VOICE;
   newVolume: number;
 };
-
+  
 export const setNewVolumeOfVoice = (
   newVolume: number
 ): SetNewVolumeOfVoiceType => ({
@@ -199,7 +199,7 @@ let initialState = {
       srcToSong: srcToSong1LepsRumkaVodki,
       srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
       playbackSpeed: 100,
-      startMovingDelay: 26,
+      startMovingDelay: 13,
       canvasWigth: 20000,
       finishLineXCoordinate: 16300,
       itemsOnCanvasCoordinates: [
@@ -662,7 +662,7 @@ let initialState = {
       srcToSong: srcToSong5SukochevBabuchka,
       srcToSongIntro: srcToSong5SukochevBabuchkaIntro,
       playbackSpeed: 170,
-      startMovingDelay: 14,
+      startMovingDelay: 14.5,
       canvasWigth: 15000,
       finishLineXCoordinate: 14000,
       itemsOnCanvasCoordinates: [
@@ -810,7 +810,7 @@ let initialState = {
     srcToSong: srcToSong1LepsRumkaVodki,
     srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
     playbackSpeed: 100,
-    startMovingDelay: 26,
+    startMovingDelay: 13.5,
     canvasWigth: 20000,
     finishLineXCoordinate: 16300,
     itemsOnCanvasCoordinates: [

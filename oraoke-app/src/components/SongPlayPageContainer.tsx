@@ -51,7 +51,7 @@ type SongPlayPageContainerStateType = {
   voiceArray: null | Uint8Array;
   numOfItemsInVoiceArray: number;
   analyser: any;
-  flying: number;
+  flying: any;
   ctx: CanvasRenderingContext2D | undefined;
   canvasHeight: number;
   timerId: any;
@@ -61,6 +61,7 @@ type SongPlayPageContainerStateType = {
   yCoordOfBird: number;
   autoPlaySong: any;
   isCanvasHeightSet: number;
+  prevbirdFlyingHigh: number | undefined;
 };
 
 class SongPlayPageContainer extends React.PureComponent<
@@ -91,13 +92,14 @@ class SongPlayPageContainer extends React.PureComponent<
       canvasHeight: 0,
       timerId: 0, //таймер для движения поля
       moovingStartTimer: 0, //SetTimeout задержки запуска движения относительно музыки
-      shiftTextToLeft: 700, //начальная точка сдвига текста
+      shiftTextToLeft: 550, //начальная точка сдвига текста
       xCoordOfBird: 185, //начальное положение птицы по оси х меняется
       // в функции moveCanvasAndTextToLeft
       yCoordOfBird: 50, //начальное положение птицы по оси y
       //меняется в функции mooveBirdByVoice
       autoPlaySong: null,
       isCanvasHeightSet: 0,
+      prevbirdFlyingHigh: undefined
     };
     // this.window = window; this.canvasRef = null; this.canvasWrpRef = null;
     // //////////////////////// Забиндить this для всех методов где это надо
@@ -130,6 +132,7 @@ class SongPlayPageContainer extends React.PureComponent<
     this.changeVolumeOfSong = this.changeVolumeOfSong.bind(this);
     this.changeVolumeOfVoice = this.changeVolumeOfVoice.bind(this);
     this.addZeroValuesInAllLinesCoordinatesArray = this.addZeroValuesInAllLinesCoordinatesArray.bind(this);
+    this.loop = this.loop.bind(this);
 
     // ////////////////////////////////////// ref calback to DOM elements
     this.canvasRefGetter = (canvasEl: HTMLCanvasElement) => {
@@ -169,7 +172,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // ////////
   componentDidMount() {
     //перезагрузка страницы при изменении размеров окна браузера
-    //window.addEventListener("resize", () => window.location.reload());
+    window.addEventListener("resize", () => window.location.reload());
 
     //Запуск проигрывания файла через 1 секунду
     const autoPlaySong =
@@ -233,7 +236,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // ///////////////////////////////////////////////////////////////////////////
   // /////////
   componentWillUnmount() {
-    //window.removeEventListener("resize", this.setCanvasHeigthAndWidth);
+    window.removeEventListener("resize", this.setCanvasHeigthAndWidth);
     //document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
     clearTimeout(this.state.autoPlaySong);
     this.clearTimer();
@@ -316,13 +319,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // ////////////////////////////////////////////////////////////////////////////
   // движение птицы в зависимости от звука с микрофона
   mooveBirdByVoice() {
-    const birdOnCanvas = this.state.birdRef as HTMLElement;
-    const canvas = this.state.canvasRef as HTMLCanvasElement;
-    const birdHeigth = birdOnCanvas?.clientHeight; //высота птицы
-    let maxHeightForWile = this.props.isSetMaxUserVoiceLevel
-                          ? this.props.maxUserVoiceLevel
-                          : 255;
-    let canvasHeight = canvas?.clientHeight;
+    
     this.setState({
       voiceArray: new Uint8Array(this.state.numOfItemsInVoiceArray),
     });
@@ -346,77 +343,13 @@ class SongPlayPageContainer extends React.PureComponent<
           +this.props.currentVoiceVolume,
           context.currentTime
         ); 
-        let prevbirdFlyingHigh: number;
-        let birdFlyingFinish;
+        
+        let birdFlyingFinish = '';
         // рекурсивная функция обработки принятого звука с частотой примерно 60 раз в
         // секугду
-        let loop = () => {
-          let flying = window.requestAnimationFrame(loop);
-          this.state.voiceArray &&
-            analyser.getByteFrequencyData(this.state.voiceArray); //получение данных частот
-          this.setState({ flying: flying }); //передаем данные в глобальную переменную для сброса
 
-          // Получение усредненного значения звука по всем частотам - это и будет текущее
-          // значение уровня звука
-          let averageHeight = this.state.voiceArray
-            ? this.state.voiceArray.reduce((summ, current) => summ + current) /
-            this.state.voiceArray.length
-            : 0;
-
-          // Задание высоты подъема птицы от стреднего уровня сигнала в массиве
-          let birdFlyingHigh =
-            (canvasHeight * averageHeight) / maxHeightForWile <
-              canvasHeight - birdHeigth
-              ? (canvasHeight * averageHeight) / maxHeightForWile
-              : canvasHeight - birdHeigth;
-          // console.log(`текущее: ${averageHeight} максимальное: ${maxHeightForWile}
-          // Итоговое: ${birdFlyingHigh}. Общая высота ${canvasHeight} `); если очередное
-          // значение отличается от предыдущего больше чем на 2 то уменьшаем разницу до 1.
-          // Чтобы убрать резкие скачки.
-          if (
-            birdFlyingHigh - prevbirdFlyingHigh > 2 &&
-            birdFlyingHigh - prevbirdFlyingHigh > 0
-          ) {
-            birdFlyingFinish = Math.round(prevbirdFlyingHigh) + 1 + 70 + "px";
-          } else if (
-            Math.abs(birdFlyingHigh - prevbirdFlyingHigh) > 2 &&
-            birdFlyingHigh - prevbirdFlyingHigh < 0
-          ) {
-            birdFlyingFinish = Math.round(prevbirdFlyingHigh) - 1 + 70 + "px";
-          } else {
-            birdFlyingFinish = Math.round(birdFlyingHigh) + 70 + "px";
-          }
-
-          //записать текущее значение в предыдущее для сравнения на следующем шаге
-          prevbirdFlyingHigh = birdFlyingHigh;
-
-          //changing bottom - and fly. сдвиг птицы на высоту birdFlyingFinish))
-          birdOnCanvas &&
-            birdOnCanvas.setAttribute("style", `bottom: ${birdFlyingFinish}`);
-          // birdOnCanvas && birdOnCanvas.style.bottom = birdFlyingFinish; Обновляем
-
-          // значение высоты подъема птицы 
-          let currentYCoordinatOfBird = canvas
-            ? Math.round(canvasHeight - birdFlyingHigh - birdHeigth / 2)
-            : Math.round(canvasHeight - birdHeigth / 2); //текущая Y коорината центра птицы
-
-          //Обновляем значение высоты птицы в локальном стейте
-          this.setYCoordinateToState(currentYCoordinatOfBird);
-
-          //Создаем массив координат птицы в тукцщий момент
-          this.createBirdCoordinatesArray(birdHeigth);
-
-
-          //Выход из рекурсии и возврат в начальное положение
-          if (
-            this.props.isStopBtnPushed ||
-            (canvas &&
-              Math.abs(this.state.shiftTextToLeft) > canvas.offsetWidth)
-          ) {
-            this.stopBirdFlying();
-          }
-        };
-        loop();
+        let flying = setInterval(this.loop, 100, birdFlyingFinish);
+        this.setState({ flying: flying }); //передаем данные в глобальную переменную для сброса
       })
       .catch((error) => {
         alert(
@@ -425,6 +358,86 @@ class SongPlayPageContainer extends React.PureComponent<
         );
       });
   }
+
+
+  loop (birdFlyingFinish:string) {
+
+    const birdOnCanvas = this.state.birdRef as HTMLElement;
+    const canvas = this.state.canvasRef as HTMLCanvasElement;
+    const birdHeigth = birdOnCanvas?.clientHeight; //высота птицы
+    let maxHeightForWile = this.props.isSetMaxUserVoiceLevel
+                          ? this.props.maxUserVoiceLevel
+                          : 255;
+    let canvasHeight = canvas?.clientHeight;
+    let prevbirdFlyingHigh = this.state.prevbirdFlyingHigh ? this.state.prevbirdFlyingHigh : 0;
+    
+    this.state.voiceArray &&
+      this.state.analyser.getByteFrequencyData(this.state.voiceArray); //получение данных частот
+    
+
+    // Получение усредненного значения звука по всем частотам - это и будет текущее
+    // значение уровня звука
+    let averageHeight = this.state.voiceArray
+      ? this.state.voiceArray.reduce((summ, current) => summ + current) /
+      this.state.voiceArray.length
+      : 0;
+
+    // Задание высоты подъема птицы от стреднего уровня сигнала в массиве
+    let birdFlyingHigh =
+      (canvasHeight * averageHeight) / maxHeightForWile <
+        canvasHeight - birdHeigth
+        ? (canvasHeight * averageHeight) / maxHeightForWile
+        : canvasHeight - birdHeigth;
+    // console.log(`текущее: ${averageHeight} максимальное: ${maxHeightForWile}
+    // Итоговое: ${birdFlyingHigh}. Общая высота ${canvasHeight} `); если очередное
+    // значение отличается от предыдущего больше чем на 2 то уменьшаем разницу до 1.
+    // Чтобы убрать резкие скачки.
+    if (
+      birdFlyingHigh - prevbirdFlyingHigh > 2 &&
+      birdFlyingHigh - prevbirdFlyingHigh > 0
+    ) {
+      birdFlyingFinish = Math.round(prevbirdFlyingHigh) + 1 + 70 + "px";
+    } else if (
+      Math.abs(birdFlyingHigh - prevbirdFlyingHigh) > 2 &&
+      birdFlyingHigh - prevbirdFlyingHigh < 0
+    ) {
+      birdFlyingFinish = Math.round(prevbirdFlyingHigh) - 1 + 70 + "px";
+    } else {
+      birdFlyingFinish = Math.round(birdFlyingHigh) + 70 + "px";
+    }
+
+    //записать текущее значение в предыдущее для сравнения на следующем шаге
+    this.setState({
+        prevbirdFlyingHigh: birdFlyingHigh
+      })
+
+    //changing bottom - and fly. сдвиг птицы на высоту birdFlyingFinish))
+    birdOnCanvas &&
+      birdOnCanvas.setAttribute("style", `bottom: ${birdFlyingFinish}`);
+    // birdOnCanvas && birdOnCanvas.style.bottom = birdFlyingFinish; Обновляем
+
+    // значение высоты подъема птицы 
+    let currentYCoordinatOfBird = canvas
+      ? Math.round(canvasHeight - birdFlyingHigh - birdHeigth / 2)
+      : Math.round(canvasHeight - birdHeigth / 2); //текущая Y коорината центра птицы
+
+    //Обновляем значение высоты птицы в локальном стейте
+    this.setYCoordinateToState(currentYCoordinatOfBird);
+
+    //Создаем массив координат птицы в тукцщий момент
+    this.createBirdCoordinatesArray(birdHeigth);
+
+
+    //Выход из рекурсии и возврат в начальное положение
+    if (
+      this.props.isStopBtnPushed ||
+      (canvas &&
+        Math.abs(this.state.shiftTextToLeft) > canvas.offsetWidth)
+    ) {
+      this.stopBirdFlying();
+    }
+  };
+
 
   // /////////////////////////////////////////////////////////////////////// сброс
   // птицы в начальное состояние
@@ -741,7 +754,8 @@ class SongPlayPageContainer extends React.PureComponent<
           this.state.allLinesCoordinatesArray[i].y <= currentBirdCoordinate.y + 2)) {
         //СТОЛКНОВЕНИЕ
         // this.stopSigningAndMoving();
-        // this.playSoundExploisionStart();          
+        // this.playSoundExploisionStart();     
+        console.log('Столкновение')     
       }
 
     })
@@ -812,7 +826,7 @@ class SongPlayPageContainer extends React.PureComponent<
     }
     //остановка в конце поля при пересечении линии финиш.
     else if (
-      Math.abs(this.props.xCoordOfBird) > this.props.finishLineXCoordinate
+      Math.abs(this.state.xCoordOfBird) > this.props.finishLineXCoordinate
     ) {
       this.stopSigningAndMoving();
       this.playSoundOfFinish();
@@ -844,7 +858,7 @@ class SongPlayPageContainer extends React.PureComponent<
     this.stopBirdFlying();
     canvas.setAttribute("style", "left: 20px"); //возврат поля в начало
     //canvas.style.left = `20px`; возврат поля в начало
-    textWrp.setAttribute("style", `margin-left: ${speed * 3}px`); // возврат текста в исх позицию
+    textWrp.setAttribute("style", `margin-left: 550px`); // возврат текста в исх позицию
     //textWrp.style.marginLeft = `${speed * 3}px`;  возврат текста в исх позицию
     this.setState({
       shiftTextToLeft: speed * 3.5,
