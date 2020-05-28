@@ -120,7 +120,7 @@ class SongPlayPageContainer extends React.PureComponent<
     this.stopSigningAndMoving = this.stopSigningAndMoving.bind(this);
     this.pauseSigningAndMoving = this.pauseSigningAndMoving.bind(this);
     this.startSigningAndMoving = this.startSigningAndMoving.bind(this);
-    this.runMoving = this.runMoving.bind(this);
+    //this.runMoving = this.runMoving.bind(this);
     this.stopBirdFlying = this.stopBirdFlying.bind(this);
     this.setXCoordinateToState = this.setXCoordinateToState.bind(this);
     this.setYCoordinateToState = this.setYCoordinateToState.bind(this);
@@ -132,7 +132,7 @@ class SongPlayPageContainer extends React.PureComponent<
     this.changeVolumeOfSong = this.changeVolumeOfSong.bind(this);
     this.changeVolumeOfVoice = this.changeVolumeOfVoice.bind(this);
     this.addZeroValuesInAllLinesCoordinatesArray = this.addZeroValuesInAllLinesCoordinatesArray.bind(this);
-    this.loop = this.loop.bind(this);
+    this.moveBirdToUp = this.moveBirdToUp.bind(this);
 
     // ////////////////////////////////////// ref calback to DOM elements
     this.canvasRefGetter = (canvasEl: HTMLCanvasElement) => {
@@ -227,7 +227,7 @@ class SongPlayPageContainer extends React.PureComponent<
       !this.props.isStopBtnPushed &&
       this.props.isStopBtnPushed !== prevProps.isStopBtnPushed
     ) {
-      this.mooveBirdByVoice();
+      this.mooveBirdByVoice(this.props.currentSong.startMovingDelay*1000);
       this.setXCoordinateToState(150); //сброс массива координат прицы 
       this.setYCoordinateToState(0); //сброс массива координат прицы 
     }
@@ -318,7 +318,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
   // ////////////////////////////////////////////////////////////////////////////
   // движение птицы в зависимости от звука с микрофона
-  mooveBirdByVoice() {
+  mooveBirdByVoice(delay:number) {
     
     this.setState({
       voiceArray: new Uint8Array(this.state.numOfItemsInVoiceArray),
@@ -328,6 +328,8 @@ class SongPlayPageContainer extends React.PureComponent<
     let context = new (window.AudioContext || window.webkitAudioContext)(); //аудиоконтекст WEB AudioAPI
     let analyser = context.createAnalyser();
     let gainNode = context.createGain(); //создание усилительного узла
+    
+    //const delayMs = delay * 1000; //задержка движения текста и поля относительно музыки
     this.setState({ analyser: analyser }); //передаем данные в глобальную переменную для сброса
     //получаем поток с микрофона и работаем с ним
     navigator.mediaDevices
@@ -347,9 +349,10 @@ class SongPlayPageContainer extends React.PureComponent<
         let birdFlyingFinish = '';
         // рекурсивная функция обработки принятого звука с частотой примерно 60 раз в
         // секугду
-
-        let flying = setInterval(this.loop, 100, birdFlyingFinish);
-        this.setState({ flying: flying }); //передаем данные в глобальную переменную для сброса
+        this.setState({
+          moovingStartTimer: setTimeout(this.moveBirdToUp, delay, birdFlyingFinish),
+        });
+        
       })
       .catch((error) => {
         alert(
@@ -359,19 +362,23 @@ class SongPlayPageContainer extends React.PureComponent<
       });
   }
 
-
-  loop (birdFlyingFinish:string) {
-
+////////////////////////////////////////////////////////////////////////////////////
+//repeating method to mooving bird on vertical axe depends from the voice level from microfon
+  moveBirdToUp (birdFlyingFinish:string) {
+    const playbackSpeed = this.props.currentSong.playbackSpeed;
     const birdOnCanvas = this.state.birdRef as HTMLElement;
     const canvas = this.state.canvasRef as HTMLCanvasElement;
     const birdHeigth = birdOnCanvas?.clientHeight; //высота птицы
-    let maxHeightForWile = this.props.isSetMaxUserVoiceLevel
+    let maxHeightForWhile = this.props.isSetMaxUserVoiceLevel
                           ? this.props.maxUserVoiceLevel
                           : 255;
     let canvasHeight = canvas?.clientHeight;
-    let prevbirdFlyingHigh = this.state.prevbirdFlyingHigh ? this.state.prevbirdFlyingHigh : 0;
     
-    this.state.voiceArray &&
+    
+    
+    
+    const loop  = () => {
+      this.state.voiceArray &&
       this.state.analyser.getByteFrequencyData(this.state.voiceArray); //получение данных частот
     
 
@@ -382,13 +389,14 @@ class SongPlayPageContainer extends React.PureComponent<
       this.state.voiceArray.length
       : 0;
 
+    let prevbirdFlyingHigh = this.state.prevbirdFlyingHigh ? this.state.prevbirdFlyingHigh : 0;
+
     // Задание высоты подъема птицы от стреднего уровня сигнала в массиве
-    let birdFlyingHigh =
-      (canvasHeight * averageHeight) / maxHeightForWile <
-        canvasHeight - birdHeigth
-        ? (canvasHeight * averageHeight) / maxHeightForWile
-        : canvasHeight - birdHeigth;
-    // console.log(`текущее: ${averageHeight} максимальное: ${maxHeightForWile}
+    let birdFlyingHigh =(canvasHeight * averageHeight) / maxHeightForWhile <
+                        canvasHeight - birdHeigth
+                        ? (canvasHeight * averageHeight) / maxHeightForWhile
+                        : canvasHeight - birdHeigth;
+    // console.log(`текущее: ${averageHeight} максимальное: ${maxHeightForWhile}
     // Итоговое: ${birdFlyingHigh}. Общая высота ${canvasHeight} `); если очередное
     // значение отличается от предыдущего больше чем на 2 то уменьшаем разницу до 1.
     // Чтобы убрать резкие скачки.
@@ -426,7 +434,9 @@ class SongPlayPageContainer extends React.PureComponent<
 
     //Создаем массив координат птицы в тукцщий момент
     this.createBirdCoordinatesArray(birdHeigth);
-
+    
+    // сдвигаем поле влево на 2 px и обновляем xCoordinates
+    this.moveCanvasAndTextToLeft();
 
     //Выход из рекурсии и возврат в начальное положение
     if (
@@ -436,6 +446,10 @@ class SongPlayPageContainer extends React.PureComponent<
     ) {
       this.stopBirdFlying();
     }
+    }
+
+    let flying = setInterval(loop, 1000/playbackSpeed, birdFlyingFinish);
+    this.setState({ flying: flying }); //передаем данные в глобальную переменную для сброса
   };
 
 
@@ -755,7 +769,7 @@ class SongPlayPageContainer extends React.PureComponent<
         //СТОЛКНОВЕНИЕ
         // this.stopSigningAndMoving();
         // this.playSoundExploisionStart();     
-        console.log('Столкновение')     
+        //console.log('Столкновение')     
       }
 
     })
@@ -839,7 +853,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
   //////////////////////////////////// сброс таймера settimeout-на движение поля
   clearTimer() {
-    clearInterval(this.state.timerId);
+    clearInterval(this.state.flying);
     clearTimeout(this.state.moovingStartTimer);
     // console.log("Таймер остановлен");
   }
@@ -861,7 +875,7 @@ class SongPlayPageContainer extends React.PureComponent<
     textWrp.setAttribute("style", `margin-left: 550px`); // возврат текста в исх позицию
     //textWrp.style.marginLeft = `${speed * 3}px`;  возврат текста в исх позицию
     this.setState({
-      shiftTextToLeft: speed * 3.5,
+      shiftTextToLeft: 550,
     }); //сброс счетчика сдвига текстового поля
     this.setXCoordinateToState(150); //сброс массива координат прицы
     this.setYCoordinateToState(0); //сброс массива координат прицы
@@ -879,27 +893,27 @@ class SongPlayPageContainer extends React.PureComponent<
   // проигрывания и движения поля
   startSigningAndMoving(delay: number) {
     const delayMs = delay * 1000; //задержка движения текста и поля относительно музыки
-    const playbackSpeed = this.props.currentSong.playbackSpeed;
+    // const playbackSpeed = this.props.currentSong.playbackSpeed;
     this.props.stopBtnIsPushSet(false);
     this.playSongStart();
   
     // запуск подъема птицы в зависимости от уровня голоса с микрофона
-    this.mooveBirdByVoice();
+    this.mooveBirdByVoice(delayMs);
     //если с начала, то текст с задержкой запускается
-    this.setState({
-      moovingStartTimer: setTimeout(this.runMoving, delayMs, playbackSpeed),
-    });
+    // this.setState({
+    //   moovingStartTimer: setTimeout(this.runMoving, delayMs, playbackSpeed),
+    // });
   }
 
   // ////////////////////////////////////////////////// запуск движения поля и
   // текста со скростью speed px/с
 
-  runMoving(speed: number) {
-    this.setState({
-      timerId: setInterval(this.moveCanvasAndTextToLeft, 1000 / speed),
-    });
-    return this.state.timerId;
-  }
+  // runMoving(speed: number) {
+  //   this.setState({
+  //     timerId: setInterval(this.moveCanvasAndTextToLeft, 1000 / speed),
+  //   });
+  //   return this.state.timerId;
+  // }
 
   // //////////////////////////////////////////////////////// передача координат
   // птицы (если они пришли) в глобальную переменную и потом в пропсы
