@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import classes from "./stylesheet/SongPlayPageContainer.module.scss";
 import { bgShape } from "./common/commonFunctions";
 import { NavLink } from "react-router-dom";
