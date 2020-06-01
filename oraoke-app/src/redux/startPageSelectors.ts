@@ -1,4 +1,6 @@
 import { AppStateType } from "./redux-store";
+import AdvertismentBlock from "../components/common/AdvertismentBlock";
+import { AdvertismentType } from "./startPageReduser";
 
 export const getcurrentSongSelector = (state: AppStateType) => {
   return state.startPage.currentSong;
@@ -13,7 +15,8 @@ export const getSongsSelector = (state: AppStateType) => {
 };
 
 export const getAdv = (state: AppStateType, numOfAdv: number) => {
-  return state.startPage.advertisment[numOfAdv-1];
+  let adv = state.startPage.advertisment.find(advert => advert.advID === numOfAdv)
+  return adv as AdvertismentType;
 };
 
 export const getIsStopBtnPushed = (state: AppStateType) => {

@@ -1117,7 +1117,7 @@ const startPageReducer = (
         return{            
           ...adv, 
           //@ts-ignore
-          text: languagesJSONData[action.lang].settingsPageTexts[`adv${index}Text`] as string
+          text: languagesJSONData[action.lang].settingsPageTexts[`adv${index+1}Text`] as string
         }
       });
 
