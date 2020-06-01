@@ -21,8 +21,8 @@ const Song = React.memo((props) => {
         <img src={props.song.img} alt="img" />
       </div>
       <div className={classes.textWrp}>
-        <div><p>{props.song.artistName[props.currentLanguage]}</p></div>
-        <div><p>{props.song.songName[props.currentLanguage]}</p></div>
+        <div><p>{props.song.artistName}</p></div>
+        <div><p>{props.song.songName}</p></div>
       </div>
       <div className={classes.song}>
         <audio className='audioMP3' src={props.song.srcToSongIntro}/>

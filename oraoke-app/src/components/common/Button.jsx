@@ -19,12 +19,12 @@ const Button = (props) => {
       //создание массива букв, помещающегося в поле
       let arr = props.currentSong && props
         .currentSong
-        .fullTitle[props.currentLanguage]
+        .fullTitle
         .split('');
       //если название в поле не помещается - включаем бегущую строку
       if (arr && arr.length > 29) {
         //длина названия песни
-        let j = props.currentSong.fullTitle[props.currentLanguage].length;
+        let j = props.currentSong.fullTitle.length;
         // счетчик вставляемых букв
         let i = 0;
         //длина строки

@@ -11,7 +11,7 @@ const AdvertismentBlock = React.memo((props) => {
         <div className = {classes.advWrp}>
           <img src={props.adv.img} alt="adv3" />
           <div className={classes.text}>
-            <p>{props.adv.text[props.currentLanguage]}</p>
+            <p>{props.adv.text}</p>
           </div>
         </div>        
       </a>

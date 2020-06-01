@@ -1,0 +1,163 @@
+
+{
+  "ru" : 
+  {   "songs": [
+    {
+      "songID": "0",
+      "songName": "Рюмка водки на столе",
+      "artistName": "Григорий Лепс",
+      "fullTitle": "Григорий Лепс - Рюмка водки на столе"
+    },
+    {
+      "songID": "1",
+      "songName": "Витаминка",
+      "artistName": "Тима Белорусских",
+      "fullTitle": "Тима Белорусских - Витаминка"
+    },
+    {
+      "songID": "2",
+      "songName": "Улыбайся",
+      "artistName": "AIOWA",
+      "fullTitle": "Aiowa - Улыбайся"
+    },
+    {
+      "songID": "3",
+      "songName": "Зацепила",
+      "artistName": "Артур Пирожков",
+      "fullTitle": "Артур Пирожков - Зацепила"
+    },
+    {
+      "songID": "4",
+      "songName": "Моя бабушка курит трубку",
+      "artistName": "Гарик Сукачев",
+      "fullTitle": "Гарик Сукачев - Моя бабушка курит трубку"
+    },
+    {
+      "songID": "5",
+      "songName": "О Боже! Какой мужчина!",
+      "artistName": "Натали",
+      "fullTitle": "Натали - О Боже! Какой мужчина!"
+    }
+   ],
+   "startPageTexts" : {
+    "welcome": "Добро пожаловать",
+    "to": "в",
+    "button1Text": "Настроить микрофон",
+    "button2Text": "Выбрать песню",
+    "button3Text": "НАЧАТЬ"
+  },
+    "settingsPageTexts": { 
+      "titleText":
+        "Нажмите на кнопку “Старт” и разрешите браузеру доступ к микрофону",
+      "shoutText":
+        "Крикните в микрофон так, чтобы птичка поднялась в зеленую зону",
+      "fineText": "Отлично!",
+      "backToSongChooseText": "Вернитесь к выбору песни",
+      "buttonStartText": "СТАРТ",
+      "buttonSTOPText": "СТОП",
+      "buttonToSong": "К песням",
+      "mainMenuText": "Главное меню",
+      "adv1Text" : "Канал ВНИКНИ",
+      "adv2Text" : "Канал ВНИКНИ",
+      "adv3Text" : "Канал ВНИКНИ",
+      "adv4Text" : "Путь самурая - Самый верный способ стать программистом",
+      "adv5Text" : "Канал ВНИКНИ - Основы сетевых технологий",
+      "adv6Text" : "IT-Incubator - пока не найдешь работу",
+      "adv7Text" : "Канал ВНИКНИ",
+      "adv8Text" : "IT-Incubator - пока не найдешь работу"
+    },
+   "songChoosePageTexts" : {
+    "askText:": "Что будем орать?",
+    "GoText": "Поехали!",
+    "mainMenuText": "Главное меню"
+  },
+   "songPlayPageTexts":{
+    "volumeText": "Громкость",
+    "musicText": "Музыка",
+    "voiceText": "Голос",
+    "mainMenuText": "Главное меню",
+    "buttonStopText": "СТОП",
+    "buttonStartText": "СТАРТ"
+  }
+  },
+
+  "en" : {   "songs": [
+    {
+      "songID": "0",
+      "songName": "Rumka vodki na stole",
+      "artistName": "Grigoriy Leps",
+      "fullTitle": "Grigoriy Leps - Rumka vodki na stole"
+    },
+    {
+      "songID": "1",
+      "songName": "Vitaminka",
+      "artistName": "Tima Belorusskih",
+      "fullTitle": "Tima Belorusskih - Vitaminka"
+    },
+    {
+      "songID": "2",
+      "songName": "Ulibaisya",
+      "artistName": "AIOWA",
+      "fullTitle": "Aiowa - Ulibaisya"
+    },
+    {
+      "songID": "3",
+      "songName": "Zacepila",
+      "artistName": "Artur Pirozhkov",
+      "fullTitle": "Artur Pirozhkov - Zacepila"
+    },
+    {
+      "songID": "4",
+      "songName": "Moya babushka kurit trubku",
+      "artistName": "Garik Sukochev",
+      "fullTitle": "Garik Sukochev - Moya babushka kurit trubku"
+    },
+    {
+      "songID": "5",
+      "songName": "O Bozhe! Kakoy muzhchina!",
+      "artistName": "Nataly",
+      "fullTitle": "Nataly - O Bozhe! Kakoy muzhchina!"
+    }
+   ],
+   "startPageTexts" : {
+    "welcome": "Welcome",
+    "to": "to",
+    "button1Text": "Adjust microfone",
+    "button2Text": "Choose the song",
+    "button3Text": "START"
+  },
+    "settingsPageTexts": { 
+      "titleText":
+        "Click on the “Start” button and allow the browser access to the microphone",
+      "shoutText":
+        "Shout into the microphone so that the bird rises into the green zone",
+      "fineText": "Greate!",
+      "backToSongChooseText": "Go back to song choose",
+      "buttonStartText": "START",
+      "buttonSTOPText": "STOP",
+      "buttonToSong": "To songs",
+      "mainMenuText": "Main menu",
+      "adv1Text" : "ВНИКНИ channel",
+      "adv2Text" : "ВНИКНИ channel",
+      "adv3Text" : "ВНИКНИ channel",
+      "adv4Text" : "The way of Samurai - The best way in IT",
+      "adv5Text" : "ВНИКНИ channel - base of networks",
+      "adv6Text" : "IT-Incubator - until you find a job!",
+      "adv7Text" : "ВНИКНИ channel",
+      "adv8Text" : "IT-Incubator - until you find a job!"
+    },
+   "songChoosePageTexts" : {
+    "askText:": "What will we yell?",
+    "GoText": "Go!",
+    "mainMenuText": "Main menu"
+  },
+   "songPlayPageTexts":{
+    "volumeText": "Volume",
+    "musicText": "Music",
+    "voiceText": "Voice",
+    "mainMenuText": "Main menu",
+    "buttonStopText": "STOP",
+    "buttonStartText": "START"
+  }
+  }
+}

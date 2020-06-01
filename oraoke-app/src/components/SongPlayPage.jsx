@@ -12,32 +12,8 @@ const SongPlayPage = React.memo((props) => {
   let timer = props.songMP3 ? props.songMP3.currentTime : 0;
   let xCoordinata = props.xCoordOfBird ? props.xCoordOfBird : 150; // соордината птицы в 200px от левого края
 
-  let texts;
-  //тексты на разных языках
-  switch (props.currentLanguage) {
-    case "ru":
-      texts = {
-        volumeText: "Громкость",
-        musicText: "Музыка",
-        voiceText: "Голос",
-        mainMenuText: "Главное меню",
-        buttonStopText: "СТОП",
-        buttonStartText: "СТАРТ",
-      };
-      break;
-    case "en":
-      texts = {
-        volumeText: "Volume",
-        musicText: "Music",
-        voiceText: "Voice",
-        mainMenuText: "Main menu",
-        buttonStopText: "STOP",
-        buttonStartText: "START",
-      };
-      break;
-    default:
-      return null;
-  }
+  let texts = props.languagesJSONData[props.currentLanguage].songPlayPageTexts;
+
   return (
     <div className={classes.PageContainer}>
       <div style={bgShape} />
@@ -60,7 +36,7 @@ const SongPlayPage = React.memo((props) => {
               <img src={oraokeLogo} alt={"Logo"} />
             </div>
             <div>
-              <p>{props.currentSong.fullTitle[props.currentLanguage]}</p>
+              <p>{props.currentSong.fullTitle}</p>
             </div>
           </div>
           <Canvas

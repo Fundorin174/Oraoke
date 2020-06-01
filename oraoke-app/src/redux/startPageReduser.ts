@@ -33,6 +33,13 @@ import srcToSoundExploision from "./../songs/soundExploision.mp3";
 // @ts-ignore
 import srcToSoundOfFinish from "./../songs/soundOfFinish.mp3";
 import srcTofinishLineImg from "./../img/finishLine.jpg";
+import languagesJSONData from './../components/common/languages/languagesData.json';
+import Img1 from "./../img/advertisment/adv1SettingPage.png";
+import Img2 from "./../img/advertisment/adv2SettingPage.png";
+import Img3 from "./../img/advertisment/adv1SettingPage.png";
+import Img5 from "./../img/advertisment/adv2SettingPage.png";
+import Img4 from "./../img/advertisment/adv4ChooseSongPage.png";
+import Img6 from "./../img/advertisment/adv6ChooseSongPage.png";
 
 const CHANGE_CURRENT_SONG = "ORAOKE/START_PAGE/CHANGE_CURRENT_SONG";
 const STOP_BTN_IS_PUSHED_SET = "ORAOKE/PLAY_SONG_PAGE/STOP_BTN_IS_PUSHED_SET";
@@ -40,11 +47,6 @@ const IS_CURRENT_SONG_PLAYING = "ORAOKE/PLAY_SONG_PAGE/IS_CURRENT_SONG_PLAYING";
 const SET_NEW_VOLUME_OF_SONG = "ORAOKE/PLAY_SONG_PAGE/SET_NEW_VOLUME_OF_SONG";
 const SET_NEW_VOLUME_OF_VOICE = "ORAOKE/PLAY_SONG_PAGE/SET_NEW_VOLUME_OF_VOICE";
 const SET_NEW_LANGUAGE = "ORAOKE/START_PAGE/SET_NEW_LANGUAGE";
-
-export type MultiLanguageTextType = {
-  ru: string;
-  en: string;
-};
 
 type TrapezeType = {
   type: "trapeze";
@@ -83,9 +85,9 @@ type CircleType = {
 
 export type SongType = {
   songID: string;
-  songName: MultiLanguageTextType;
-  artistName: MultiLanguageTextType;
-  fullTitle: MultiLanguageTextType;
+  songName: string;
+  artistName: string;
+  fullTitle: string;
   img: string;
   srcToSong: string;
   srcToSongIntro: string;
@@ -177,24 +179,24 @@ type ActionType =
   | StopBtnIsPushSetType
   | ChangecurrentSong;
 
+
+  export type AdvertismentType = {
+    advID: number;
+    url: string;
+    img: string;
+    text: string;
+  };
 //перенести честь данных в новый редюсер song_play_page
+
+console.log(languagesJSONData.ru)
 
 let initialState = {
   songs: [
     {
       songID: "0" as string,
-      songName: {
-        ru: "Рюмка водки на столе",
-        en: "Rumka vodki na stole",
-      },
-      artistName: {
-        ru: "Григорий Лепс",
-        en: "Grigoriy Leps",
-      },
-      fullTitle: {
-        ru: "Григорий Лепс - Рюмка водки на столе",
-        en: "Grigoriy Leps - Rumka vodki na stole",
-      },
+      songName: languagesJSONData.ru.songs[0].songName,
+      artistName: languagesJSONData.ru.songs[0].artistName,
+      fullTitle: languagesJSONData.ru.songs[0].fullTitle,
       img: imgSong1LepsRumkaVodki,
       srcToSong: srcToSong1LepsRumkaVodki,
       srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
@@ -438,18 +440,9 @@ let initialState = {
     },
     {
       songID: "1" as string,
-      songName: {
-        ru: "Витаминка",
-        en: "Vitaminka",
-      },
-      artistName: {
-        ru: "Тима Белорусских",
-        en: "Tima Belorusskih",
-      },
-      fullTitle: {
-        ru: "Тима Белорусских - Витаминка",
-        en: "Tima Belorusskih - Vitaminka",
-      },
+      songName: languagesJSONData.ru.songs[1].songName,
+      artistName: languagesJSONData.ru.songs[1].artistName,
+      fullTitle: languagesJSONData.ru.songs[1].fullTitle,
       img: imgSong2VitaminkaBelorusskih,
       srcToSong: srcToSong2Vitaminka,
       srcToSongIntro: srcToSong2VitaminkaIntro,
@@ -506,18 +499,9 @@ let initialState = {
     },
     {
       songID: "2" as string,
-      songName: {
-        ru: "Улыбайся",
-        en: "Ulibaisya",
-      },
-      artistName: {
-        ru: "AIOWA",
-        en: "AIOWA",
-      },
-      fullTitle: {
-        ru: "Aiowa - Улыбайся",
-        en: "Aiowa - Ulibaisya",
-      },
+      songName: languagesJSONData.ru.songs[2].songName,
+      artistName: languagesJSONData.ru.songs[2].artistName,
+      fullTitle: languagesJSONData.ru.songs[2].fullTitle,
       img: imgSong3AiowaSmile,
       srcToSong: srcToong3AiowaSmile,
       srcToSongIntro: srcToong3AiowaSmileIntro,
@@ -574,18 +558,9 @@ let initialState = {
     },
     {
       songID: "3" as string,
-      songName: {
-        ru: "Зацепила",
-        en: "Zazepila",
-      },
-      artistName: {
-        ru: "Артур Пирожков",
-        en: "Artur Pirozhkov",
-      },
-      fullTitle: {
-        ru: "Артур Пирожков - Зацепила",
-        en: "Artur Pirozhkov - Zazepila",
-      },
+      songName: languagesJSONData.ru.songs[3].songName,
+      artistName: languagesJSONData.ru.songs[3].artistName,
+      fullTitle: languagesJSONData.ru.songs[3].fullTitle,
       img: imgSong4PirozhkowZacepila,
       srcToSong: srcToSong4PirozhkowZacepila,
       srcToSongIntro: srcToSong4PirozhkowZacepilaIntro,
@@ -646,18 +621,9 @@ let initialState = {
     },
     {
       songID: "4" as string,
-      songName: {
-        ru: "Моя бабушка курит трубку",
-        en: "Moya babushka kurit trubku",
-      },
-      artistName: {
-        ru: "Гарик Сукачев",
-        en: "Garik Sukochev",
-      },
-      fullTitle: {
-        ru: "Гарик Сукачев - Моя бабушка курит трубку",
-        en: "Garik Sukochev - Moya babushka kurit trubku",
-      },
+      songName: languagesJSONData.ru.songs[4].songName,
+      artistName: languagesJSONData.ru.songs[4].artistName,
+      fullTitle: languagesJSONData.ru.songs[4].fullTitle,
       img: imgSong5SukochevBabuchka,
       srcToSong: srcToSong5SukochevBabuchka,
       srcToSongIntro: srcToSong5SukochevBabuchkaIntro,
@@ -715,18 +681,9 @@ let initialState = {
     },
     {
       songID: "5" as string,
-      songName: {
-        ru: "О Боже! Какой мужчина!",
-        en: "O Bozhe! Kakoy muzhchina!",
-      },
-      artistName: {
-        ru: "Натали",
-        en: "Nataly",
-      },
-      fullTitle: {
-        ru: "Натали - О Боже! Какой мужчина!",
-        en: "Nataly - O Bozhe! Kakoy muzhchina!",
-      },
+      songName: languagesJSONData.ru.songs[5].songName,
+      artistName: languagesJSONData.ru.songs[5].artistName,
+      fullTitle: languagesJSONData.ru.songs[5].fullTitle,
       img: imgSong6NatalyOBozhe,
       srcToSong: srcToSong6NatalyOBozhe,
       srcToSongIntro: srcToSong6NatalyOBozheIntro,
@@ -793,19 +750,10 @@ let initialState = {
    },
   ],
   currentSong: {
-    songID: "0" as string,
-    songName: {
-      ru: "Рюмка водки на столе",
-      en: "Rumka vodki na stole",
-    },
-    artistName: {
-      ru: "Григорий Лепс",
-      en: "Grigoriy Leps",
-    },
-    fullTitle: {
-      ru: "Григорий Лепс - Рюмка водки на столе",
-      en: "Grigoriy Leps - Rumka vodki na stole",
-    },
+    songID: languagesJSONData.ru.songs[0].songID,
+    songName: languagesJSONData.ru.songs[0].songName,
+    artistName: languagesJSONData.ru.songs[0].artistName,
+    fullTitle: languagesJSONData.ru.songs[0].fullTitle,
     img: imgSong1LepsRumkaVodki,
     srcToSong: srcToSong1LepsRumkaVodki,
     srcToSongIntro: srcToSong1LepsRumkaVodkiIntro,
@@ -1056,6 +1004,58 @@ let initialState = {
   srcToSoundExploision: srcToSoundExploision,
   srcToSoundOfFinish: srcToSoundOfFinish,
   srcTofinishLineImg: srcTofinishLineImg,
+  languagesJSONData: languagesJSONData,
+  advertisment: [
+    {
+      advID: 1,
+      url: "http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98",
+      img: Img1,
+      text: languagesJSONData.ru.settingsPageTexts.adv1Text,
+    },
+    {
+      advID: 2,
+      url: "http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98",
+      img: Img2,
+      text: languagesJSONData.ru.settingsPageTexts.adv2Text,
+    },
+    {
+      advID: 3,
+      url: "http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98",
+      img: Img3,
+      text: languagesJSONData.ru.settingsPageTexts.adv3Text,
+    },
+    {
+      advID: 4,
+      url:
+        "https://www.youtube.com/playlist?list=PLcvhF2Wqh7DNVy1OCUpG3i5lyxyBWhGZ8",
+      img: Img4,
+      text: languagesJSONData.ru.settingsPageTexts.adv4Text,
+    },
+    {
+      advID: 5,
+      url: "http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98",
+      img: Img5,
+      text: languagesJSONData.ru.settingsPageTexts.adv5Text,
+    },
+    {
+      advID: 6,
+      url: "https://it-incubator.by/",
+      img: Img6,
+      text: languagesJSONData.ru.settingsPageTexts.adv6Text,
+    },
+    {
+      advID: 7,
+      url: "http://www.youtube.com/c/%D0%92%D0%9D%D0%98%D0%9A%D0%9D%D0%98",
+      img: Img3,
+      text: languagesJSONData.ru.settingsPageTexts.adv7Text,
+    },
+    {
+      advID: 8,
+      url: "https://it-incubator.by/",
+      img: Img6,
+      text: languagesJSONData.ru.settingsPageTexts.adv8Text,
+    },
+  ],
 };
 
 export type StartPageInitialStateType = typeof initialState;
@@ -1092,11 +1092,42 @@ const startPageReducer = (
         currentVoiceVolume: action.newVolume,
       };
     case SET_NEW_LANGUAGE:
+
+      let newLangSong = state.songs.map((song:SongType, i:number) => {
+        return{            
+          ...song, 
+          //@ts-ignore
+          songName: languagesJSONData[action.lang].songs[i].songName,
+          //@ts-ignore
+          artistName: languagesJSONData[action.lang].songs[i].artistName,
+          //@ts-ignore
+          fullTitle: languagesJSONData[action.lang].songs[i].fullTitle
+        } 
+      });
+
+      let newLangCurrentSong = {...state.currentSong, 
+      //@ts-ignore
+      songName: languagesJSONData[action.lang].songs[+state.currentSong.songID].songName,
+      //@ts-ignore
+      artistName: languagesJSONData[action.lang].songs[+state.currentSong.songID].artistName,
+      //@ts-ignore
+      fullTitle: languagesJSONData[action.lang].songs[+state.currentSong.songID].fullTitle}
+        
+      let newLangAdvert = state.advertisment.map((adv:AdvertismentType, index)=>{
+        return{            
+          ...adv, 
+          //@ts-ignore
+          text: languagesJSONData[action.lang].settingsPageTexts[`adv${index}Text`] as string
+        }
+      });
+
       return {
         ...state,
         currentLanguage: action.lang,
-      };
-
+        songs: newLangSong,
+        currentSong: newLangCurrentSong,
+        advertisment: newLangAdvert
+      }
     default:
       return state;
   }

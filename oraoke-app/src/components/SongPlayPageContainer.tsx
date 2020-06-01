@@ -4,8 +4,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import {
   getMaxUserVoiceLevel,
-  getIsSetMaxUserVoiceLevel,
-  getAdv,
+  getIsSetMaxUserVoiceLevel  
 } from "../redux/settingsPageSelectors";
 import {
   getcurrentSongSelector,
@@ -19,6 +18,8 @@ import {
   getCurrentSongVolume,
   getCurrentVoiceVolume,
   getCurrentLanguage,
+  getLanguagesJSONData,
+  getAdv
 } from "../redux/startPageSelectors";
 import {
   stopBtnIsPushSet,
@@ -28,7 +29,7 @@ import {
   currentLanguageToggle,
   SongType,
 } from "../redux/startPageReduser";
-import { AdvertismentType } from "../redux/settingsPageReduser";
+import { AdvertismentType } from "../redux/startPageReduser";
 import { AppStateType } from "../redux/redux-store";
 
 type CoordinatesType = {
@@ -931,6 +932,7 @@ type MapStateToPropsType = {
   currentSongVolume: number;
   currentVoiceVolume: number;
   currentLanguage: "ru" | "en";
+  languagesJSONData: any;
 };
 
 type MapDispatchToPropsType = {
@@ -979,6 +981,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
   currentSongVolume: getCurrentSongVolume(state),
   currentVoiceVolume: getCurrentVoiceVolume(state),
   currentLanguage: getCurrentLanguage(state),
+  languagesJSONData: getLanguagesJSONData(state)
 });
 
 export default compose(

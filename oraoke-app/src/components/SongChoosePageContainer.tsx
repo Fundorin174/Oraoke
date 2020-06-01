@@ -3,8 +3,7 @@ import {
   getIsChekingMicrophoneStart,
   getIsSetMaxUserVoiceLevel,
   getMaxUserVoiceLevel,
-  getAdv,
-} from "../redux/settingsPageSelectors";
+  } from "../redux/settingsPageSelectors";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import SongChoosePage from "./SongChoosePage";
@@ -13,6 +12,8 @@ import {
   getSongsSelector,
   getIscurrentSongSetSelector,
   getCurrentLanguage,
+  getLanguagesJSONData,
+  getAdv,
 } from "../redux/startPageSelectors";
 import {
   changecurrentSong,
@@ -20,7 +21,7 @@ import {
   SongType,
 } from "../redux/startPageReduser";
 import { AppStateType } from "../redux/redux-store";
-import { AdvertismentType } from "../redux/settingsPageReduser";
+import { AdvertismentType } from "../redux/startPageReduser";
 
 const SongChoosePageContainer: React.FC<SongChoosePageContainerPropsType> = (
   props
@@ -66,6 +67,7 @@ type MapStateToPropsType = {
   currentSong: SongType;
   isCurrentSongSet: boolean;
   currentLanguage: "ru" | "en";
+  languagesJSONData: any;
 };
 
 type MapDispatchToPropsType = {
@@ -91,6 +93,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
   currentSong: getcurrentSongSelector(state),
   isCurrentSongSet: getIscurrentSongSetSelector(state),
   currentLanguage: getCurrentLanguage(state),
+  languagesJSONData: getLanguagesJSONData(state)
 });
 
 export default compose(

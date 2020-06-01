@@ -12,6 +12,10 @@ export const getSongsSelector = (state: AppStateType) => {
   return state.startPage.songs;
 };
 
+export const getAdv = (state: AppStateType, numOfAdv: number) => {
+  return state.startPage.advertisment[numOfAdv-1];
+};
+
 export const getIsStopBtnPushed = (state: AppStateType) => {
   return state.startPage.isStopBtnPushed;
 };
@@ -39,3 +43,6 @@ export const getCurrentVoiceVolume = (state: AppStateType) => {
 export const getCurrentLanguage = (state: AppStateType) => {
   return state.startPage.currentLanguage;
 };
+export const getLanguagesJSONData = (state: AppStateType) => {
+  return state.startPage.languagesJSONData;
+}

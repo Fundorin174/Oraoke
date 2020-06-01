@@ -6,10 +6,9 @@ import {
   getIsChekingMicrophoneStart,
   getMaxUserVoiceLevel,
   getIsSetMaxUserVoiceLevel,
-  getAdv
-} from '../redux/settingsPageSelectors';
+  } from '../redux/settingsPageSelectors';
 import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess} from './../redux/settingsPageReduser';
-import {getCurrentLanguage} from "../redux/startPageSelectors";
+import {getCurrentLanguage, getAdv} from "../redux/startPageSelectors";
 import {currentLanguageToggle} from "../redux/startPageReduser";
 
 

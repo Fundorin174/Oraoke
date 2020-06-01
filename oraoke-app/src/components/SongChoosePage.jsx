@@ -8,26 +8,7 @@ import Song from "./common/Song";
 import AdvertismentBlock from './common/AdvertismentBlock';
 
 const SongChoosePage = (props) => {
-  let texts;
-  //тексты на разных языках
-  switch (props.currentLanguage) {
-    case 'ru':
-      texts = {
-        askText: 'Что будем орать?',
-        GoText: 'Поехали!',
-        mainMenuText: 'Главное меню',
-      };
-      break;
-    case 'en':
-      texts = {
-        askText: 'What will you bawl',
-        GoText: 'Let\'s start',
-        mainMenuText: 'Main menu'
-      };
-      break;
-    default:
-      return null;
-  }
+  let texts = props.languagesJSONData[props.currentLanguage].songChoosePageTexts
   
   // create Songs components from state
   const createSongs = () => {
