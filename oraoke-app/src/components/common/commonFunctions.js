@@ -9,7 +9,7 @@ export const bgShape = {
   background: `center center no-repeat url(${bgImgUrl})`,
   backgroundSize: `cover`,
   position: `absolute`,
-  zIndex: 1
+  zIndex: '1'
 }
 
 

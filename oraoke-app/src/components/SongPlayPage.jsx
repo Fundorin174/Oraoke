@@ -54,7 +54,6 @@ const SongPlayPage = React.memo((props) => {
               <label>
                 {texts.musicText}:
                 <input
-                  ref={props.songVolumeInputRefGetter}
                   type="range"
                   max="1"
                   min="0"
@@ -66,7 +65,6 @@ const SongPlayPage = React.memo((props) => {
               <label>
                 {texts.voiceText}:
                 <input
-                  ref={props.voiceVolumeInputRefGetter}
                   type="range"
                   max="4"
                   min="0"
@@ -84,11 +82,11 @@ const SongPlayPage = React.memo((props) => {
                   props.stopBtnIsPushSet(true);
                 }}
               >
-                {!props.isSetMaxUserVoiceLevel && (
+                {/* {!props.isSetMaxUserVoiceLevel && (
                   <p className={classes.warning}>
                     Вы не откалибровали микрофон!
                   </p>
-                )}
+                )} */}
                 <ButtonSmall btnNumber="1" btnText={texts.buttonStopText} />
                 <div>{`X: ${xCoordinata}_____`}</div>
               </div>

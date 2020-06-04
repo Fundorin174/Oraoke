@@ -10,3 +10,6 @@ export const getMaxUserVoiceLevel = (state: AppStateType) => {
 export const getIsSetMaxUserVoiceLevel = (state: AppStateType) => {
   return state.settingsPage.isSetMaxUserVoiceLevel;
 };
+export const getSensibilityOfFly = (state: AppStateType) => {
+  return state.settingsPage.sensibilityOfFly;
+};

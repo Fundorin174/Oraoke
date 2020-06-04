@@ -188,7 +188,6 @@ type ActionType =
   };
 //перенести честь данных в новый редюсер song_play_page
 
-console.log(languagesJSONData.ru)
 
 let initialState = {
   songs: [

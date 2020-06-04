@@ -118,6 +118,39 @@
 
     }
 
+    .volumeControlWrp{
+        width: fit-content;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        vertical-align: top;
+        border-radius: 10px;
+        border:  1px solid $bgColorBright;
+        margin: 50px auto;
+        background-color: $bgColorLigth;;
+
+      legend {
+        width: 100%;
+        font-weight: 700;
+        color: $TextLigthColor;
+        background-color: $bgColorBright;
+        padding: 2px 1px;
+        border-radius: 5px 5px 0 0;
+      }
+
+      label {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 150px;
+        margin: 10px auto;
+
+      }
+
+      input{
+        width: 200px;
+      }
+    }
 
 }
 

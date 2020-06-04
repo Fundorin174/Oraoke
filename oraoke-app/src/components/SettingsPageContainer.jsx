@@ -6,8 +6,9 @@ import {
   getIsChekingMicrophoneStart,
   getMaxUserVoiceLevel,
   getIsSetMaxUserVoiceLevel,
+  getSensibilityOfFly,
   } from '../redux/settingsPageSelectors';
-import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess} from './../redux/settingsPageReduser';
+import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess, setSensibilityOfFly} from './../redux/settingsPageReduser';
 import {getCurrentLanguage, getAdv} from "../redux/startPageSelectors";
 import {currentLanguageToggle} from "../redux/startPageReduser";
 
@@ -20,10 +21,12 @@ let mapStateToProps = (state) => ({
   maxUserVoiceLevel: getMaxUserVoiceLevel(state),
   isSetMaxUserVoiceLevel: getIsSetMaxUserVoiceLevel(state),
   currentLanguage: getCurrentLanguage(state),
+  sensibilityOfFly:getSensibilityOfFly(state)
 })
 
 export default compose(connect(mapStateToProps,
   { toggleIsCheckingMicrophoneStart,
     setMaxUserVoiceLevel,
     isSetMaxUserVoiceLevelSuccsess,
-    currentLanguageToggle }))(SettingsPage)
+    currentLanguageToggle,
+    setSensibilityOfFly }))(SettingsPage)

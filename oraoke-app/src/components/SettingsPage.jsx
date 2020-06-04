@@ -257,6 +257,21 @@ const SettingsPage = React.memo((props) => {
           </div>
           {/* START or STOP Buttons */}
           {startOrStopButton()}
+          <fieldset className={classes.volumeControlWrp}>
+              <legend>Изменить чувствительность микрофона</legend>
+              <label>
+                <span>Выс:&emsp;</span>
+                <input
+                  type="range"
+                  max="31"
+                  min="1"
+                  step="5"
+                  value={props.sensibilityOfFly}
+                  onChange={(value) => props.setSensibilityOfFly(value.target.value)}
+                />
+                <span> &emsp;:Низ</span>
+              </label>
+            </fieldset>
           {/*after success test*/}
           <div className={classes.title}>
             {props.isSetMaxUserVoiceLevel && (
