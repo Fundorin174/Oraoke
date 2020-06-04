@@ -9,7 +9,7 @@ import {
   getSensibilityOfFly,
   } from '../redux/settingsPageSelectors';
 import { toggleIsCheckingMicrophoneStart, setMaxUserVoiceLevel, isSetMaxUserVoiceLevelSuccsess, setSensibilityOfFly} from './../redux/settingsPageReduser';
-import {getCurrentLanguage, getAdv} from "../redux/startPageSelectors";
+import {getCurrentLanguage, getAdv, getLanguagesJSONData} from "../redux/startPageSelectors";
 import {currentLanguageToggle} from "../redux/startPageReduser";
 
 
@@ -21,7 +21,8 @@ let mapStateToProps = (state) => ({
   maxUserVoiceLevel: getMaxUserVoiceLevel(state),
   isSetMaxUserVoiceLevel: getIsSetMaxUserVoiceLevel(state),
   currentLanguage: getCurrentLanguage(state),
-  sensibilityOfFly:getSensibilityOfFly(state)
+  sensibilityOfFly:getSensibilityOfFly(state),
+  languagesJSONData: getLanguagesJSONData(state)
 })
 
 export default compose(connect(mapStateToProps,

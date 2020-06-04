@@ -17,42 +17,11 @@ const SettingsPage = React.memo((props) => {
     birdHeigth,
     analyser,
     src,
-    maxHeightForWile = 255,
-    texts;
-
-  //тексты на разных языках
-  switch (props.currentLanguage) {
-    case "ru":
-      texts = {
-        titleText:
-          "Нажмите на кнопку “Старт” и разрешите браузеру доступ к микрофону",
-        shoutText:
-          "Крикните в микрофон так, чтобы птичка поднялась в зеленую зону",
-        fineText: "Отлично!",
-        backToSongChooseText: "Вернитесь к выбору песни",
-        buttonStartText: "СТАРТ",
-        buttonSTOPText: "СТОП",
-        buttonToSong: "К песням",
-        mainMenuText: "Главное меню",
-      };
-      break;
-    case "en":
-      texts = {
-        titleText:
-          "Click on the “Start” button and allow the browser access to the microphone",
-        shoutText:
-          "Shout into the microphone so that the bird up to the green zone",
-        fineText: "OK!",
-        backToSongChooseText: "Back to the song selection",
-        buttonStartText: "START",
-        buttonSTOPText: "STOP",
-        buttonToSong: "To songs",
-        mainMenuText: "Main menu",
-      };
-      break;
-    default:
-      return null;
-  }
+    maxHeightForWile = 255;
+//тексты на разных языках
+    let texts = props.languagesJSONData[props.currentLanguage].settingsPageTexts;
+  
+  
 
   //////////////////////////////////////////////////////////////////////////////////
   //Функцмя подъема птицы в зависимости от звука с микрофона
@@ -258,9 +227,9 @@ const SettingsPage = React.memo((props) => {
           {/* START or STOP Buttons */}
           {startOrStopButton()}
           <fieldset className={classes.volumeControlWrp}>
-              <legend>Изменить чувствительность микрофона</legend>
+            <legend>{texts.changeMicrophoneSensibility}</legend>
               <label>
-                <span>Выс:&emsp;</span>
+                <span>{texts.high}&emsp;</span>
                 <input
                   type="range"
                   max="31"
@@ -269,7 +238,7 @@ const SettingsPage = React.memo((props) => {
                   value={props.sensibilityOfFly}
                   onChange={(value) => props.setSensibilityOfFly(value.target.value)}
                 />
-                <span> &emsp;:Низ</span>
+                <span> &emsp;{texts.low}</span>
               </label>
             </fieldset>
           {/*after success test*/}
