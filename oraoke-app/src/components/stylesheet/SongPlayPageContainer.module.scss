@@ -198,7 +198,24 @@
       }
     }
 
+
   }
+
+}
+
+@media all and (max-height: 800px){
+  
+  .PageWrp .canvasWrp .textWrp{
+    margin-top: -36px;
+  }
+    .PageWrp .canvasWrp .birdMainWrp {
+      height: 36px;
+      bottom: 36px;
+      .birdWrp {
+        width: 36px;
+    }
+    }
+    
 
 }
 

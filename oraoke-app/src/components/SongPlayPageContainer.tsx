@@ -105,8 +105,8 @@ class SongPlayPageContainer extends React.PureComponent<
     this.setCanvasHeigthAndWidth = this.setCanvasHeigthAndWidth.bind(this);
     this.playSongStart = this.playSongStart.bind(this);
     this.playSongStop = this.playSongStop.bind(this);
-    // this.playSongPause = this.playSongPause.bind(this);
-    // this.playPauseOnSpaseBtn = this.playPauseOnSpaseBtn.bind(this);
+    this.playSongPause = this.playSongPause.bind(this);
+    this.playPauseOnSpaseBtn = this.playPauseOnSpaseBtn.bind(this);
     this.paintTriangle = this.paintTriangle.bind(this);
     this.paintCircle = this.paintCircle.bind(this);
     this.paintingCanvasField = this.paintingCanvasField.bind(this);
@@ -116,7 +116,7 @@ class SongPlayPageContainer extends React.PureComponent<
       this
     );
     this.stopSigningAndMoving = this.stopSigningAndMoving.bind(this);
-    // this.pauseSigningAndMoving = this.pauseSigningAndMoving.bind(this);
+    this.pauseSigningAndMoving = this.pauseSigningAndMoving.bind(this);
     this.startSigningAndMoving = this.startSigningAndMoving.bind(this);
     this.stopBirdFlying = this.stopBirdFlying.bind(this);
     this.setXCoordinateToState = this.setXCoordinateToState.bind(this);
@@ -172,7 +172,7 @@ class SongPlayPageContainer extends React.PureComponent<
     window.addEventListener("resize", () => window.location.reload());
 
     //ыднжебная функция для создания трасс
-    // document.addEventListener("keyup", this.playPauseOnSpaseBtn);
+    document.addEventListener("keyup", this.playPauseOnSpaseBtn);
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -216,7 +216,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // /////////
   componentWillUnmount() {
     window.removeEventListener("resize", this.setCanvasHeigthAndWidth);
-    //document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
+    document.removeEventListener("keyup", this.playPauseOnSpaseBtn);
     this.stopSigningAndMoving();
   }
 
@@ -263,23 +263,23 @@ class SongPlayPageContainer extends React.PureComponent<
 
   // //////////////////////////////////////////////////////////////////////
   // Остановка фоновой песни на текущем месте
-  // playSongPause() {
-  //   const audio = this.state.songMP3Ref as HTMLAudioElement;
-  //   audio.pause();
-  //   this.isCurrentSongPlayingSet(false);
-  // }
+  playSongPause() {
+    const audio = this.state.songMP3Ref as HTMLAudioElement;
+    audio.pause();
+    this.isCurrentSongPlayingSet(false);
+  }
 
   // /////////////////////////////////////////////////////////////////////// Пауза
   // на текущем месте при нажатии клавиш "Space" (служебная функция без remoove)
 
-  // playPauseOnSpaseBtn(event: any) {
-  //   event.preventDefault();
-  //   if (event.code === "Space" && this.props.isCurrentSongPlaying) {
-  //     this.pauseSigningAndMoving();
-  //   } else if (event.code === "Space" && !this.props.isCurrentSongPlaying) {
-  //     this.startSigningAndMoving();
-  //   }
-  // }
+  playPauseOnSpaseBtn(event: any) {
+    event.preventDefault();
+    if (event.code === "Space" && this.props.isCurrentSongPlaying) {
+      this.pauseSigningAndMoving();
+    } else if (event.code === "Space" && !this.props.isCurrentSongPlaying) {
+      this.startSigningAndMoving();
+    }
+  }
 
   // ////////////////////////////////////////////////////////////////////////////
   // изменение громкости музыки
@@ -385,8 +385,9 @@ class SongPlayPageContainer extends React.PureComponent<
 
       //перевод значения высоты птицы в пиксели
       let birdFlyingHigh = averageHeight * coefFromCanvasHeight;
-
-      // перевод в строку с учетом высоты текста 70px, так как для птицы 
+      //сдвиг птицы относительно низа birdMainWrp равен ее высоте
+      let marginTop = birdHeigth;
+      // перевод в строку с учетом marginTop, так как для птицы 
       //родительский элемент не canvas а canvasWrp 
       // расчет высоты подъема птицы в px. если очередное
       // значение отличается от предыдущего больше чем на 2 то уменьшаем разницу до 0,2.
@@ -395,22 +396,22 @@ class SongPlayPageContainer extends React.PureComponent<
         //птица резко поднимается
         birdFlyingHigh - prevbirdFlyingHigh > 2 &&
         birdFlyingHigh - prevbirdFlyingHigh > 0 &&
-        birdFlyingHigh >= 70
+        birdFlyingHigh >= marginTop
       ) {
         birdFlyingFinish = Math.round(prevbirdFlyingHigh) + 0.2 + "px";
       } else if (
         //птица резко опускается
         Math.abs(birdFlyingHigh - prevbirdFlyingHigh) > 2 &&
         birdFlyingHigh - prevbirdFlyingHigh < 0 &&
-        birdFlyingHigh >= 70
+        birdFlyingHigh >= marginTop
       ) {
         birdFlyingFinish = Math.round(prevbirdFlyingHigh) - 0.2 + "px";
-      } else if (birdFlyingHigh >= 70) {
+      } else if (birdFlyingHigh >= marginTop) {
         //птица летит плавно
         birdFlyingFinish = birdFlyingHigh + "px";
       } else {
         //птица внизу
-        birdFlyingFinish = 70 + "px";
+        birdFlyingFinish = marginTop + "px";
       }
 
       //записать текущее значение в предыдущее для сравнения на следующем шаге
@@ -443,7 +444,8 @@ class SongPlayPageContainer extends React.PureComponent<
   // /////////////////////////////////////////////////////////////////////// сброс
   // птицы в начальное состояние
   stopBirdFlying() {
-    this.state.birdRef?.setAttribute("style", `bottom: 70px`);
+    const birdHeigth = this.state.birdRef?.clientHeight as number;
+    this.state.birdRef?.setAttribute("style", `bottom: ${birdHeigth}px`);
     this.state.analyser?.disconnect();
     this.setState({ birdCoordinatesArray: [] });
   }
@@ -848,10 +850,10 @@ class SongPlayPageContainer extends React.PureComponent<
 
   // //////////////////////////////////////////////////////////////////////
   // Остановка проигрывания и движения на текущем моменте
-  // pauseSigningAndMoving() {
-  //   this.playSongPause();
-  //   this.clearTimer();
-  // }
+  pauseSigningAndMoving() {
+    this.playSongPause();
+    this.clearTimer();
+  }
 
   // ////////////////////////////////////////////////////////////////////// Запуск
   // проигрывания и движения поля
