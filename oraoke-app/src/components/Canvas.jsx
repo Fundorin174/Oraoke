@@ -32,17 +32,6 @@ const Canvas = React.memo((props) => {
       >
         <pre>{props.song.songText}</pre>
       </div>
-
-      {/*невидимая песня*/}
-      <div className={classes.song}>
-        <span>
-          <audio
-            ref={props.songMP3RefGetter}
-            id="audioMP3"
-            src={props.song.srcToSong}
-          />
-        </span>
-      </div>
     </div>
   );
 });

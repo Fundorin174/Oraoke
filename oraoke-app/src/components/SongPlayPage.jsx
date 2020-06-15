@@ -42,7 +42,6 @@ const SongPlayPage = React.memo((props) => {
           <Canvas
             canvasRefGetter={props.canvasRefGetter}
             canvasWrpRefGetter={props.canvasWrpRefGetter}
-            songMP3RefGetter={props.songMP3RefGetter}
             textWrpRefGetter={props.textWrpRefGetter}
             birdRefGetter={props.birdRefGetter}
             song={props.currentSong}
@@ -122,7 +121,15 @@ const SongPlayPage = React.memo((props) => {
           <span onClick={() => props.currentLanguageToggle("ru")}>рус</span>
           <span>|</span>
           <span onClick={() => props.currentLanguageToggle("en")}>eng</span>
-          {/*аудиофайлы невидимые*/}
+          {/*аудиофайлы невидимые*/}          
+          <span>
+            <audio
+              ref={props.songMP3RefGetter}
+              id="audioMP3"
+              src={props.currentSong.srcToSong}
+              preload = 'auto'
+            />
+          </span>
           <span>
             <audio
               ref={props.soundExploisionRefGetter}

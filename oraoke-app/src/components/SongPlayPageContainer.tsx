@@ -305,7 +305,7 @@ class SongPlayPageContainer extends React.PureComponent<
     let context = new (window.AudioContext || window.webkitAudioContext)(); //аудиоконтекст WEB AudioAPI
     let analyser = context.createAnalyser();//создание аналайзера
     let gainNode = context.createGain(); //создание усилительного узла
-    const delay = this.props.currentSong.startMovingDelay * 1000;//задержка начала проигрывания музыки
+    
 
     this.setState({ analyser: analyser }); //передаем данные в глобальную переменную для сброса
 
@@ -325,13 +325,13 @@ class SongPlayPageContainer extends React.PureComponent<
         );
 
         let birdFlyingFinish = '';
-        // запуск полета птицы с задержкой
-        let moovingStartTimer = setTimeout(this.moveBirdToUp, delay, birdFlyingFinish);
 
-        this.setState({
-          moovingStartTimer: moovingStartTimer
-        });
+        // запуск полета птицы с задержкой !!!!!Тут при первом запуске откуда то берется лишняя секунда
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        this.moveBirdToUp(birdFlyingFinish);
 
+        
+        
 
       })
       .catch((error) => {
@@ -434,6 +434,7 @@ class SongPlayPageContainer extends React.PureComponent<
 
       // сдвигаем поле влево на 2 px и обновляем xCoordinates
       this.moveCanvasAndTextToLeft();
+      
     }
 
     let flying = setInterval(loop, 1000 / playbackSpeed, birdFlyingFinish);
@@ -445,7 +446,7 @@ class SongPlayPageContainer extends React.PureComponent<
   // птицы в начальное состояние
   stopBirdFlying() {
     const birdHeigth = this.state.birdRef?.clientHeight as number;
-    this.state.birdRef?.setAttribute("style", `bottom: ${birdHeigth}px`);
+    this.state.birdRef?.setAttribute("style", "bottom:"+{birdHeigth}+"px");
     this.state.analyser?.disconnect();
     this.setState({ birdCoordinatesArray: [] });
   }
@@ -743,8 +744,8 @@ class SongPlayPageContainer extends React.PureComponent<
         (this.state.allLinesCoordinatesArray[i].y >= currentBirdCoordinate.y - 2 &&
           this.state.allLinesCoordinatesArray[i].y <= currentBirdCoordinate.y + 2)) {
         //СТОЛКНОВЕНИЕ
-        // this.stopSigningAndMoving();
-        // this.playSoundExploisionStart();
+        this.stopSigningAndMoving();
+        this.playSoundExploisionStart();
         //console.log('Столкновение')     
       }
     })
@@ -788,7 +789,6 @@ class SongPlayPageContainer extends React.PureComponent<
           "style",
           `left: ${this.state.shiftTextToLeft - 400}px`
         );
-        //canvas.style.left = `${this.state.shiftTextToLeft - 400}px`;
       }
       // служебная функция  если надо проверить точность положения птицы с ее
       // координами в стейте
@@ -826,6 +826,9 @@ class SongPlayPageContainer extends React.PureComponent<
   clearTimer() {
     clearInterval(this.state.flying);
     clearTimeout(this.state.moovingStartTimer);
+    this.setState({
+      moovingStartTimer: 0
+    })
   }
 
   // ///////////////////////////////////////////////////////////////////////
@@ -858,14 +861,16 @@ class SongPlayPageContainer extends React.PureComponent<
   // ////////////////////////////////////////////////////////////////////// Запуск
   // проигрывания и движения поля
   startSigningAndMoving() {
-    // //Смена кнопки старт на стоп
-    // this.props.stopBtnIsPushSet(false);
+
     //запуск проигрывания песни
     this.playSongStart();
-
+    const delay = (this.props.currentSong.startMovingDelay) * 1000;//задержка начала проигрывания музыки
     // запуск подъема птицы в зависимости от уровня голоса с микрофона
     // и запуск движенмя поля и текста
-    this.mooveBirdByVoice();
+    let moovingStartTimer = setTimeout(this.mooveBirdByVoice, delay);
+    this.setState({
+      moovingStartTimer: moovingStartTimer
+    });
   }
 
 
