@@ -159,7 +159,7 @@ class SongPlayPageContainer extends React.PureComponent<
     };
   }
 
-  canvasRefGetter = (canvasEl: HTMLCanvasElement) => { }
+  canvasRefGetter = (canvasEl: HTMLCanvasElement) => { };
   canvasWrpRefGetter = (canvasWrpEl: HTMLElement) => { };
   songMP3RefGetter = (el: HTMLAudioElement) => { };
   textWrpRefGetter = (el: HTMLElement) => { };
