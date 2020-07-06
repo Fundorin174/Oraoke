@@ -10,7 +10,7 @@ import AdvertismentBlock from "./common/AdvertismentBlock";
 
 window.webkitAudioContext = undefined;
 const SettingsPage = React.memo((props) => {
-  let num = 32, //количество элементов в массиве в который будет записан звук с микрофона
+  let num = 32, //the number of elements in the array to record audio from the microphone
     array,
     context,
     bird,
@@ -18,13 +18,13 @@ const SettingsPage = React.memo((props) => {
     analyser,
     src,
     maxHeightForWile = 255;
-//тексты на разных языках
+//texts in different languages
     let texts = props.languagesJSONData[props.currentLanguage].settingsPageTexts;
   
   
 
   //////////////////////////////////////////////////////////////////////////////////
-  //Функцмя подъема птицы в зависимости от звука с микрофона
+  //Function of lifting the bird depending on the sound from the microphone
   let onStartCheckingMicrophone = () => {
     let scaleItems = document.getElementsByClassName(
       "SettingsPageContainer_linesItem__X_rp1"
@@ -38,27 +38,27 @@ const SettingsPage = React.memo((props) => {
     bird = document.getElementById("bird");
     context = new (window.AudioContext || window.webkitAudioContext)();
     analyser = context.createAnalyser();
-    //получаем поток с микрофона и работаем с ним
+    //get the stream from the microphone and work with it
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
         src = context.createMediaStreamSource(stream);
         src.connect(analyser);
-        analyser.connect(context.destination); //вывод звука на колонки
+        analyser.connect(context.destination); //output audio to speakers
 
-        // loop(); рекурсивная функция обрабатывающая звук с микрофона
+        // loop(); a recursive function that processes audio from the microphone
         let loop = setTimeout(function moveBird() {
-          let lineHeight = document.getElementById("linesTable").clientHeight; //высота шкалы
+          let lineHeight = document.getElementById("linesTable").clientHeight; //scale height
 
-          birdHeigth = bird.clientHeight; //высота птицы
+          birdHeigth = bird.clientHeight; //birds height
 
-          analyser.getByteFrequencyData(array); //получение данных частот
+          analyser.getByteFrequencyData(array); //getting frequency data
 
-          // получение среднего уровня сигнала в массиве (с микрофона)
+          // getting the average signal level in the array (from the microphone)
           let averageHeight =
             array.reduce((summ, current) => summ + current) / array.length;
 
-          // Задание высоты подъема птицы от стреднего уровня сигнала в массиве
+          // Setting the height of the bird's rise from the average signal level in the array
           let birdFlyingHidh =
             (averageHeight * lineHeight) / maxHeightForWile > 0 &&
             (averageHeight * lineHeight) / maxHeightForWile - birdHeigth <
@@ -73,10 +73,10 @@ const SettingsPage = React.memo((props) => {
           //changing marging - and fly))
           bird.style.marginBottom = birdFlyingHidh;
 
-          // значение подъема птицы как числа (без .px)
+          // the value of the bird's rise as a number (without .px)
           let birdFlyingHidhLikeNum = birdFlyingHidh.slice(0, -2); //remove 'px' from end
 
-          // Динамическое закрашивание секций на шкале
+          // Dynamic colorization of sections on the scale
           for (let i = 0; i < scaleItems.length; i++) {
             if (i < +birdFlyingHidhLikeNum / 20) {
               scaleItems[scaleItems.length - 1 - i].style.backgroundColor =
@@ -86,7 +86,7 @@ const SettingsPage = React.memo((props) => {
             }
           }
 
-          //Запись максимального значения голоса в state
+          //Save the maximum voice value in state
           if (averageHeight > 190) {
             props.isSetMaxUserVoiceLevelSuccsess(true); //успешная калибровка
             if (averageHeight > props.maxUserVoiceLevel) {
@@ -94,7 +94,7 @@ const SettingsPage = React.memo((props) => {
             }
           }
 
-          loop = setTimeout(moveBird, 30); // рекурсия
+          loop = setTimeout(moveBird, 30); // recursion
         }, 30);
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ const SettingsPage = React.memo((props) => {
       });
   };
   /////////////////////////////////////////////////////////////////
-  //Остановка всего. захвата звука, полета птицы и закрашивания блоков
+  //Stopping everything. capture sound, bird flight, and paint over blocks
   let stopBirdFliying = (loop, bird, analyser, scaleItems) => {
     clearTimeout(loop);
     bird.style.marginBottom = 0 + "px";
@@ -136,22 +136,22 @@ const SettingsPage = React.memo((props) => {
     }
   };
 
-  // остановка калибровки микрофона
+  // stop microphone calibration
   let onFinishCheckingMicrophone = () => {
     props.toggleIsCheckingMicrophoneStart(!props.isCheckingMicrophoneStart);
   };
 
-  //калибровка запущена, но максимальное значение голоса не установлено
+  //calibration is started, but the maximum voice value is not set
   let pushStartNotScreamed =
     props.isCheckingMicrophoneStart && !props.isSetMaxUserVoiceLevel;
 
-  // появление кнопки выхода после окончания калибровки
+  // the appearance of the exit button when calibration is successful
   let toSongBtnClassNames = `${classes.btnsWrp} ${
     props.isSetMaxUserVoiceLevel ? classes.visible : classes.unvisible
   }`;
 
   //////////////////////////////////////////////////////////////////
-  // Отображение кнопки старт или стоп
+  // Displaying the start or stop button
   let startOrStopButton = () => {
     return !props.isCheckingMicrophoneStart ? (
       <div
@@ -178,12 +178,12 @@ const SettingsPage = React.memo((props) => {
   //generating scale on lineTables (many div for 20px)
   let createLineTable = () => {
     let lineHeight = document.getElementById("linesTable").clientHeight,
-      //расчет количества ячеек в таблице высотой 20 px и толщиной линии 1 px.
+      //calculating the number of cells in a table with a height of 20 px and a line thickness of 1 px.
       numOfItems = Math.floor(lineHeight / 20) - (lineHeight / 20) * 0.1,
-      // получение элемента
+      // get of the item
       lineTable = document.getElementById("linesTable");
 
-    // создание ячеек таблицы и вставка их в дом
+    // creating table cells and inserting them into the DOM
     for (let i = 0; i < numOfItems; i++) {
       let div = document.createElement("div");
       div.className = "SettingsPageContainer_linesItem__X_rp1"; //styles '.linesItem' from settingsPageContainer.module.scss
@@ -267,7 +267,7 @@ const SettingsPage = React.memo((props) => {
         <div className={classes.column}>
           <div className={classes.voiceLevelTable}>
             <div className={classes.linesTable} id="linesTable">
-              {/* Тут будут дивы из UseEffecta */}
+              {/* There will be divs from Useeffect */}
             </div>
             <div className={classes.birdMainWrp}>
               <div id="bird" className={classes.birdWrp}>

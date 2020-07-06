@@ -9,8 +9,8 @@ import Canvas from "./Canvas";
 
 const SongPlayPage = React.memo((props) => {
   let isSongPlaying = props.isCurrentSongPlaying; //from useState SPContainer
-  let timer = props.songMP3 ? props.songMP3.currentTime : 0;
-  let xCoordinata = props.xCoordOfBird ? props.xCoordOfBird : 150; // соордината птицы в 200px от левого края
+  // let timer = props.songMP3 ? props.songMP3.currentTime : 0;
+  // let xCoordinata = props.xCoordOfBird ? props.xCoordOfBird : 150; // the bird's coordinate is 150px from the left edge
 
   let texts = props.languagesJSONData[props.currentLanguage].songPlayPageTexts;
 
@@ -121,7 +121,7 @@ const SongPlayPage = React.memo((props) => {
           <span onClick={() => props.currentLanguageToggle("ru")}>рус</span>
           <span>|</span>
           <span onClick={() => props.currentLanguageToggle("en")}>eng</span>
-          {/*аудиофайлы невидимые*/}          
+          {/*audio files are invisibleы*/}          
           <span>
             <audio
               ref={props.songMP3RefGetter}

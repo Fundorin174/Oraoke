@@ -6,35 +6,35 @@ const Button = (props) => {
   let [partOfSong, setPartOfSong] = useState('');
   let songNameMove;
     useEffect(() => {
-      //Бегущая строка в кнопке с название песни
+      //A running line in the button with the song name
       ticker();
 
-    return (//Отключение счетчика при уходе со страницы
+    return (//Disabling the counter when leaving the page
       () => {clearTimeout(songNameMove);}
     );
     }, [props.currentSong, props.currentLanguage]);
     /////////////////////////////////////////////////////////
-   //функция вывода бегущей строки в кнопку если она есть в пропсах
+   //function for displaying a running line in the button if it is present in the props
     let ticker = () => {
-      //создание массива букв, помещающегося в поле
+      //the creation of  of an array of letters that fit in the box
       let arr = props.currentSong && props
         .currentSong
         .fullTitle
         .split('');
-      //если название в поле не помещается - включаем бегущую строку
+      //if the name doesn't fit in the field, turn on the running line
       if (arr && arr.length > 29) {
-        //длина названия песни
+        //length of the song title
         let j = props.currentSong.fullTitle.length;
-        // счетчик вставляемых букв
+        //counter for inserted letters
         let i = 0;
-        //длина строки
+        //string length
         let stringLength = 28;
-        // рекурсия названия песни если она не помещается в топе полностью.
-        // плюс вставка символов пробелов, там где они автоматически удаляются
+        // recursion of the song title if it doesn't fit in the top completely.
+        // plus inserting space characters where they are automatically deleted
         songNameMove = setTimeout(function move() {
-          // массив в буквами из первого круга
+          // array in letters from the first circle
           let arr1 = (i < (j - stringLength)) ? arr.slice(i, i + stringLength) : arr.slice(i, j);
-          // массив с буквами из второго круга
+          // array with letters from the second circle
           let arr2 = (i < (j - stringLength)) ? [] : arr.slice(0, (stringLength+i)-j);
           let newArr = arr1.concat(['  '], arr2);
           (i < j || i === j) ? (i += 1) : (i = 0);

@@ -1,5 +1,4 @@
 import { AppStateType } from "./redux-store";
-import AdvertismentBlock from "../components/common/AdvertismentBlock";
 import { AdvertismentType } from "./startPageReduser";
 
 export const getcurrentSongSelector = (state: AppStateType) => {

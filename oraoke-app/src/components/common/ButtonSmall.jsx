@@ -5,7 +5,7 @@ import starBtn from './../../img/StarOnBtn.svg'
 const ButtonSmall = (props) => {
   let [partOfSong, setPartOfSong] = useState('');
     useEffect(() => {
-      //Бегущая строка
+      //Running line
         let arr = props.currentSong && props
             .currentSong
             .fullTitle
@@ -24,7 +24,7 @@ const ButtonSmall = (props) => {
               setPartOfSong(newArr);
                 songNameMove = setTimeout(move, 300);
             }, 300);
-          return (//Отключение счетчика при уходе со страницы
+          return (//Disabling the tag when leaving the page
             () => {
               clearTimeout(songNameMove);
             }

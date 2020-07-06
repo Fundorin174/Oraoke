@@ -8,7 +8,7 @@ import { StartPageConteinerPropsType } from "./StartPageContainer";
 
 const StartPage: React.FC<StartPageConteinerPropsType> = React.memo((props) => {
   /////////////////////////////////////////////////////////
-  //стили фона
+  //the background styles
   const bgShape = {
     width: `100%`,
     height: `100%`,
@@ -19,7 +19,7 @@ const StartPage: React.FC<StartPageConteinerPropsType> = React.memo((props) => {
   } as React.CSSProperties;
   let texts;
   /////////////////////////////////////////////////////////
-  //тексты на разных языках
+  //texts in different languageS
   switch (props.currentLanguage) {
     case "ru":
       texts = {
@@ -47,11 +47,11 @@ const StartPage: React.FC<StartPageConteinerPropsType> = React.memo((props) => {
 
   return (
     <div className={classes.startPageContainer}>
-      {/*фотовая картинка*/}
+      {/*background image*/}
       <div style={bgShape} />
-      {/*главная обертка*/}
+      {/*main wrapper*/}
       <div className={classes.startPageWrp}>
-        {/*заголовок*/}
+        {/*header*/}
         <div className={classes.title}>
           <p>{texts.welcome}</p>
           <p>{texts.to}</p>
@@ -60,7 +60,7 @@ const StartPage: React.FC<StartPageConteinerPropsType> = React.memo((props) => {
           </div>
         </div>
 
-        {/*кнопки*/}
+        {/*buttons*/}
         <div className={classes.btnsWrp}>
           <NavLink to={"/settings-page"}>
             <Button btnText={texts.button1Text} btnNumber="1" />
@@ -78,7 +78,7 @@ const StartPage: React.FC<StartPageConteinerPropsType> = React.memo((props) => {
           </NavLink>
         </div>
 
-        {/*меню смены языка*/}
+        {/*language change menu*/}
         <div className={classes.langToggle}>
           <span onClick={() => props.currentLanguageToggle("ru")}>рус</span>
           <span>|</span>

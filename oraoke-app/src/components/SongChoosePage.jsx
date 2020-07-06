@@ -54,7 +54,7 @@ const SongChoosePage = (props) => {
           {/*songs*/}
           <div className={classes.songsWrp}>
             <div className={classes.songsRow}>
-              {/*  Тут будут песни */}
+              {/*  There will be songs */}
               {createSongs()}
             </div>
           </div>

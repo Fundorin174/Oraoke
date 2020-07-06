@@ -186,7 +186,7 @@ type ActionType =
     img: string;
     text: string;
   };
-//перенести честь данных в новый редюсер song_play_page
+
 
 
 let initialState = {
