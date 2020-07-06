@@ -354,7 +354,7 @@ let initialState = {
       srcToSong: srcToong3AiowaSmile,
       srcToSongIntro: srcToong3AiowaSmileIntro,
       playbackSpeed: 165,
-      startMovingDelay: 12,
+      startMovingDelay: 12.1,
       canvasWigth: 17200,
       finishLineXCoordinate: 15500,
       itemsOnCanvasCoordinates: [
@@ -413,7 +413,7 @@ let initialState = {
       srcToSong: srcToSong4PirozhkowZacepila,
       srcToSongIntro: srcToSong4PirozhkowZacepilaIntro,
       playbackSpeed: 150,
-      startMovingDelay: 17,
+      startMovingDelay: 17.2,
       canvasWigth: 21000,
       finishLineXCoordinate: 20000,
       itemsOnCanvasCoordinates: [
@@ -541,26 +541,30 @@ let initialState = {
         // Ты ворвался 
         { type: "trapeze", x1: 450, y1: "h0", x2: 100, x3: 100, x4: 750, y2: "h2" },
         //нежданно изменил
-        { type: "trapeze", x1: 1200, y1: "h0", x2: 100, x3: 100, x4: 1850, y2: "h2" },
+        { type: "trapeze", x1: 1200, y1: "h0", x2: 100, x3: 100, x4: 1550, y2: "h2" },
         //мою-ю-ю  ре-а- а-ально-о-ость
         { type: "trapeze", x1: 2200, y1: "h0", x2: 100, x3: 100, x4: 2800, y2: "h3" },
         { type: "trapeze", x1: 3100, y1: "h6", x2: 100, x3: 100, x4: 3400, y2: "h5" },
-        //вспышки-и-и,    и-и-и-и любовь
-        { type: "trapeze", x1: 3600, y1: "h0", x2: 100, x3: 100, x4: 4420, y2: "h2" },
-        { type: "trapeze", x1: 4600, y1: "h6", x2: 100, x3: 100, x4: 4850, y2: "h4" },
+        //вспышки-и-и,    
+        { type: "trapeze", x1: 3600, y1: "h0", x2: 100, x3: 100, x4: 3900, y2: "h2" },
+        //и-и-и-и любовь
+        { type: "trapeze", x1: 4200, y1: "h0", x2: 100, x3: 100, x4: 4420, y2: "h2" },
+        { type: "trapeze", x1: 4650, y1: "h6", x2: 50, x3: 50, x4: 4750, y2: "h4" },
         // без передышки
-        { type: "trapeze", x1: 4950, y1: "h0", x2: 100, x3: 100, x4: 5250, y2: "h4" },
+        { type: "trapeze", x1: 4950, y1: "h0", x2: 100, x3: 100, x4: 5250, y2: "h3" },
+       //Все начиналось
+       { type: "trapeze", x1: 5550, y1: "h0", x2: 100, x3: 100, x4: 5850, y2: "h2" },       
         //как неви-и-нный флирт
-        { type: "trapeze", x1: 5600, y1: "h0", x2: 100, x3: 100, x4: 6300, y2: "h2" },
+        { type: "trapeze", x1: 6050, y1: "h0", x2: 100, x3: 100, x4: 6350, y2: "h2" },
         //а       теперь
-        { type: "triangle", x1: 6800, y1: "h0", x2: 6885, y2: "h4", x3: 6970 },
+        { type: "triangle", x1: 6800, y1: "h0", x2: 6885, y2: "h3", x3: 6970 },
         //без теб-я-мой мир
         { type: "trapeze", x1: 7300, y1: "h0", x2: 100, x3: 100, x4: 7750, y2: "h3" },
         // с другой пла  не  т-ы-ы-ы
         { type: "trapeze", x1: 8500, y1: "h0", x2: 100, x3: 100, x4: 9100, y2: "h3" },
         { type: "triangle", x1: 9300, y1: "h6", x2: 9400, y2: "h4", x3: 9500 },
         //ты из моей мечты-ы-ы-!
-        { type: "trapeze", x1: 9750, y1: "h0", x2: 100, x3: 100, x4: 10350, y2: "h4" },
+        { type: "trapeze", x1: 9750, y1: "h0", x2: 100, x3: 100, x4: 10350, y2: "h3" },
         //О-о-о Бо-о-же, как-о-ой мужчи-и-на
         { type: "trapeze", x1: 11000, y1: "h0", x2: 100, x3: 100, x4: 11750, y2: "h3" },
         //Я хочу    
@@ -572,7 +576,7 @@ let initialState = {
         //и я хочу-у-у   от тебя         дочку-у-у-у-у
         { type: "trapeze", x1: 13400, y1: "h0", x2: 100, x3: 100, x4: 14320, y2: "h3" },
         //и точ - ка,
-        { type: "trapeze", x1: 14640, y1: "h0", x2: 100, x3: 100, x4: 14840, y2: "h4" },
+        { type: "trapeze", x1: 14640, y1: "h0", x2: 100, x3: 100, x4: 14840, y2: "h3" },
         //и точ - ка,
         { type: "trapeze", x1: 15060, y1: "h0", x2: 100, x3: 100, x4: 15410, y2: "h4" },
         { type: "trapeze", x1: 15560, y1: "h6", x2: 100, x3: 100, x4: 15810, y2: "h5" },

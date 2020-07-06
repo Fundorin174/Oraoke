@@ -62,6 +62,7 @@ type SongPlayPageContainerStateType = {
   yCoordOfBird: number;
   isCanvasHeightSet: number;
   prevbirdFlyingHigh: number | undefined;
+  isThisFirstTimePlaying: boolean;
 };
 
 class SongPlayPageContainer extends React.PureComponent<
@@ -97,7 +98,8 @@ class SongPlayPageContainer extends React.PureComponent<
       yCoordOfBird: 50, //начальное положение птицы по оси y
       //меняется в функции mooveBirdByVoice
       isCanvasHeightSet: 0,
-      prevbirdFlyingHigh: undefined
+      prevbirdFlyingHigh: undefined,
+      isThisFirstTimePlaying: true
     };
 
     // //////////////////////// Забиндить this для всех методов где это надо
@@ -157,7 +159,7 @@ class SongPlayPageContainer extends React.PureComponent<
     };
   }
 
-  canvasRefGetter(canvasEl: HTMLCanvasElement) { }
+  canvasRefGetter = (canvasEl: HTMLCanvasElement) => { }
   canvasWrpRefGetter = (canvasWrpEl: HTMLElement) => { };
   songMP3RefGetter = (el: HTMLAudioElement) => { };
   textWrpRefGetter = (el: HTMLElement) => { };
@@ -861,15 +863,20 @@ class SongPlayPageContainer extends React.PureComponent<
   // ////////////////////////////////////////////////////////////////////// Запуск
   // проигрывания и движения поля
   startSigningAndMoving() {
-
     //запуск проигрывания песни
     this.playSongStart();
-    const delay = (this.props.currentSong.startMovingDelay) * 1000;//задержка начала проигрывания музыки
+    const delay = this.state.isThisFirstTimePlaying ? 
+          (this.props.currentSong.startMovingDelay-0.4) * 1000 
+          : (this.props.currentSong.startMovingDelay) * 1000;//задержка начала проигрывания музыки, первый раз на секунду меньше
     // запуск подъема птицы в зависимости от уровня голоса с микрофона
     // и запуск движенмя поля и текста
     let moovingStartTimer = setTimeout(this.mooveBirdByVoice, delay);
     this.setState({
       moovingStartTimer: moovingStartTimer
+    });
+    //следующий запуск песни будет не первым
+    this.setState({
+      isThisFirstTimePlaying: false
     });
   }
 
