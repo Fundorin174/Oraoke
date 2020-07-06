@@ -27,7 +27,7 @@ const SettingsPage = React.memo((props) => {
   //Function of lifting the bird depending on the sound from the microphone
   let onStartCheckingMicrophone = () => {
     let scaleItems = document.getElementsByClassName(
-      "SettingsPageContainer_linesItem__X_rp1"
+      "linesItem"
     );
     props.toggleIsCheckingMicrophoneStart(!props.isCheckingMicrophoneStart);
     //sound animation
@@ -186,7 +186,10 @@ const SettingsPage = React.memo((props) => {
     // creating table cells and inserting them into the DOM
     for (let i = 0; i < numOfItems; i++) {
       let div = document.createElement("div");
-      div.className = "SettingsPageContainer_linesItem__X_rp1"; //styles '.linesItem' from settingsPageContainer.module.scss
+      div.className = "linesItem"; //styles '.linesItem' from settingsPageContainer.module.scss
+      div.style.borderTop = "2px solid rgba(6, 24, 68, 0.8)";
+      div.style.width = "80%";
+      div.style.height = "20px";
       lineTable.appendChild(div);
     }
   };
