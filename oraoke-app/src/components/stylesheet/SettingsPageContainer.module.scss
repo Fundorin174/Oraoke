@@ -2,6 +2,7 @@
 
 .PageWrp {
     position: relative;
+    height: 100%;
     min-height: 100vh;
     width: 100vw;
       max-width: 1600px;
@@ -10,11 +11,16 @@
     justify-content: space-between;
     align-items: flex-start;
 
+    .column:first-child {
+        height: 100%;
+    }
+
     .column {
         width: 100%;
         min-width: 195px;
+        min-height: 100vh;
         height: 100vh;
-        max-height: 100vh;
+        // max-height: 100vh;
         z-index: 3;
         display: flex;
         flex-direction: column;
@@ -159,21 +165,121 @@
 
 @media all and (max-width: 750px) , (max-height: 850px) {
 
-    .PageWrp .title {
-        margin-top: 60px;
-        font-size: 30px;
-        line-height: 40px;
-
-        img {
-            max-height: 90px;
-        }
-
-        p {
+    .PageWrp {
+        .title {
+            margin-top: 60px;
             font-size: 30px;
-            margin-top: 40px;
-            line-height: 40px;
-            letter-spacing: 0.1em;
+            line-height: 40px;    
+            img {
+                max-height: 90px;
+            }    
+            p {
+                font-size: 30px;
+                margin-top: 40px;
+                line-height: 40px;
+                letter-spacing: 0.1em;
+            }
         }
-    }
+
+        .btnsWrp {
+            margin-top: 20px;
+               
+        }
+    } 
+
+}
+
+@media all and (max-height: 550px) {
+    .PageWrp {
+        .btnsWrp {
+            margin-top: 10px;
+               
+        }
+
+        .title {
+            margin-top: 20px;
+    
+            img {
+                max-height: 60px;
+            }
+    
+            p {
+                font-size: 12px;
+                margin-top: 16px;
+                line-height: 12px;
+
+            }
+        }
+        .volumeControlWrp{                  
+            margin: 10px auto;
+            background-color: $bgColorLigth;;
+    
+          legend {
+            width: 100%;
+            font-weight: 500;
+            color: $TextLigthColor;
+            background-color: $bgColorBright;
+            padding: 2px 1px;
+            border-radius: 5px 5px 0 0;
+          }
+    
+          label {            
+            width: 100px;
+            margin: 10px auto;    
+          }
+    
+          input{
+            width: 100px;
+          }
+        }
+    } 
+
+
+}
+
+@media all and (max-width: 550px) {
+    .PageWrp {
+        .btnsWrp {
+            margin-top: 20px;
+               
+        }
+
+        .title {
+            margin-top: 20px;
+    
+            img {
+                max-height: 60px;
+            }
+    
+            p {
+                font-size: 12px;
+                margin-top: 16px;
+                line-height: 12px;
+
+            }
+        }
+        .volumeControlWrp{                  
+            margin: 20px auto;
+    
+          legend {
+            max-width: 100%;
+            font-weight: 400;
+          }
+    
+   
+          input{
+            width: 90px;
+          }
+        }
+
+        .column .voiceLevelTable{
+            .birdWrp {
+                width: 50%;
+               
+            }
+        }
+        
+    } 
+
 
 }

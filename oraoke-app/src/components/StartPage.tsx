@@ -10,8 +10,10 @@ const StartPage: React.FC<StartPageConteinerPropsType> = React.memo((props) => {
   /////////////////////////////////////////////////////////
   //the background styles
   const bgShape = {
-    width: `100%`,
-    height: `100%`,
+    // width: `100%`,
+    // height: `100%`,
+    minHeight: `100%`,
+    minWidth: `100%`,
     background: `center center no-repeat url(${bgImgUrl})`,
     backgroundSize: `cover`,
     position: `absolute`,

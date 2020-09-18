@@ -182,7 +182,7 @@ const SettingsPage = React.memo((props) => {
       numOfItems = Math.floor(lineHeight / 20) - (lineHeight / 20) * 0.1,
       // get of the item
       lineTable = document.getElementById("linesTable");
-
+      console.log(lineHeight)
     // creating table cells and inserting them into the DOM
     for (let i = 0; i < numOfItems; i++) {
       let div = document.createElement("div");
@@ -225,10 +225,28 @@ const SettingsPage = React.memo((props) => {
             <div>
               {!props.isCheckingMicrophoneStart && <p>{texts.titleText}</p>}
               {pushStartNotScreamed && <p>{texts.shoutText}</p>}
+              {props.isSetMaxUserVoiceLevel && (
+              <p>
+                {texts.fineText} <br /> {texts.backToSongChooseText}
+              </p>
+            )}
             </div>
           </div>
           {/* START or STOP Buttons */}
           {startOrStopButton()}
+          {
+              <div
+                id="toSongsBtn"
+                className={toSongBtnClassNames}
+                onClick={() => {
+                  onFinishCheckingMicrophone();
+                }}
+              >
+                <NavLink to={"/song-choose-page"}>
+                  <Button btnText={texts.buttonToSong} btnNumber="2" />
+                </NavLink>
+              </div>
+            }
           <fieldset className={classes.volumeControlWrp}>
             <legend>{texts.changeMicrophoneSensibility}</legend>
               <label>
@@ -246,24 +264,7 @@ const SettingsPage = React.memo((props) => {
             </fieldset>
           {/*after success test*/}
           <div className={classes.title}>
-            {props.isSetMaxUserVoiceLevel && (
-              <p>
-                {texts.fineText} <br /> {texts.backToSongChooseText}
-              </p>
-            )}
-            {
-              <div
-                id="toSongsBtn"
-                className={toSongBtnClassNames}
-                onClick={() => {
-                  onFinishCheckingMicrophone();
-                }}
-              >
-                <NavLink to={"/song-choose-page"}>
-                  <Button btnText={texts.buttonToSong} btnNumber="2" />
-                </NavLink>
-              </div>
-            }
+            
           </div>
         </div>
         {/* Table and bird */}

@@ -255,3 +255,62 @@
   }
 
 }
+
+@media all and (max-height: 650px), (max-width: 500px){
+
+  .PageWrp{
+    .title {
+      margin-top: 10px;
+  
+      img {
+        max-height: 50px;
+        display: none;
+      }
+  
+      p {
+        font-size: 14px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        line-height: 16px;
+        letter-spacing: 0.1em;
+      }
+    }
+
+    .buttonAndVolumeWrp{
+      height: auto; 
+  
+      .btnWrp {
+        margin-bottom: 5px;        
+      }
+  
+      .volumeControlWrp{
+          margin: 5px 5px;  
+        legend {
+          font-weight: 400;
+          color: $TextLigthColor;
+          background-color: $bgColorBright;
+          padding: 2px 3px;
+          border-radius: 5px 5px 0 0;
+          font-size: 12px;
+        }
+  
+        label {
+          margin: 1px 0;
+          font-size: 12px;
+        }
+  
+        input{
+          width: 200px;
+        }
+      }
+    }
+  }
+
+  .toMainMenu{
+    top: 5px;
+  }
+   
+  
+
+
+}

@@ -2,6 +2,7 @@
 
 .startPageContainer {
   background-color: $bgColorDark;
+  height: auto;
   min-height: 100vh;
   min-width: 100vw;
   color: $TextLigthColor;
@@ -9,7 +10,7 @@
 }
 
 .startPageWrp {
-  position: absolute;
+  position: relative;
   min-height: 100vh;
   min-width: 100vw;
   background-color: rgba(6, 24, 68, 0.7);
@@ -55,8 +56,26 @@
       height: 90px;
     }
   }
+}
+
+@media all and (max-width: 500px),
+(max-height: 550px) {
 
 
 
+  
+  .startPageWrp {
 
+     .title {
+      margin-top: 20px;
+      font-size: 20px;
+      line-height: 40px;
+      img {
+        height: 60px;
+      }
+     }
+    .btnsWrp{
+      justify-content: flex-start;
+    }
+  }
 }

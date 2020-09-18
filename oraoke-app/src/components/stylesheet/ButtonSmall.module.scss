@@ -9,4 +9,30 @@
   border: 3px solid $bgColorBright
 }
 
+@media all and (max-width: 500px) {
 
+  .btnwrp {
+    height: 50px;
+    width: 150px;
+    
+
+    .star {
+      span {
+        left: 13px;
+        top: 1px;
+        font-size: 10px;
+      }
+    }
+
+    .text {
+      font-size: 14px;
+      line-height: 14px;
+      letter-spacing: 1px;
+      margin-left: 10px;
+      
+
+
+
+    }
+  }
+}

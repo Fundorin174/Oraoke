@@ -50,3 +50,28 @@
   display: none;
 }
 
+
+@media all and (max-height: 750px) {
+
+  .songWrp {
+    margin: 5px 2%;
+    height: 60px;
+    display: flex;
+  
+    .imgWrp{
+      max-width: 60px;
+
+    }
+  
+    .textWrp{
+      text-align: left;
+  
+      p{
+        margin: 5px 5px;
+        font-size: 14px;
+      }
+    }
+  }  
+  
+}
+
